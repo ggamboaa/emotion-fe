@@ -26,7 +26,7 @@ function browserSyncInit(baseDir, browser) {
     routes: routes
   };
 
-  server.middleware = proxyMiddleware('/api', {target: 'http://localhost:3000', changeOrigin: true, pathRewrite: {'^/api' : ''}});
+  server.middleware = proxyMiddleware('/api', {target: 'https://emotion-be.herokuapp.com', changeOrigin: true, pathRewrite: {'^/api' : ''}});
   
   browserSync.instance = browserSync.init({
     startPath: '/',

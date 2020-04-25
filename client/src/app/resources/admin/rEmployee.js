@@ -4,13 +4,13 @@
 	angular
 	.module('utn')
 	.factory('rEmployee', function ($resource) {
-		return $resource('api/employee', {
+		return $resource('https://emotion-be.herokuapp.com/employee', {
 			id: '@id'
 		},
 		{
 			'query': {
 				method: 'GET',
-					url: 'api/employee/:id',
+					url: 'https://emotion-be.herokuapp.com/employee/:id',
 						//isArray: true,
 						params: {
 							id: '@id'
@@ -18,35 +18,35 @@
 					},
 					'save': {
 						method: 'POST',
-						url: 'api/employee',
+						url: 'https://emotion-be.herokuapp.com/employee',
 						params: {
 							id: '@id'
 						}
 					},
 					'update': {
 						method: 'PUT',
-						url: 'api/employee/:id',
+						url: 'https://emotion-be.herokuapp.com/employee/:id',
 						params: {
 							id: '@id'
 						}
 					},
 					'delete': {
 						method: 'DELETE',
-						url: 'api/employee/:id',
+						url: 'https://emotion-be.herokuapp.com/employee/:id',
 						params: {
 							id: '@id'
 						}
 					},
 					'changeStatus': {
 						method: 'PUT',
-						url: 'api/employee/changeStatus/:id',
+						url: 'https://emotion-be.herokuapp.com/employee/changeStatus/:id',
 						params: {
 							id: '@id'
 						}
 					},
 					'getReport': {
 						method: 'GET',
-						url: 'api/report'
+						url: 'https://emotion-be.herokuapp.com/report'
 						//isArray: true,
 						// params: {
 						// 	id: '@id'

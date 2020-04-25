@@ -3,16 +3,16 @@
   angular
     .module('utn')
     .factory('rPassword', function($resource) {
-      return $resource('api/forgotpassword', {
+      return $resource('https://emotion-be.herokuapp.com/forgotpassword', {
         id: '@id'
       },{
         'forgot': {
           method: 'POST',
-          url: 'api/forgotpassword/'
+          url: 'https://emotion-be.herokuapp.com/forgotpassword/'
         },
         'reset': {
           method: 'POST',
-          url: 'api/resetpassword/'
+          url: 'https://emotion-be.herokuapp.com/resetpassword/'
         }
       });
     });

@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rWarehouse', function ($resource) {
-      return $resource('api/warehouse', {
+      return $resource('https://emotion-be.herokuapp.com/warehouse', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/warehouse/:id',
+            url: 'https://emotion-be.herokuapp.com/warehouse/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,28 +18,28 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/warehouse',
+            url: 'https://emotion-be.herokuapp.com/warehouse',
             params: {
               id: '@id'
             }
           },
           'update': {
             method: 'PUT',
-            url: 'api/warehouse/:id',
+            url: 'https://emotion-be.herokuapp.com/warehouse/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/warehouse/:id',
+            url: 'https://emotion-be.herokuapp.com/warehouse/:id',
             params: {
               id: '@id'
             }
           },
           'changeStatus': {
             method: 'PUT',
-            url: 'api/warehouse/changeStatus/:id',
+            url: 'https://emotion-be.herokuapp.com/warehouse/changeStatus/:id',
             params: {
               id: '@id'
             }
