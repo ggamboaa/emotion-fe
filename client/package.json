@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "gulp test"
-  },
+  }, 
   "devDependencies": {
     "browser-sync": "~2.26.0",
     "browser-sync-spa": "~1.0.3",
