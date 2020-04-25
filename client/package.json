@@ -22,7 +22,8 @@
     "ui-select": "~0.19.8"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node server.js"
   }, 
   "devDependencies": {
     "browser-sync": "~2.26.0",
