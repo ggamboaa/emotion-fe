@@ -1,0 +1,158 @@
+<div class="modal fade" id="modalEditStore" tabindex="-1" role="dialog" aria-labelledby="modalEditStore">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="editStoreForm" name="editStoreForm" ng-submit="mEditStore.editStore(editStoreForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditStore.dismissModal(editStoreForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" ng-show="mEditStore.showMe">Almacenamiento</h4>
+          <h4 class="modal-title" ng-show="!mEditStore.showMe">Re-Ubicaciones</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-4" ng-show="mEditStore.showMe">
+              <label for="mesCode">Código</label>
+              <input type="text" name="mesCode" id="mesCode" class="form-control text-center" ng-model="mEditStore.storeEdited.code" placeholder="Código" disabled/>
+            </div>
+            <div class="col-xs-4" ng-show="mEditStore.showMe">
+              <label for="mesUser">Usuario</label>
+              <input type="text" name="mesUser" id="mesUser" class="form-control" ng-model="mEditStore.storeEdited.user" placeholder="Usuario" disabled required/>
+              <div class="error" ng-messages="editStoreForm.mesUser.$error" ng-show="mEditStore.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4" ng-show="mEditStore.showMe">
+              <label for="mesDate">Fecha</label>
+                <p class="input-group no-margin input-date">
+                  <input type="text" id="mesDate" name="mesDate" ng-model="mEditStore.dateUI" class="form-control" is-open="mEditStore.date.editDateShowed" placeholder="DD/MM/AAAA"
+                  date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="mEditStore.date.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-5">
+                  <label for="mesProduct">Producto</label>
+                  <ui-select ng-model="mEditStore.itemDetail.product" name="mesProduct" id="mesProduct" style="width:100%" ng-disabled="true">
+                    <ui-select-match placeholder="Producto" allow-clear="true">
+                      <span ng-bind="$select.selected.code + ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditStore.searchProduct($select)" refresh-delay="500" repeat="prod in mEditStore.productList">
+                      <span ng-bind-html="prod.code + ' - ' + prod.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+                <div class="col-xs-4">
+                  <label for="mesUbication">Ubicación Actual</label>
+                  <ui-select ng-model="mEditStore.itemDetail.ubication" name="mesUbication" id="mesUbication" style="width:100%" ng-disabled="true">
+                    <ui-select-match placeholder="Ubicación" allow-clear="true">
+                      <span ng-bind="$select.selected.id + ' - ' + $select.selected.name + $select.selected.ubicationName"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditStore.searchUbication($select)" refresh-delay="500" repeat="ubic in mEditStore.ubicationList">
+                      <span ng-bind-html="ubic.id + ' - ' + ubic.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+                <div class="col-xs-2">
+                  <label for="mesQuantity">Cantidad Actual</label>
+                  <input type="text" name="mesQuantity" id="mesQuantity" class="form-control text-right" readonly
+                  ng-model="mEditStore.itemDetail.quantity" maxlength="24" width="100%" placeholder="Cantidad"/>
+                </div>
+                <div class="col-xs-1 m-top-20" ng-show="mEditStore.showMe">
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <div class="checkbox">
+                        <input type="checkbox" name="mesDamage" id="mesDamage" ng-model="mEditStore.damage" ng-change="mEditStore.loadUbication()" />
+                        <label for="mesDamage"><b>¿Daño?</b></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 m-top-20">
+                <div class="col-xs-5">
+                  <label for="mesNewProduct">Producto</label>
+                  <ui-select ng-model="mEditStore.itemDetail.product" name="mesNewProduct" id="mesNewProduct" style="width:100%" ng-disabled="true">
+                    <ui-select-match placeholder="Producto" allow-clear="true">
+                      <span ng-bind="$select.selected.code + ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditStore.searchProduct($select)" refresh-delay="500" repeat="prod in mEditStore.productList">
+                      <span ng-bind-html="prod.code + ' - ' + prod.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+                <div class="col-xs-4">
+                  <label for="mesNewUbication">Ubicación Nueva</label>
+                  <ui-select ng-model="mEditStore.itemDetail.newUbication" name="mesNewUbication" id="mesNewUbication" style="width:100%">
+                    <ui-select-match placeholder="Ubicación" allow-clear="true">
+                      <span ng-bind="$select.selected.id + ' - ' + $select.selected.ubicationName"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditStore.searchUbication($select)" refresh-delay="500" repeat="ubic in mEditStore.ubicationList">
+                      <span ng-bind-html="ubic.id + ' - ' + ubic.ubicationName | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mEditStore.addAttempt">
+                    <p ng-show="!mEditStore.itemDetail.newUbication">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label for="mesNewQuantity">Cantidad Nueva</label>
+                  <input type="number" name="mesNewQuantity" id="mesNewQuantity" class="form-control text-right"
+                  ng-model="mEditStore.itemDetail.newQuantity" min="1" maxlength="24" ng-change="mEditStore.verifyQuantity()" width="100%" placeholder="Cantidad"/>
+                  <div class="error" ng-show="mEditStore.addAttempt">
+                    <p ng-show="!mEditStore.itemDetail.newQuantity">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-1 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-disabled="mEditStore.changeButton" ng-click="mEditStore.changeDetail()">Cambiar</button>
+                </div>
+              </div>
+
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mEditStore.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th>Ubicación</th>
+                          <th class="text-right">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditStore.storeEdited.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td>{{item.ubication.ubicationName}}</td>
+                          <td class="text-right">{{item.quantity}}</td>
+                          <td class="actions text-center">
+                            <button type="button" ng-show="mEditStore.showMe" class="btn btn-clear m-left-20" ng-click="mEditStore.editDetail($index)" ng-disabled="item.status == 1">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                            <button type="button" ng-show="!mEditStore.showMe" class="btn btn-clear m-left-20" ng-click="mEditStore.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditStore.dismissModal(editStoreForm)">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

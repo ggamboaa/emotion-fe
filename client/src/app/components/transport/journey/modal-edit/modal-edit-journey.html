@@ -1,0 +1,150 @@
+<div class="modal fade" id="modalEditJourney" tabindex="-1" role="dialog" aria-labelledby="modalEditJourney">
+  <div class="modal-dialog modal-lg" role="journey">
+    <div class="modal-content">
+      <form id="editJourneyForm" name="editJourneyForm" ng-submit="mEditJourney.editJourney(editJourneyForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditJourney.dismissModal(editJourneyForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Detalle de Orden de Venta</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mesoNumberInvoice">Número Factura</label>
+              <input type="text" name="mesoNumberInvoice" id="mesoNumberInvoice" class="form-control text-center" ng-model="mEditJourney.numberInvoice" placeholder="Número" disabled/>
+            </div>
+            <div class="col-xs-4">
+              <label for="mesoNumberDocument">Número Documento</label>
+              <input type="text" name="mesoNumberDocument" id="mesoNumberDocument" class="form-control text-center" ng-model="mEditJourney.numberDocument" placeholder="Número" disabled/>
+            </div>
+
+            <div class="col-xs-5">
+              <label for="mesoCustomer">Cliente</label>
+              <ui-select ng-model="mEditJourney.journeyEdited.customerDup" name="mesoCustomer" id="mesoCustomer" ng-disabled="(mEditJourney.journeyEdited.customerDup == null)?false:true">
+                <ui-select-match placeholder="Cliente" allow-clear="true">
+                  <span ng-bind="$select.selected.identification +  ' - ' + $select.selected.name + ' ' + $select.selected.firstName + ' ' + $select.selected.lastName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditJourney.searchCustomer($select)" refresh-delay="500" repeat="list in mEditJourney.customerList">
+                  <span ng-bind-html="list.identification + ' - ' + list.name + ' ' + list.firstName + ' ' + list.lastName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mesoDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mesoDate" name="mesoDate" ng-model="mEditJourney.dateUI" class="form-control" is-open="mEditJourney.mesoDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditJourney.mesoDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <div class="col-xs-9">
+              <label for="mesoComment">Comentario</label>
+              <input type="text" name="mesoComment" id="mesoComment" class="form-control" ng-model="mEditJourney.journeyEdited.comment" placeholder="Comentario" disabled/>
+              <div class="error" ng-messages="editJourneyForm.mesoComment.$error" ng-show="mEditJourney.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+  <!--           <div class="col-xs-5">
+              <label for="meclVehicle">Vehiculo</label>
+              <ui-select ng-model="mEditJourney.journeyEdited.vehicle" name="meclVehicle" id="meclVehicle">
+                <ui-select-match placeholder="Vehículo" allow-clear="true">
+                  <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditJourney.searchVehicle($select)" refresh-delay="500" repeat="list in mEditJourney.vehicleList">
+                  <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div> -->
+          </div>
+
+      <!--     <div class="row form-group">
+            <div class="col-xs-12">
+
+            </div>
+          </div> -->
+
+
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- <div class="col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-12" >
+                <div class="col-xs-5" >
+                  <label for="mesoJourney">Producto</label>
+                  <ui-select ng-model="mEditJourney.itemDetail.product" name="mesoJourney" id="mesoJourney" style="width:100%" ng-disabled="(mEditJourney.journeyEdited.warehouseDup == undefined)?true:false" ng-change="mEditJourney.setMaxQuantity($select.selected)">
+                    <ui-select-match placeholder="Producto" allow-clear="true">
+                      <span ng-bind="$select.selected.code + ' - ' + $select.selected.name  "></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditJourney.searchProduct($select)" refresh-delay="500" repeat="list in mEditJourney.productList">
+                      <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mEditJourney.addAttempt">
+                    <p ng-show="!mEditJourney.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label for="maxQuantity">Máximo</label>
+                  <input class="form-control" type="text" name="" ng-model="mEditJourney.journeyEdited.maxQuantity" disabled>
+                </div>
+                <div class="col-xs-2">
+                  <label for="dtQuantity">Cantidad</label>
+                  <input type="number" name="dtQuantity" id="dtQuantity" min="1" class="form-control"
+                  ng-model="mEditJourney.itemDetail.quantity" maxlength="24" width="100%" placeholder="Cantidad" ng-disabled="(mEditJourney.journeyEdited.warehouseDup == undefined)?true:false"/>
+                  <div class="error" ng-show="mEditJourney.addAttempt">
+                    <p ng-show="!mEditJourney.itemDetail.quantity">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-3 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mEditJourney.addDetail()" ng-disabled="(mEditJourney.journeyEdited.warehouseDup == undefined)?true:false">{{mEditJourney.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mEditJourney.cleanFormDetail()"
+                  ng-show="mEditJourney.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+              </div> -->
+
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mEditJourney.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th class="text-center">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditJourney.journeyEdited.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td class="text-center">{{item.quantity}}</td>
+                          <!-- <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mEditJourney.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mEditJourney.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditJourney.dismissModal(editJourneyForm)">Cerrar</button>
+          <!-- <button class="btn btn-primary" ng-click="mEditJourney.editJourney(editJourneyForm,true)" ladda="mEditJourney.loading">Guardar y Nuevo</button> -->
+          <!-- <button type="submit" class="btn btn-primary" ladda="mEditJourney.loading">Actualizar</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

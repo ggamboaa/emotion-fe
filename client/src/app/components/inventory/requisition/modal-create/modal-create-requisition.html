@@ -1,0 +1,143 @@
+<div class="modal fade" id="modalCreateRequisition" tabindex="-1" role="dialog" aria-labelledby="modalCreateRequisition">
+  <div class="modal-dialog modal-lg" role="requisition">
+    <div class="modal-content">
+      <form id="createRequisitionForm" name="createRequisitionForm" ng-submit="mCreateRequisition.createRequisition(createRequisitionForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateRequisition.dismissModal(createRequisitionForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" >Nueva Requisición</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <!-- <div class="col-xs-2">
+              <label for="mcdCode">Código</label>
+              <input type="text" name="mcdCode" id="mcdCode" class="form-control text-center" ng-model="mCreateRequisition.nextNumberRequisition" placeholder="Código" disabled/>
+            </div> -->
+            <div class="col-xs-4">
+              <label for="mcdUser">Usuario</label>
+              <input type="text" name="mcdUser" id="mcdUser" class="form-control" ng-model="mCreateRequisition.newRequisition.user" placeholder="Usuario" disabled required/>
+              <div class="error" ng-messages="createRequisitionForm.mcdUser.$error" ng-show="mCreateRequisition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <label for="mcdWarehouse">Bodega</label>
+              <input type="text" name="mcdWarehouse" id="mcdWarehouse" class="form-control" ng-model="mCreateRequisition.warehouse.name" placeholder="Bodega" disabled/>
+              <div class="error" ng-messages="createRequisitionForm.mcdWarehouse.$error" ng-show="mCreateRequisition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+               <label for="mctTypeDocument">Documento</label>
+              <input class="form-control" type="text" name="" ng-value="mCreateRequisition.typeDocumentDup.id + ' - ' +mCreateRequisition.typeDocumentDup.name " disabled>
+         <!--      <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcdStatus" id="mcdStatus" ng-model="mCreateRequisition.newRequisition.status" disabled ng-checked="mCreateRequisition.status"/>
+                    <label for="mcdStatus">Activo</label>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-9">
+              <label for="mcdComment">Comentario</label>
+              <input type="text" name="mcdComment" id="mcdComment" class="form-control" ng-model="mCreateRequisition.newRequisition.comment" placeholder="Comentario" maxlength="200"/>
+              <div class="error" ng-messages="createRequisitionForm.mcdComment.$error" ng-show="mCreateRequisition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcdDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcdDate" name="mcdDate" ng-model="mCreateRequisition.dateUI" class="form-control" is-open="mCreateRequisition.mcdDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateRequisition.mcdDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="createRequisitionForm.mcdDate.$error" ng-show="mCreateRequisition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-5">
+                  <label for="mctDocument">Producto</label>
+                  <ui-select ng-model="mCreateRequisition.itemDetail.product" name="mctDocument" id="mctDocument" style="width:100%" ng-change="mCreateRequisition.setMaxQuantity($select.selected)">
+                    <ui-select-match placeholder="Producto" allow-clear="true">
+                      <span ng-bind="$select.selected.Product.code + ' - ' + $select.selected.Product.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mCreateRequisition.searchProduct($select)" refresh-delay="500" repeat="list in mCreateRequisition.productList">
+                      <span ng-bind-html="list.Product.code + ' - ' + list.Product.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mCreateRequisition.addAttempt">
+                    <p ng-show="!mCreateRequisition.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label for="maxQuantity">Máximo</label>
+                  <input class="form-control text-right" type="text" name="" ng-model="mCreateRequisition.newRequisition.maxQuantity" disabled>
+                </div>
+                <div class="col-xs-2">
+                  <label for="dtQuantity">Cantidad</label>
+                  <input type="number" name="dtQuantity" id="dtQuantity" min="1" class="form-control text-right"
+                  ng-model="mCreateRequisition.itemDetail.quantity" maxlength="24" width="100%" placeholder="Cantidad"/>
+                  <div class="error" ng-show="mCreateRequisition.addAttempt">
+                    <p ng-show="!mCreateRequisition.itemDetail.quantity">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-3 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mCreateRequisition.addDetail()">{{mCreateRequisition.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mCreateRequisition.cleanFormDetail()"
+                  ng-show="mCreateRequisition.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+              </div>
+
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mCreateRequisition.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th class="text-right">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mCreateRequisition.newRequisition.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td class="text-right">{{item.quantity}}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mCreateRequisition.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mCreateRequisition.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateRequisition.dismissModal(createRequisitionForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateRequisition.createRequisition(createRequisitionForm,true)" ladda="mCreateRequisition.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateRequisition.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

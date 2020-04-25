@@ -1,0 +1,68 @@
+<div class="modal fade" id="modalCreateWarehouse" tabindex="-1" role="dialog" aria-labelledby="modalCreateWarehouse">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createWarehouseForm" name="createWarehouseForm" ng-submit="mCreateWarehouse.createWarehouse(createWarehouseForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateWarehouse.dismissModal(createWarehouseForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva Sucursal</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcwCode">Código *</label>
+              <input type="text" name="mcwCode" id="mcwCode" class="form-control" ng-model="mCreateWarehouse.newWarehouse.code" placeholder="Código" required />
+              <div class="error" ng-messages="createWarehouseForm.mcwCode.$error" ng-show="mCreateWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcwStatus" id="mcwStatus" ng-model="mCreateWarehouse.newWarehouse.status" disabled ng-checked="mCreateWarehouse.status"/>
+                    <label for="mcwStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcwName">Nombre *</label>
+              <input type="text" name="mcwName" id="mcwName" class="form-control" ng-model="mCreateWarehouse.newWarehouse.name" placeholder="Nombre" required/>
+              <div class="error" ng-messages="createWarehouseForm.mcwName.$error" ng-show="mCreateWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcwPhone1">Teléfono 1 *</label>
+              <input type="text" name="mcwPhone1" id="mcwPhone1" class="form-control" ng-model="mCreateWarehouse.newWarehouse.phone1" placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" required />
+              <div class="error" ng-messages="createWarehouseForm.mcwPhone1.$error" ng-show="mCreateWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-6">
+              <label for="mcwPhone2">Teléfono 2</label>
+              <input type="text" name="mcwPhone2" id="mcwPhone2" class="form-control" ng-model="mCreateWarehouse.newWarehouse.phone2" placeholder="Teléfono 2" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" />
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcwAddress">Dirección</label>
+              <textarea rows="3" id="mcwAddress" name="mcwAddress" ng-model="mCreateWarehouse.newWarehouse.address" maxlength="200" class="form-control" placeholder="Dirección">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateWarehouse.dismissModal(createWarehouseForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateWarehouse.createWarehouse(createWarehouseForm,true)" ladda="mCreateWarehouse.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateWarehouse.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

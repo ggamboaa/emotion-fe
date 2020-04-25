@@ -1,0 +1,99 @@
+<div class="modal fade" id="modalCreateOil" tabindex="-1" role="dialog" aria-labelledby="modalCreateOil">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createOilForm" name="createOilForm" ng-submit="mCreateOil.createOil(createOilForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateOil.dismissModal(createOilForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Cambio de Aceite</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcoVehicle">Vehículo *</label>
+              <ui-select ng-model="mCreateOil.newOil.vehicleDup" name="mcoVehicle" id="mcoVehicle" required>
+                <ui-select-match placeholder="Vehículo" allow-clear="true">
+                  <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateOil.searchVehicle($select)" refresh-delay="500" repeat="list in mCreateOil.vehicleList">
+                  <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createOilForm.mcoVehicle.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcoDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcoDate" name="mcoDate" ng-model="mCreateOil.dateUI" class="form-control" is-open="mCreateOil.dateInit.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" ng-change="mCreateOil.setNextInitDate()" >
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateOil.dateInit.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="createOilForm.mcoDate.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcotypeOil">Tipo de Aceite *</label>
+              <ui-select ng-model="mCreateOil.newOil.typeOilDup" name="mcotypeOil" id="mcotypeOil" required>
+                <ui-select-match placeholder="Tipo de Aceite" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mCreateOil.oilList">
+                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>>
+              </ui-select>
+              <div class="error" ng-messages="createOilForm.mcotypeOil.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcoCost">Costo *</label>
+              <input type="text" name="mcoCost" id="mcoCost" class="form-control text-right" ng-model="mCreateOil.newOil.cost" placeholder="Costo" required ui-money-mask/>
+              <div class="error" ng-messages="createOilForm.mcoCost.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcoMileageOld">Km. Actual *</label>
+              <input type="text" name="mcoMileageOld" id="mcoMileageOld" class="form-control text-right" ng-model="mCreateOil.newOil.mileageOld" placeholder="Km. Actual" required ui-number-mask="2"/>
+              <div class="error" ng-messages="createOilForm.mcoMileageOld.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcoMileageNew">Km. Máximo *</label>
+              <input type="text" name="mcoMileageNew" id="mcoMileageNew" class="form-control text-right" ng-model="mCreateOil.newOil.mileageNew" placeholder="Km. Máximo" required ui-number-mask="2"/>
+              <div class="error" ng-messages="createOilForm.mcoMileageNew.$error" ng-show="mCreateOil.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcoComment">Comentario</label>
+              <textarea rows="3" id="mcoComment" name="mcoComment" ng-model="mCreateOil.newOil.commentary" maxlength="200" class="form-control" placeholder="Comentario">
+              </textarea>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateOil.dismissModal(createOilForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateOil.createOil(createOilForm,true)" ladda="mCreateOil.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateOil.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

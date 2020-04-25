@@ -1,0 +1,160 @@
+<div class="modal fade" id="modalEditCheckLoad" tabindex="-1" role="dialog" aria-labelledby="modalEditCheckLoad">
+  <div class="modal-dialog modal-lg" role="checkLoad">
+    <div class="modal-content">
+      <form id="editCheckLoadForm" name="editCheckLoadForm" ng-submit="mEditCheckLoad.editCheckLoad(editCheckLoadForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditCheckLoad.dismissModal(editCheckLoadForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Confimar Chequeo y Carga</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mesoNumberInvoice">Número Factura</label>
+              <input type="text" name="mesoNumberInvoice" id="mesoNumberInvoice" class="form-control text-center" ng-model="mEditCheckLoad.numberInvoice" placeholder="Número" disabled/>
+            </div>
+            <div class="col-xs-4">
+              <label for="mesoNumberDocument">Número Documento</label>
+              <input type="text" name="mesoNumberDocument" id="mesoNumberDocument" class="form-control text-center" ng-model="mEditCheckLoad.numberDocument" placeholder="Número" disabled/>
+            </div>
+
+            <div class="col-xs-5">
+              <label for="mesoCustomer">Cliente</label>
+              <ui-select ng-model="mEditCheckLoad.checkLoadEdited.customerDup" name="mesoCustomer" id="mesoCustomer" ng-disabled="(mEditCheckLoad.checkLoadEdited.customerDup == null)?false:true">
+                <ui-select-match placeholder="Cliente" allow-clear="true">
+                  <span ng-bind="$select.selected.identification +  ' - ' + $select.selected.name + ' ' + $select.selected.firstName + ' ' + $select.selected.lastName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditCheckLoad.searchCustomer($select)" refresh-delay="500" repeat="list in mEditCheckLoad.customerList">
+                  <span ng-bind-html="list.identification + ' - ' + list.name + ' ' + list.firstName + ' ' + list.lastName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+         <!--      <label for="mesoUser">Usuario</label>
+              <input type="text" name="mesoUser" id="mesoUser" class="form-control" ng-model="mEditCheckLoad.checkLoadEdited.user" placeholder="Usuario" disabled required/>
+              <div class="error" ng-messages="editCheckLoadForm.mesoUser.$error" ng-show="mEditCheckLoad.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mesoDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mesoDate" name="mesoDate" ng-model="mEditCheckLoad.dateUI" class="form-control" is-open="mEditCheckLoad.mesoDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditCheckLoad.mesoDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+
+
+
+            </div>
+            <div class="col-xs-9">
+              <label for="mesoComment">Comentario</label>
+              <input type="text" name="mesoComment" id="mesoComment" class="form-control" ng-model="mEditCheckLoad.checkLoadEdited.comment" placeholder="Comentario" disabled/>
+              <div class="error" ng-messages="editCheckLoadForm.mesoComment.$error" ng-show="mEditCheckLoad.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+<!--             <div class="col-xs-5">
+              <label for="meclVehicle">Vehiculo</label>
+              <ui-select ng-model="mEditCheckLoad.checkLoadEdited.vehicle" name="meclVehicle" id="meclVehicle">
+                <ui-select-match placeholder="Vehículo" allow-clear="true">
+                  <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditCheckLoad.searchVehicle($select)" refresh-delay="500" repeat="list in mEditCheckLoad.vehicleList">
+                  <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div> -->
+          </div>
+
+<!--           <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mesoComment">Comentario</label>
+              <input type="text" name="mesoComment" id="mesoComment" class="form-control" ng-model="mEditCheckLoad.checkLoadEdited.comment" placeholder="Comentario" disabled/>
+              <div class="error" ng-messages="editCheckLoadForm.mesoComment.$error" ng-show="mEditCheckLoad.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-12" >
+                <div class="col-xs-5" >
+                  <label for="mesoCheckLoad">Producto</label>
+                  <ui-select ng-model="mEditCheckLoad.itemDetail.product" name="mesoCheckLoad" id="mesoCheckLoad" style="width:100%" ng-disabled="true">
+                    <ui-select-match placeholder="Producto" allow-clear="true" >
+                      <span ng-bind="$select.selected.code + ' - ' + $select.selected.name  "></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditCheckLoad.searchProduct($select)" refresh-delay="500" repeat="list in mEditCheckLoad.productList">
+                      <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mEditCheckLoad.addAttempt">
+                    <p ng-show="!mEditCheckLoad.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label for="maxQuantity">Máximo</label>
+                  <input class="form-control" type="text" name="" ng-model="mEditCheckLoad.checkLoadEdited.maxQuantity" disabled>
+                </div>
+                <div class="col-xs-2">
+                  <label for="dtQuantity">Cantidad</label>
+                  <input type="number" name="dtQuantity" id="dtQuantity" min="1" class="form-control"
+                  ng-model="mEditCheckLoad.itemDetail.quantity" maxlength="24" width="100%" placeholder="Cantidad" ng-disabled="(mEditCheckLoad.checkLoadEdited.warehouseDup == undefined)?true:false"/>
+                  <div class="error" ng-show="mEditCheckLoad.addAttempt">
+                    <p ng-show="!mEditCheckLoad.itemDetail.quantity">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-3 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mEditCheckLoad.addDetail()" ng-show="mEditCheckLoad.detailSelectedIndex != -1">Actualizar</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mEditCheckLoad.cleanFormDetail()"
+                  ng-show="mEditCheckLoad.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+              </div>
+
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mEditCheckLoad.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th class="text-center">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditCheckLoad.checkLoadEdited.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td class="text-center">{{item.quantity}}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mEditCheckLoad.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mEditCheckLoad.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditCheckLoad.dismissModal(editCheckLoadForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditCheckLoad.loading">Confirmar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

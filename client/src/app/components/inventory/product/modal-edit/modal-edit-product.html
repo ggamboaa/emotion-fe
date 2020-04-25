@@ -1,0 +1,170 @@
+<div class="modal fade" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="modalEditProduct">
+  <div class="modal-dialog modal-md " role="document">
+    <div class="modal-content">
+      <form id="editProductForm" name="editProductForm" ng-submit="mEditProduct.editProduct(editProductForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditProduct.dismissModal(editProductForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Producto</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mepTypeProductDup">Tipo Producto *</label>
+              <ui-select ng-model="mEditProduct.productEdited.typeProductDup" ng-change="mEditProduct.formProduct()" name="mepTypeProductDup" id="mepTypeProductDup" required >
+                <ui-select-match placeholder="Tipo Producto" allow-clear="true">
+                  <span ng-bind="$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="type in mEditProduct.productTypeList">
+                  <span ng-bind-html="type.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editProductForm.mepTypeProductDup.$error" ng-show="mEditProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mepStatus" id="mepStatus" ng-model="mEditProduct.productEdited.status"  ng-checked="mEditProduct.status"/>
+                    <label for="mepStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mepbarCode">Código de barras</label>
+              <input type="text" name="mepbarCode" id="mepbarCode" class="form-control" ng-model="mEditProduct.productEdited.barCode" placeholder="Código de barras"/>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mepName">Nombre *</label>
+              <input type="text" name="mepName" id="mepName" class="form-control" ng-model="mEditProduct.productEdited.name" placeholder="Nombre" required/>
+              <div class="error" ng-messages="editProductForm.mepName.$error" ng-show="mEditProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mepBrand">Marca *</label>
+              <ui-select ng-model="mEditProduct.productEdited.brand" name="mepBrand" id="mepBrand" required >
+                <ui-select-match placeholder="Marca" allow-clear="true">
+                  <span ng-bind="$select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditProduct.searchBrand($select)" refresh-delay="500" repeat="list in mEditProduct.brandList">
+                  <span ng-bind-html="list.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editProductForm.mepBrand.$error" ng-show="mEditProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6" ng-show="mEditProduct.productEdited.typeProductDup.id === 1">
+              <label for="mepColor">Color</label>
+              <input type="text" name="mepColor" id="mepColor" class="form-control" ng-model="mEditProduct.productEdited.color" placeholder="Color" />
+            </div>
+            <div class="col-xs-6" ng-show="mEditProduct.productEdited.typeProductDup.id === 2">
+              <label for="mepFinish">Acabado</label>
+              <input type="text" name="mepFinish" id="mepFinish" class="form-control" ng-model="mEditProduct.productEdited.finish" placeholder="Acabado" />
+            </div>
+            <div class="col-xs-6">
+              <label for="mepCode">Código *</label>
+              <input type="text" name="mepCode" id="mepCode" class="form-control" ng-model="mEditProduct.productEdited.code" placeholder="Código" required/>
+              <div class="error" ng-messages="editProductForm.mepCode.$error" ng-show="mEditProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <!-- LLanta -->
+          <div class="row form-group" ng-show="mEditProduct.productEdited.typeProductDup.id === 1">
+            <hr>
+            <div class="col-xs-6">
+              <label for="mepLoadIndex">Índice de Carga</label>
+              <ui-select ng-model="mEditProduct.productEdited.loadIndex" name="mepLoadIndex" id="mepLoadIndex"  >
+                <ui-select-match placeholder="Índice de Carga" allow-clear="true">
+                  <span ng-bind="$select.selected.loadIndex"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditProduct.searchLoadIndex($select)" refresh-delay="500" repeat="list in mEditProduct.loadIndexList">
+                  <span ng-bind-html="list.loadIndex | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <div class="col-xs-6">
+              <label for="mepSpeedRating">Índice de Velocidad</label>
+              <ui-select ng-model="mEditProduct.productEdited.speedRating" name="mepSpeedRating" id="mepSpeedRating"  >
+                <ui-select-match placeholder="Índice de Velocidad" allow-clear="true">
+                  <span ng-bind="$select.selected.speedRating"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditProduct.searchSpeedRating($select)" refresh-delay="500" repeat="list in mEditProduct.speedRatingList">
+                  <span ng-bind-html="list.speedRating | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="row form-group" ng-show="mEditProduct.productEdited.typeProductDup.id === 1">
+            <div class="col-xs-4">
+              <label for="mepWidth">Ancho</label>
+              <input type="text" name="mepWidth" id="mepWidth" class="form-control" ng-model="mEditProduct.productEdited.width" placeholder="Ancho" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepSeries">Serie</label>
+              <input type="text" name="mepSeries" id="mepSeries" class="form-control" ng-model="mEditProduct.productEdited.series" placeholder="Serie" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepSize">Tamaño</label>
+              <input type="text" name="mepSize" id="mepSize" class="form-control" ng-model="mEditProduct.productEdited.size" placeholder="Tamaño" />
+            </div>
+          </div>
+          <!-- Rines -->
+          <div class="row form-group" ng-show="mEditProduct.productEdited.typeProductDup.id === 2">
+            <hr>
+            <div class="col-xs-4">
+              <label for="mepBasin">Barreno 1</label>
+              <input type="text" name="mepBasin" id="mepBasin" class="form-control" ng-model="mEditProduct.productEdited.basin" placeholder="Barreno 1" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepBasin2">Barreno 2</label>
+              <input type="text" name="mepBasin2" id="mepBasin2" class="form-control" ng-model="mEditProduct.productEdited.basin2" placeholder="Barreno 2" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepDiameter">Diámetro</label>
+              <input type="text" name="mepDiameter" id="mepDiameter" class="form-control" ng-model="mEditProduct.productEdited.diameter" placeholder="Diámetro" />
+            </div>
+          </div>
+          <div class="row form-group" ng-show="mEditProduct.productEdited.typeProductDup.id === 2">
+            <div class="col-xs-4">
+              <label for="mepMeasure">Medida</label>
+              <input type="text" name="mepMeasure" id="mepMeasure" class="form-control" ng-model="mEditProduct.productEdited.measure" placeholder="Medida" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepOffset">Offset</label>
+              <input type="text" name="mepOffset" id="mepOffset" class="form-control" ng-model="mEditProduct.productEdited.offset" placeholder="Offset" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mepCenterHole">Hoyo Central</label>
+              <input type="text" name="mepCenterHole" id="mepCenterHole" class="form-control" ng-model="mEditProduct.productEdited.centerHole" placeholder="Hoyo Central" />
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mepDescription">Descripción</label>
+              <textarea rows="3" id="mepDescription" name="mepDescription" ng-model="mEditProduct.productEdited.description" maxlength="200" class="form-control" placeholder="Descripción">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditProduct.dismissModal(editProductForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditProduct.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

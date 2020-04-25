@@ -1,0 +1,49 @@
+.bootstrap-select{
+  .btn-default{
+    background:#FFF;
+    text-transform: none;
+    color:$dark-gray;
+    border-color:#FFF;
+    border:1px solid #CCC;
+    &:hover, &.active, &:active{
+      background:#FFF;
+      color:$dark-gray;
+    }
+
+    &:focus{
+      outline: none!important;
+    }
+  }
+
+  & > .btn-default.dropdown-toggle:focus{
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+
+  &.open > .btn-default.dropdown-toggle{
+    background-color: #FFF!important;
+  }
+
+  .dropdown-menu > li{
+    &.selected a{
+      background: $hover-dropdown;
+      color:$dark-gray;
+    }
+
+    > a{
+      outline: none;
+
+      &:hover{
+        background: $hover-dropdown;
+        color:$dark-gray;
+      }
+
+      &:focus{
+        background: #FFF;
+        color:$dark-gray;
+      }
+    }
+  }
+
+}

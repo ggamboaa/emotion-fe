@@ -1,0 +1,137 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="requisition-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Requisiciones</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="requisition.createRequisition()" ng-disabled="(requisition.enabled ==false )?true:false">Nueva Requisición</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar.." ng-change="requisition.searchRequisition()" ng-model="requisition.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in requisition.allowedRanges"><a
+                class="{{requisition.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="requisition.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:requisition.sort==='code'}">Código
+                <a href="#" ng-hide="requisition.direction === 'DESC' && requisition.sort === 'code'"
+                class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('code','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="requisition.sort !== 'code' || (requisition.sort === 'code' && requisition.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('code','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:requisition.sort==='WarehouseId'}">Sucursal
+                <a href="#" ng-hide="requisition.direction === 'DESC' && requisition.sort === 'WarehouseId'"
+                class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('WarehouseId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="requisition.sort !== 'WarehouseId' || (requisition.sort === 'WarehouseId' && requisition.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('WarehouseId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:requisition.sort==='date'}">Fecha
+                <a href="#" ng-hide="requisition.direction === 'DESC' && requisition.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="requisition.sort !== 'date' || (requisition.sort === 'date' && requisition.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:requisition.sort==='user'}">Usuario
+                <a href="#" ng-hide="requisition.direction === 'DESC' && requisition.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="requisition.sort !== 'user' || (requisition.sort === 'user' && requisition.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:requisition.sort==='status'}">Estado
+                <a href="#" ng-hide="requisition.direction === 'DESC' && requisition.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="requisition.sort !== 'status' || (requisition.sort === 'status' && requisition.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="requisition.loadRequisition('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="requisition.requisitionList.length > 0">
+            <tr ng-repeat="item in requisition.requisitionList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.warehouseName }}</td>
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td>{{ item.user }}</td>
+              <td class="text-center">
+                <span ng-if="item.status == 0">Cerrado</span>
+                <span ng-if="item.status == 1">Creado</span>
+                <span ng-if="item.status == 2">Almacenado</span>
+              </td>
+              <td class="text-center">
+                <select name="requisitionActions{{$index}}" selectpicker="requisition.actions" class="actions-requisitions" ng-options="action.id as action.name for action in requisition.actions" data-width="120px" ng-model="item.action" ng-change="requisition.performAction(item)">
+                  <option value="">Acciones</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="requisition.requisitionList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(requisition.rangeSelected * (requisition.pageNum-1))+1}}-{{(requisition.rangeSelected* (requisition.pageNum-1))+requisition.numberOfPageRecords}}
+          de {{requisition.totalRecords}}</p>
+          <uib-pagination total-items="requisition.totalRecords" items-per-page="requisition.rangeSelected"
+          ng-change="requisition.goToPage(requisition.pageNum)" ng-model="requisition.pageNum"
+          max-size="requisition.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-requisition selected-item="requisition.selectedItem"></utn-modal-create-requisition>
+<utn-modal-edit-requisition selected-item="requisition.selectedItem"></utn-modal-edit-requisition>
+<utn-modal-select-warehouse></utn-modal-select-warehouse>

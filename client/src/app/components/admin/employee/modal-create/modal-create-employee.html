@@ -1,0 +1,235 @@
+<div class="modal fade" id="modalCreateEmployee" tabindex="-1" role="dialog" aria-labelledby="modalCreateEmployee">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="createEmployeeForm" name="createEmployeeForm" ng-submit="mCreateEmployee.createEmployee(createEmployeeForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateEmployee.dismissModal(createEmployeeForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Empleado</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mceName">Nombre *</label>
+              <input type="text" name="mceName" id="mceName" class="form-control" ng-model="mCreateEmployee.newEmployee.name" placeholder="Nombre"  required/>
+              <div class="error" ng-messages="createEmployeeForm.mceName.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mceFirstName">Primer Apellido *</label>
+              <input type="text" name="mceFirstName" id="mceFirstName" class="form-control" ng-model="mCreateEmployee.newEmployee.firstName" placeholder="Primer Apellido" required/>
+              <div class="error" ng-messages="createEmployeeForm.mceLastName.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          
+            <div class="col-xs-3">
+              <label for="mceLastName">Segundo Apellido *</label>
+              <input type="text" name="mceLastName" id="mceLastName" class="form-control" ng-model="mCreateEmployee.newEmployee.lastName" placeholder="Segundo Apellido" required/>
+              <div class="error" ng-messages="createEmployeeForm.mceLastName.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mceStatus" id="mceStatus" ng-model="mCreateEmployee.newEmployee.status" disabled ng-checked="mCreateEmployee.status"/>
+                    <label for="mceStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mceIdentification">Cédula *</label>
+              <input type="text" name="mceIdentification" id="mceIdentification" class="form-control" ng-model="mCreateEmployee.newEmployee.identification" placeholder="Cédula" required/>
+              <div class="error" ng-messages="createEmployeeForm.mceIdentification.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mceMaritalStatus">Estado Civil</label>
+              <ui-select ng-model="mCreateEmployee.newEmployee.maritalStatusDup" name="mceMaritalStatus" id="mceMaritalStatus" >
+                <ui-select-match placeholder="Estado Civil" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="marital in mCreateEmployee.maritalStatusList">
+                  <span ng-bind-html="marital.id + ' - ' + marital.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mceMaritalStatus">Sexo</label>
+              <ui-select ng-model="mCreateEmployee.newEmployee.sexDup" name="mceMaritalStatus" id="mceMaritalStatus" >
+                <ui-select-match placeholder="Sexo" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="sex in mCreateEmployee.sexList">
+                  <span ng-bind-html="sex.id + ' - ' + sex.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mceBirthdate">Fecha de Nacimiento</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mceBirthdate" name="mceBirthdate" ng-model="mCreateEmployee.birthdateUI" class="form-control" is-open="mCreateEmployee.birthdate.editDateShowed" placeholder="DD/MM/AAAA" 
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" >
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateEmployee.birthdate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mceEmail">Email *</label>
+              <input type="text" name="mceEmail" id="mceEmail" class="form-control" required ng-model="mCreateEmployee.newEmployee.email" placeholder="Email" ng-pattern="mCreateEmployee.verifyEmail"/>
+              <div class="error" ng-show="mCreateEmployee.submitAttempt" ng-messages="createEmployeeForm.mceEmail.$error">
+                <p ng-show="createEmployeeForm.mceEmail.$dirty&&createEmployeeForm.mceEmail.$error.pattern">Favor ingrese un correo válido.</p>
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mcePhone1">Teléfono 1 *</label>
+              <input type="text" name="mcePhone1" id="mcePhone1" class="form-control" ng-model="mCreateEmployee.newEmployee.phone1" placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" required/>
+              <div class="error" ng-messages="createEmployeeForm.mcePhone1.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mcePhone2">Teléfono 2</label>
+              <input type="text" name="mcePhone2" id="mcePhone2" class="form-control" ng-model="mCreateEmployee.newEmployee.phone2" placeholder="Teléfono 2" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" />
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mceDepartment">Departamento *</label>
+              <ui-select ng-model="mCreateEmployee.newEmployee.department" name="mceDepartment" id="mceDepartment" required >
+                <ui-select-match placeholder="Departamento" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateEmployee.searchDepartment($select)" refresh-delay="500" repeat="depto in mCreateEmployee.deptList">
+                  <span ng-bind-html="depto.code + ' - ' + depto.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createEmployeeForm.mceDepartment.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="mceJobPostion">Puesto *</label>
+              <ui-select ng-model="mCreateEmployee.newEmployee.jobPosition" name="mceJobPostion" id="mceJobPostion" required >
+                <ui-select-match placeholder="Puesto" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateEmployee.searchJobPosition($select)" refresh-delay="500" repeat="list in mCreateEmployee.jobPositionList">
+                  <span ng-bind-html="list.code + ' - ' + list.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createEmployeeForm.mceJobPostion.$error" ng-show="mCreateEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mceAddress">Dirección</label>
+              <textarea rows="3" id="mceAddress" name="mceAddress" ng-model="mCreateEmployee.newEmployee.address" maxlength="200" class="form-control" placeholder="Dirección">
+              </textarea>
+            </div>
+            <div class="col-xs-6">
+              <label for="mceObservations">Observaciones</label>
+              <textarea rows="3" id="mceObservations" name="mceObservations" ng-model="mCreateEmployee.newEmployee.observations" maxlength="200" class="form-control"  placeholder="Observaciones">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="text-center col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+
+              <div class="col-xs-7">
+                <div class="col-xs-6">
+                  <label for="mcdDocument">Sucursal</label>
+                  <ui-select ng-model="mCreateEmployee.itemDetail.warehouse" name="mceWarehouse" id="mceWarehouse">
+                    <ui-select-match placeholder="Sucursal" allow-clear="true">
+                      <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mCreateEmployee.searchWarehouse($select)" refresh-delay="500" repeat="list in mCreateEmployee.warehouseList">
+                      <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mCreateEmployee.addAttempt">
+                    <p ng-show="!mCreateEmployee.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-6 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mCreateEmployee.addDetail()">{{mCreateEmployee.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mCreateEmployee.cleanFormDetail()"
+                  ng-show="mCreateEmployee.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+                <div class="col-xs-12">
+                  <div class="error" ng-show="mCreateEmployee.addAttempt">
+                    <p ng-show="mCreateEmployee.duplicated">Registro ingresado anteriormente. Verifíque!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-5">
+                <uib-tabset active="mCreateEmployee.active">
+                  <uib-tab index="0" heading="Sucursales Asociadas">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Sucursal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mCreateEmployee.newEmployee.warehouseDetailList">
+                          <td>{{item.warehouse.code}} - {{item.warehouse.name}}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mCreateEmployee.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mCreateEmployee.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+                <div class="error" ng-show="mCreateEmployee.submitAttempt" aria-hidden="false">
+                  <p ng-show="mCreateEmployee.newEmployee.warehouseDetailList.length < 1" aria-hidden="false" class="">Debe agregar al menos una surcursal</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateEmployee.dismissModal(createEmployeeForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateEmployee.createEmployee(createEmployeeForm,true)" ladda="mCreateEmployee.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateEmployee.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

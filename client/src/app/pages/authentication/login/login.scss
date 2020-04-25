@@ -1,0 +1,52 @@
+.authentication-form-container {
+  max-width: 1000px;
+  margin: 100px auto 0;
+
+  form {
+    button {
+      width: 100%;
+      text-transform: uppercase;
+    }
+  }
+}
+
+#modalCompanySelection {
+  margin-top: 130px;
+}
+
+.entry-screen {
+  background: url("/assets/images/bg.jpg") repeat;
+  width: 200%;
+  position: relative;
+
+  .authentication-form-container {
+    background: #FFF;
+    margin: 150px auto 0;
+    height: 330px;
+    border: rgba(102, 154, 176, 0.3) 30px solid
+  }
+
+  .form-group {
+    input {
+      float: left;
+      width: 90%;
+    }
+    i {
+      float: left;
+      width: 10%;
+    }
+  }
+}
+
+.emotion-info-container {
+  width: 100%;
+  background: #FFF;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  padding: 1px 0;
+
+  p > strong {
+    margin-top: 65px;
+  }
+}

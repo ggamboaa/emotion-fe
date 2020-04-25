@@ -1,0 +1,120 @@
+<div class="modal fade" id="modalEditVehicle" tabindex="-1" role="dialog" aria-labelledby="modalEditVehicle">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editVehicleForm" name="editVehicleForm" ng-submit="mEditVehicle.editVehicle(editVehicleForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditVehicle.dismissModal(editVehicleForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Vehículo</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mevBrand">Marca *</label>
+              <input type="text" name="mevBrand" id="mevBrand" class="form-control" ng-model="mEditVehicle.vehicleEdited.brand" placeholder="Marca" required/>
+              <div class="error" ng-messages="editVehicleForm.mevBrand.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mevStatus" id="mevStatus" ng-model="mEditVehicle.vehicleEdited.status" ng-checked="mEditVehicle.status"/>
+                    <label for="mevStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mevFuelType">Combustible *</label>
+              <ui-select ng-model="mEditVehicle.vehicleEdited.fuelTypeDup" name="mevFuelType" id="mevFuelType" required>
+                <ui-select-match  allow-clear="true" placeholder="Combustible">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mEditVehicle.fuelTypeList">
+                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editVehicleForm.mevFuelType.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mevTransmissionType">Transmisión *</label>
+              <ui-select ng-model="mEditVehicle.vehicleEdited.transmissionTypeDup" name="mevTransmissionType" id="mevFuelType" required>
+                <ui-select-match  allow-clear="true" placeholder="Transmisión">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mEditVehicle.transmissionList">
+                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editVehicleForm.mevTransmissionType.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mevModel">Modelo *</label>
+              <ui-select ng-model="mEditVehicle.vehicleEdited.model" name="mevModel" id="mevModel" required>
+                <ui-select-match  allow-clear="true" placeholder="Modelo">
+                  <span ng-bind="$select.selected.model"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mEditVehicle.modelList">
+                  <span ng-bind-html="list.model | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editVehicleForm.mevModel.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+            <label for="mevEngine">Cilindraje *</label>
+              <input type="number" name="mevEngine" id="mevEngine" class="form-control" ng-model="mEditVehicle.vehicleEdited.engine" placeholder="Cilindraje" required/>
+              <div class="error" ng-messages="editVehicleForm.mevEngine.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mevVehiCletype">Tipo Vehículo *</label>
+              <ui-select ng-model="mEditVehicle.vehicleEdited.vehicleTypeDup" name="mevVehiCletype" id="mevVehiCletype" required>
+                <ui-select-match  allow-clear="true" placeholder="Tipo Vehículo">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mEditVehicle.vehicleTypeList">
+                  <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editVehicleForm.mevVehiCletype.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mevLicenseplate">Placa *</label>
+              <input type="number" name="mevLicenseplate" id="mevLicenseplate" class="form-control" ng-model="mEditVehicle.vehicleEdited.licensePlate" placeholder="Placa" required/>
+              <div class="error" ng-messages="editVehicleForm.mevLicenseplate.$error" ng-show="mEditVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mevComment">Comentario</label>
+              <textarea rows="3" id="mevComment" name="mevComment" ng-model="mEditVehicle.vehicleEdited.comment" maxlength="200" class="form-control" placeholder="Comentario">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditVehicle.dismissModal(editVehicleForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditVehicle.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

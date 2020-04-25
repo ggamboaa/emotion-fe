@@ -1,0 +1,150 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="product-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Productos</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="product.createProduct()">Nuevo Producto</button>
+              <button class="btn btn-secondary" ng-click="product.importProduct()">Cargar Excel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="product.searchProduct()" ng-model="product.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in product.allowedRanges"><a
+                class="{{product.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="product.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:product.sort==='code'}">Código
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'code'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('code','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'code' || (product.sort === 'code' && product.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('code','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center th-sm" ng-class="{activeSort:product.sort==='name'}">Nombre
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'name'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('name','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'name' || (product.sort === 'name' && product.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('name','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:product.sort==='typeProduct'}">Tipo
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'typeProduct'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('typeProduct','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'typeProduct' || (product.sort === 'typeProduct' && product.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('typeProduct','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:product.sort==='brandId'}">Marca
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'brandId'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('brandId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'brandId' || (product.sort === 'brandId' && product.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('brandId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:product.sort==='measure'}">Medida
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'measure'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('measure','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'measure' || (product.sort === 'measure' && product.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('measure','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:product.sort==='status'}">Estado
+                <a href="#" ng-hide="product.direction === 'DESC' && product.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="product.loadProduct('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="product.sort !== 'status' || (product.sort === 'status' && product.direction === 'ASC')" href="#" class="sort-arrow pull-right"
+                ng-click="product.loadProduct('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="product.productList.length > 0">
+            <tr ng-repeat="item in product.productList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.typeProductName }}</td>
+              <td>{{ item.brand.desc }}</td>
+              <td>{{ item.measure == "" ? item.width + '/' + item.series + item.size : item.measure }}</td>
+              <td class="text-center">
+                <div class="checkbox">
+                  <input type="checkbox" class="custom-control custom-checkbox" ng-model="item.status" ng-change="product.updateStatus(item)">
+                  <label for=""></label>
+                </div>
+              </td>
+              <td class="text-center w-10">
+                <button  ng-click="product.editProduct(item)" class="btn btn-success"><span
+                  class="glyphicon glyphicon-edit"></span></button>
+                  <button ng-click="product.deleteProduct(item)" class="btn btn-danger"><span
+                    class="glyphicon glyphicon-trash"></span></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p ng-show="product.productList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(product.rangeSelected * (product.pageNum-1))+1}}-{{(product.rangeSelected* (product.pageNum-1))+product.numberOfPageRecords}}
+          de {{product.totalRecords}}</p>
+          <uib-pagination total-items="product.totalRecords" items-per-page="product.rangeSelected"
+          ng-change="product.goToPage(product.pageNum)" ng-model="product.pageNum"
+          max-size="product.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-import-product></utn-modal-import-product>
+<utn-modal-create-product></utn-modal-create-product>
+<utn-modal-edit-product selected-product="product.selectedProduct"></utn-modal-edit-product>

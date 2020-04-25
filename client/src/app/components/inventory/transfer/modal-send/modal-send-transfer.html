@@ -1,0 +1,105 @@
+<div class="modal fade" id="modalSendTransfer" tabindex="-1" role="dialog" aria-labelledby="modalSendTransfer">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="sendTransferForm" name="sendTransferForm" ng-submit="mSendTransfer.sendTransfer(sendTransferForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mSendTransfer.dismissModal(sendTransferForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Enviar Traslado</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mstNumber">Documento Número</label>
+              <input type="text" name="mstNumber" id="mstNumber" class="form-control text-center" ng-model="mSendTransfer.nextNumberDocument" placeholder="Número" disabled/>
+            </div>
+            <div class="col-xs-3">
+              <label for="mstDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mstDate" name="mstDate" ng-model="mSendTransfer.dateUI" class="form-control" is-open="mSendTransfer.mstDate.sendDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mSendTransfer.mstDate.sendDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <div class="col-xs-3">
+              <label for="mstUser">Usuario</label>
+              <input type="text" name="mstUser" id="mstUser" class="form-control" ng-model="mSendTransfer.transferSended.user" placeholder="Usuario" disabled/>
+            </div>
+            <div class="col-xs-3">
+              <label for="mstTypeDocument">Documento</label>
+              <input class="form-control" type="text" name="" ng-value="mSendTransfer.typeDocumentDup.id + ' - ' +mSendTransfer.typeDocumentDup.name " disabled>
+            </div>
+          </div>
+        <div class="row form-group">
+          <div class="col-xs-6">
+            <label for="mstWarehouseOrigin">Bodega Origen</label>
+              <ui-select class="actions-transfers" ng-model="mSendTransfer.transferSended.warehouseOrigin" name="mstWarehouseOrigin" id="mstWarehouseOrigin" required ng-disabled="true">
+                <ui-select-match placeholder="Bodega" allow-clear="true" >
+                  <span ng-bind="$select.selected.code+ ' - ' +$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mSendTransfer.searchWarehouse($select)" refresh-delay="500" repeat="list in mSendTransfer.warehouseList">
+                  <span ng-bind-html="list.code + ' - ' +list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            <div class="error" ng-messages="sendTransferForm.mstWarehouseOrigin.$error" ng-show="mSendTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label for="mstWarehouseDestination">Bodega Destino</label>
+            <ui-select class="actions-transfers" ng-model="mSendTransfer.transferSended.warehouseDestination" name="mstWarehouseDestination" id="mstWarehouseDestination" required ng-disabled="true">
+              <ui-select-match placeholder="Bodega" allow-clear="true" >
+                <span ng-bind="$select.selected.code+ ' - ' +$select.selected.name"></span>
+              </ui-select-match>
+              <ui-select-choices refresh="mSendTransfer.searchWarehouse($select)" refresh-delay="500" repeat="list in mSendTransfer.warehouseList">
+                <span ng-bind-html="list.code + ' - ' +list.name | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+            <div class="error" ng-messages="sendTransferForm.mstWarehouseDestination.$error" ng-show="mSendTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <label for="mstComment">Comentario</label>
+            <input type="text" name="mstComment" id="mstComment" class="form-control" ng-model="mSendTransfer.transferSended.comment" placeholder="Comentario" maxlength="200" disabled/>
+            <div class="error" ng-messages="sendTransferForm.mstComment.$error" ng-show="mSendTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mSendTransfer.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th class="text-center">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mSendTransfer.transferSended.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td class="text-center">{{item.quantity}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mSendTransfer.dismissModal(sendTransferForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mSendTransfer.loading">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

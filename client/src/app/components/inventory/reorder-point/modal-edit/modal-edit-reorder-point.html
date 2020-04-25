@@ -1,0 +1,60 @@
+<div class="modal fade" id="modalEditReorderPoint" tabindex="-1" role="dialog" aria-labelledby="modalEditReorderPoint">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editReorderPointForm" name="editReorderPointForm" ng-submit="mEditReorderPoint.editReorderPoint(editReorderPointForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditReorderPoint.dismissModal(editReorderPointForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Punto de Reorden</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="merpQuantity">Bodega</label>
+              <input type="text" name="merpWarehouse" id="merpWarehouse" class="form-control" ng-model="mEditReorderPoint.warehouseDescription " placeholder="Sucursal" required ng-disabled="true"/>
+              <div class="error" ng-messages="editReorderPointForm.merpWarehouse.$error" ng-show="mEditReorderPoint.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <label for="merpQuantity">Cantidad Mínima</label>
+              <input type="text" name="merpQuantity" id="merpQuantity" class="form-control text-right" ng-model="mEditReorderPoint.reOrderPointEdited.quantity" placeholder="Cantidad Mínima" required />
+              <div class="error" ng-messages="editReorderPointForm.merpQuantity.$error" ng-show="mEditReorderPoint.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="merpStatus" id="merpStatus" ng-model="mEditReorderPoint.reOrderPointEdited.status" ng-checked="mEditReorderPoint.status"/>
+                    <label for="merpStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12" >
+              <label for="merpProduct">Producto</label>
+              <ui-select ng-model="mEditReorderPoint.reOrderPointEdited.product"  name="merpProduct" id="merpProduct" ng-disabled="true"  >
+                <ui-select-match placeholder="Producto" allow-clear="true" >
+                  <span ng-bind="$select.selected.code + ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditReorderPoint.searchProduct($select)" refresh-delay="500" repeat="prod in mEditReorderPoint.productList" >
+                  <span ng-bind-html="prod.code + ' - ' + prod.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <!-- <div class="error" ng-messages="editReorderPointForm.merpProduct.$error" ng-show="mEditReorderPoint.submitAttempt">
+                <p ng-show="!mEditReorderPoint.itemDetail.product">Información Requerida</p>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditReorderPoint.dismissModal(editReorderPointForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditReorderPoint.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

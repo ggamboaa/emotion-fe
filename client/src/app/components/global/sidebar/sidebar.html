@@ -1,0 +1,29 @@
+<aside>
+  <div class="fixed-sidebar">
+    <p class="user"><strong>Bienvenido: </strong>{{sidebar.userConected}}</p>
+    <p ng-if="!sidebar.warehouse"class="user"><strong>Bodega: </strong>Sin asignar</p>
+    <p ng-if="sidebar.warehouse"class="user"><strong>Bodega: </strong>{{sidebar.warehouse}}</p>
+    <p class="logout"><button class="btn-clear btn-link" ng-click="sidebar.logout()">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></button></p>
+    <p class="logout"><button class="btn-clear btn-link" ui-sref="forgotPassword">Cambiar contraseña <i class="fa fa-key " aria-hidden="true"></i></button></p>
+    
+    <ul class="general-items">  
+      <li ng-repeat="item in sidebar.sideBarItems">
+        <a ui-sref="{{item.routerState}}" title="{{item.title}}" ui-sref-active="active" ><i class="fa {{item.icon}}"></i> {{item.text}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <h2 ng-if="sidebar.title">
+    {{sidebar.title}}
+  </h2>
+
+  <div class="submenu-container">
+    <perfect-scrollbar class="scroller" include-padding='true' wheel-propagation="true" wheel-speed="3" min-scrollbar-length="20">
+      <ul class="submenu">
+        <li ng-repeat="item in sidebar.items" ng-if="item.available">
+          <a ui-sref="{{item.routerState}}" title="{{item.title}}" ui-sref-active="active" ng-class="{small:item.small===true}" ><i class="fa {{item.icon}}"></i> {{item.text}}</a>
+        </li>
+      </ul>
+    </perfect-scrollbar>
+  </div>
+</aside>

@@ -1,0 +1,201 @@
+
+<div class="modal fade" id="modalEditCustomer" tabindex="-1" role="dialog" aria-labelledby="modalEditCustomer">
+  <div class="modal-dialog modal-lg " role="document">
+    <div class="modal-content">
+      <form id="editCustomerForm" name="editCustomerForm" ng-submit="mEditCustomer.editCustomer(editCustomerForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditCustomer.dismissModal(editCustomerForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Cliente</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mecTypeCustomer">Tipo de Cliente *</label>
+              <ui-select ng-model="mEditCustomer.customerEdited.typeCustomerDup" name="mecTypeCustomer" id="mecTypeCustomer" required >
+                <ui-select-match placeholder="Tipo de Cliente" allow-clear="true">
+                  <span ng-bind="$select.selected.id + ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="type in mEditCustomer.typeCustomerList">
+                  <span ng-bind-html="type.id + ' - ' + type.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editCustomerForm.mecTypeCustomer.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecIdentification">Cédula *</label>
+              <input type="text" name="mecIdentification" id="mecIdentification" class="form-control" ng-model="mEditCustomer.customerEdited.identification" required placeholder="Cédula"/>
+              <div class="error" ng-messages="editCustomerForm.mecIdentification.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mecStatus" id="mecStatus" ng-model="mEditCustomer.customerEdited.status"  ng-checked="mEditCustomer.status"/>
+                    <label for="mecStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr ng-show="mEditCustomer.customerEdited.typeCustomerDup.id == 2">
+          <div class="row form-group" ng-show="mEditCustomer.customerEdited.typeCustomerDup.id == 2">
+            <div class="col-xs-8">
+              <label for="mecCompany">Empresa *</label>
+              <input type="text" name="mecCompany" id="mecCompany" class="form-control" ng-model="mEditCustomer.customerEdited.company" placeholder="Empresa"  ng-required="mEditCustomer.customerEdited.typeCustomerDup.id == 2"/>
+              <div class="error" ng-messages="editCustomerForm.mecCompany.$error" ng-show="mEditCustomer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecPhoneCompany1">Teléfono Empresa *</label>
+              <input type="text" name="mecPhoneCompany1" id="mecPhoneCompany1" class="form-control" ng-model="mEditCustomer.customerEdited.phoneCompany1" placeholder="Teléfono Empresa" ng-required="mEditCustomer.customerEdited.typeCustomerDup.id == 2"/>
+            </div>
+            <div class="error" ng-messages="editCustomerForm.mecPhoneCompany1.$error" ng-show="mEditCustomer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+
+          <div class="row form-group" ng-show="mEditCustomer.customerEdited.typeCustomerDup.id == 2">
+            <div class="col-xs-12">
+              <label for="mecAddressCompany">Dirección Empresa *</label>
+              <textarea rows="3" id="mecAddressCompany" name="mecAddressCompany" ng-model="mEditCustomer.customerEdited.addressCompany" maxlength="200" class="form-control" placeholder="Dirección Empresa" ng-required="mEditCustomer.customerEdited.typeCustomerDup.id == 2">
+              </textarea>
+              <div class="error" ng-messages="editCustomerForm.mecAddressCompany.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <hr ng-show="mEditCustomer.customerEdited.typeCustomerDup.id == 2">
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mecName">Nombre *</label>
+              <input type="text" name="mecName" id="mecName" class="form-control" ng-model="mEditCustomer.customerEdited.name" required placeholder="Nombre"/>
+              <div class="error" ng-messages="editCustomerForm.mecName.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecFirstName">Primer Apellido *</label>
+              <input type="text" name="mecFirstName" id="mecFirstName" class="form-control" ng-model="mEditCustomer.customerEdited.firstName" required placeholder="Primer Apellido"/>
+              <div class="error" ng-messages="editCustomerForm.mecFirstName.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecLastName">Segundo Apellido *</label>
+              <input type="text" name="mecLastName" id="mecLastName" class="form-control" ng-model="mEditCustomer.customerEdited.lastName" required placeholder="Segundo Apellido"/>
+              <div class="error" ng-messages="editCustomerForm.mecLastName.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mecEmail">Email *</label>
+              <input type="text" name="mecEmail" id="mecEmail" class="form-control" required ng-model="mEditCustomer.customerEdited.email" placeholder="Email" ng-pattern="mEditCustomer.verifyEmail"/>
+              <div class="error" ng-show="mEditCustomer.submitAttempt" ng-messages="editCustomerForm.mecEmail.$error">
+                <p ng-show="editCustomerForm.mecEmail.$dirty&&editCustomerForm.mecEmail.$error.pattern">Favor ingrese un correo válido.</p>
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecBirthdate">Fecha de Nacimiento</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mecBirthdate" name="mecBirthdate" ng-model="mEditCustomer.birthdateUI" class="form-control" is-open="mEditCustomer.birthdate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditCustomer.birthdate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mecPhone1">Teléfono 1 *</label>
+              <input type="text" name="mecPhone1" id="mecPhone1" class="form-control" ng-model="mEditCustomer.customerEdited.phone1" required placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+              <div class="error" ng-messages="editCustomerForm.mecPhone1.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecPhone2">Teléfono 2</label>
+              <input type="text" name="mecPhone2" id="mecPhone2" class="form-control" ng-model="mEditCustomer.customerEdited.phone2" placeholder="Teléfono 2" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecSex">Sexo</label>
+              <ui-select ng-model="mEditCustomer.customerEdited.sexDup" name="mecSex" id="mecSex" >
+                <ui-select-match placeholder="Sexo" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="sex in mEditCustomer.sexList">
+                  <span ng-bind-html="sex.id + ' - ' + sex.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mecWarehouse">Sucursal *</label>
+              <ui-select ng-model="mEditCustomer.customerEdited.warehouse" name="mecWarehouse" id="mecWarehouse" required >
+                <ui-select-match placeholder="Sucursal" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditCustomer.searchWarehouse($select)" refresh-delay="500" repeat="warehouse in mEditCustomer.warehouseList">
+                  <span ng-bind-html="warehouse.code + ' - ' + warehouse.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editCustomerForm.mecWarehouse.$error" ng-show="mEditCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mecOccupation">Puesto</label>
+              <input type="text" name="mecOccupation" id="mecOccupation" class="form-control" ng-model="mEditCustomer.customerEdited.occupation" placeholder="Puesto"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mecAddress">Dirección</label>
+              <textarea rows="3" id="mecAddress" name="mecAddress" ng-model="mEditCustomer.customerEdited.address" maxlength="200" class="form-control" placeholder="Dirección">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mecObservations">Observaciones</label>
+              <textarea rows="3" id="mecObservations" name="mecObservations" ng-model="mEditCustomer.customerEdited.observations" maxlength="200" class="form-control" placeholder="Observaciones">
+              </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditCustomer.dismissModal(editCustomerForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditCustomer.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

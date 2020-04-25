@@ -1,0 +1,126 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="warehouse-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Sucursales</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="warehouse.createWarehouse()">Nueva Sucursal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="warehouse.searchWarehouse()" ng-model="warehouse.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in warehouse.allowedRanges"><a
+                class="{{warehouse.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="warehouse.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:warehouse.sort==='code'}">Código
+                <a href="#" ng-hide="warehouse.direction === 'DESC' && warehouse.sort === 'code'"
+                class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('code','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="warehouse.sort !== 'code' || (warehouse.sort === 'code' && warehouse.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('code','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:warehouse.sort==='name'}">Nombre
+                <a href="#" ng-hide="warehouse.direction === 'DESC' && warehouse.sort === 'name'"
+                class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('name','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="warehouse.sort !== 'name' || (warehouse.sort === 'name' && warehouse.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('name','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:warehouse.sort==='phone1'}">Teléfono 1
+                <a href="#" ng-hide="warehouse.direction === 'DESC' && warehouse.sort === 'phone1'"
+                class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('phone1','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="warehouse.sort !== 'phone1' || (warehouse.sort === 'phone1' && warehouse.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('phone1','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:warehouse.sort==='status'}">Estado
+                <a href="#" ng-hide="warehouse.direction === 'DESC' && warehouse.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="warehouse.loadWarehouse('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="warehouse.sort !== 'status' || (warehouse.sort === 'status' && warehouse.direction === 'ASC')" href="#" class="sort-arrow pull-right" 
+                ng-click="warehouse.loadWarehouse('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="warehouse.warehouseList.length > 0">
+            <tr ng-repeat="item in warehouse.warehouseList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.phone1 }}</td>
+              <td class="text-center">
+                <div class="checkbox">
+                  <input type="checkbox" class="custom-control custom-checkbox" ng-model="item.status" ng-change="warehouse.updateStatus(item)">
+                  <label for=""></label>
+                </div>
+              </td>
+              <td class="text-center w-10">
+                <button  ng-click="warehouse.editWarehouse(item)" class="btn btn-success"><span
+                  class="glyphicon glyphicon-edit"></span></button>
+                  <button ng-click="warehouse.deleteWarehouse(item)" class="btn btn-danger"><span
+                    class="glyphicon glyphicon-trash"></span></button>
+                  </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="warehouse.warehouseList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(warehouse.rangeSelected * (warehouse.pageNum-1))+1}}-{{(warehouse.rangeSelected* (warehouse.pageNum-1))+warehouse.numberOfPageRecords}}
+          de {{warehouse.totalRecords}}</p>
+          <uib-pagination total-items="warehouse.totalRecords" items-per-page="warehouse.rangeSelected"
+          ng-change="warehouse.goToPage(warehouse.pageNum)" ng-model="warehouse.pageNum"
+          max-size="warehouse.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-warehouse></utn-modal-create-warehouse>
+<utn-modal-edit-warehouse selected-warehouse="warehouse.selectedWarehouse"></utn-modal-edit-warehouse>

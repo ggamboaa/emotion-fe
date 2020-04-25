@@ -1,0 +1,24 @@
+<header class="container-fluid" ng-if="header.showMenu">
+  <div class="row">
+    <nav class="navbar navbar-static-top">
+      <div class="col-xs-12">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="home" title="UTN">EMOTION</a>
+        </div>
+        <div id="HeaderNavbar" >
+          <ul class="nav navbar-nav pull-left">
+            <li ng-repeat="item in header.menu">
+              <a ng-if="!item.hasDropDownMenu && item.available" ui-sref="{{item.routerState}}" title="{{item.title}}" ui-sref-active="active"><i ng-if="item.icon" class="fa fa-{{item.icon}}" ></i>{{item.text}}</a>
+              <a ng-if="item.hasDropDownMenu && item.hasValidChilds">{{item.text}}</a>
+              <ul ng-class="{ wider: item.wider }" ng-if="item.hasDropDownMenu && item.hasValidChilds">
+                <li ng-repeat="ddItem in item.dropDownItems"  ng-if="ddItem.available">
+                  <a ui-sref="{{ddItem.routerState}}" title="{{ddItem.title}}" ui-sref-active="active"><i ng-if="ddItem.icon" class="fa fa-{{ddItem.icon}}" ></i>{{ddItem.text}}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

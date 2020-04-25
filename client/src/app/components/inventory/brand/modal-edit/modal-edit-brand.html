@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalEditBrand" tabindex="-1" role="dialog" aria-labelledby="modalEditBrand">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editBrandForm" name="editBrandForm" ng-submit="mEditBrand.editBrand(editBrandForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditBrand.dismissModal(editBrandForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Marca</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mebCode">Código *</label>
+              <input type="text" name="mebCode" id="mebCode" class="form-control" ng-model="mEditBrand.brandEdited.code" placeholder="Código" required />
+              <div class="error" ng-messages="editBrandForm.mebCode.$error" ng-show="mEditBrand.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mebStatus" id="mebStatus" ng-model="mEditBrand.brandEdited.status"  ng-checked="mEditBrand.status"/>
+                    <label for="mebStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mebDesc">Descripción *</label>
+              <input type="text" name="mebDesc" id="mebDesc" class="form-control" ng-model="mEditBrand.brandEdited.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="editBrandForm.mebDesc.$error" ng-show="mEditBrand.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditBrand.dismissModal(editBrandForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditBrand.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

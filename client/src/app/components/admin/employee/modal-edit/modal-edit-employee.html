@@ -1,0 +1,234 @@
+<div class="modal fade" id="modalEditEmployee" tabindex="-1" role="dialog" aria-labelledby="modalEditEmployee">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="editEmployeeForm" name="editEmployeeForm" ng-submit="mEditEmployee.editEmployee(editEmployeeForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditEmployee.dismissModal(editEmployeeForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Empleado</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="meeName">Nombre *</label>
+              <input type="text" name="meeName" id="meeName" class="form-control" ng-model="mEditEmployee.employeeEdited.name" placeholder="Nombre"  required/>
+              <div class="error" ng-messages="editEmployeeForm.meeName.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meeFirstName">Primer Apellido *</label>
+              <input type="text" name="meeFirstName" id="meeFirstName" class="form-control" ng-model="mEditEmployee.employeeEdited.firstName" placeholder="Primer Apellido" required/>
+              <div class="error" ng-messages="editEmployeeForm.meeLastName.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          
+            <div class="col-xs-3">
+              <label for="meeLastName">Segundo Apellido *</label>
+              <input type="text" name="meeLastName" id="meeLastName" class="form-control" ng-model="mEditEmployee.employeeEdited.lastName" placeholder="Segundo Apellido" required/>
+              <div class="error" ng-messages="editEmployeeForm.meeLastName.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-1"></div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="meeStatus" id="meeStatus" ng-model="mEditEmployee.employeeEdited.status"  />
+                    <label for="meeStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="meeIdentification">Cédula *</label>
+              <input type="text" name="meeIdentification" id="meeIdentification" class="form-control" ng-model="mEditEmployee.employeeEdited.identification" placeholder="Cédula" required/>
+              <div class="error" ng-messages="editEmployeeForm.meeIdentification.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meeMaritalStatus">Estado Civil</label>
+              <ui-select ng-model="mEditEmployee.employeeEdited.maritalStatusDup" name="meeMaritalStatus" id="meeMaritalStatus" >
+                <ui-select-match placeholder="Estado Civil" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="marital in mEditEmployee.maritalStatusList">
+                  <span ng-bind-html="marital.id + ' - ' + marital.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meeSex">Sexo</label>
+              <ui-select ng-model="mEditEmployee.employeeEdited.sexDup" name="meeSex" id="meeSex" >
+                <ui-select-match placeholder="Sexo" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="sex in mEditEmployee.sexList">
+                  <span ng-bind-html="sex.id + ' - ' + sex.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meeBirthdate">Fecha de Nacimiento</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="meeBirthdate" name="meeBirthdate" ng-model="mEditEmployee.birthdateUI" class="form-control" is-open="mEditEmployee.birthdate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditEmployee.birthdate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="meeEmail">Email *</label>
+              <input type="text" name="meeEmail" id="meeEmail" class="form-control" required ng-model="mEditEmployee.employeeEdited.email" placeholder="Email" ng-pattern="mEditEmployee.verifyEmail"/>
+              <div class="error" ng-show="mEditEmployee.submitAttempt" ng-messages="editEmployeeForm.meeEmail.$error">
+                <p ng-show="editEmployeeForm.meeEmail.$dirty&&editEmployeeForm.meeEmail.$error.pattern">Favor ingrese un correo válido.</p>
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meePhone1">Teléfono 1 *</label>
+              <input type="text" name="meePhone1" id="meePhone1" class="form-control" ng-model="mEditEmployee.employeeEdited.phone1" placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" required/>
+              <div class="error" ng-messages="editEmployeeForm.meePhone1.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meePhone2">Teléfono 2</label>
+              <input type="text" name="meePhone2" id="meePhone2" class="form-control" ng-model="mEditEmployee.employeeEdited.phone2" placeholder="Teléfono 2"ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" />
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="meeDepartment">Departamento *</label>
+              <ui-select ng-model="mEditEmployee.employeeEdited.department" name="meeDepartment" id="meeDepartment" required >
+                <ui-select-match placeholder="Departamento" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditEmployee.searchDepartment($select)" refresh-delay="500" repeat="depto in mEditEmployee.deptList">
+                  <span ng-bind-html="depto.code + ' - ' + depto.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editEmployeeForm.meeDepartment.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <label for="meeJobPosition">Puesto *</label>
+              <ui-select ng-model="mEditEmployee.employeeEdited.jobPosition" name="meeJobPosition" id="meeJobPosition" required >
+                <ui-select-match placeholder="Puesto" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mEditEmployee.searchJopPosition($select)" refresh-delay="500" repeat="list in mEditEmployee.jobPositionList">
+                  <span ng-bind-html="list.code + ' - ' + list.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editEmployeeForm.meeJobPosition.$error" ng-show="mEditEmployee.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="meeAddress">Dirección</label>
+              <textarea rows="3" id="meeAddress" name="meeAddress" ng-model="mEditEmployee.employeeEdited.address" maxlength="200" class="form-control" placeholder="Dirección">
+              </textarea>
+            </div>
+            <div class="col-xs-6">
+              <label for="meeObservations">Observaciones</label>
+              <textarea rows="3" id="meeObservations" name="meeObservations" ng-model="mEditEmployee.employeeEdited.observations" maxlength="200" class="form-control"  placeholder="Observaciones">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="text-center col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-7">
+                <div class="col-xs-6">
+                  <label for="mcdDocument">Sucursal</label>
+                  <ui-select ng-model="mEditEmployee.itemDetail.warehouse" name="meeWarehouse" id="meeWarehouse">
+                    <ui-select-match placeholder="Sucursal" allow-clear="true">
+                      <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditEmployee.searchWarehouse($select)" refresh-delay="500" repeat="list in mEditEmployee.warehouseList">
+                      <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mEditEmployee.addAttempt">
+                    <p ng-show="!mEditEmployee.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-6 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mEditEmployee.addDetail()">{{mEditEmployee.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mEditEmployee.cleanFormDetail()"
+                  ng-show="mEditEmployee.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+                <div class="col-xs-12">
+                  <div class="error" ng-show="mEditEmployee.addAttempt">
+                    <p ng-show="mEditEmployee.duplicated">Registro ingresado anteriormente. Verifíque!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-5">
+                <uib-tabset active="mEditEmployee.active">
+                  <uib-tab index="0" heading="Sucursales Asociadas">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Sucursal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditEmployee.employeeEdited.warehouseDetailList">
+                          <td>{{item.warehouse.code}} - {{item.warehouse.name}}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mEditEmployee.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mEditEmployee.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+                <div class="error" ng-show="mEditEmployee.submitAttempt" aria-hidden="false">
+                  <p ng-show="mEditEmployee.employeeEdited.warehouseDetailList.length < 1" aria-hidden="false" class="">Debe agregar al menos una sucursal</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditEmployee.dismissModal(editEmployeeForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditEmployee.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+#modalCreateSaleOrder{
+  .modal-content {
+	  max-height: calc(130vh - 280px);
+	  overflow-y: auto;
+  }
+}
+
+#modalEditSaleOrder{
+  .modal-content {
+	  max-height: calc(130vh - 280px);
+	  overflow-y: auto;
+  }
+}
+

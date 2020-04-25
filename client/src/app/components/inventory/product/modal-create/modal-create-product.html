@@ -1,0 +1,172 @@
+<div class="modal fade" id="modalCreateProduct" tabindex="-1" role="dialog" aria-labelledby="modalCreateProduct">
+  <div class="modal-dialog modal-md " role="document">
+    <div class="modal-content">
+      <form id="createProductForm" name="createProductForm" ng-submit="mCreateProduct.createProduct(createProductForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateProduct.dismissModal(createProductForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Producto</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcpTypeProductDup">Tipo Producto *</label>
+              <ui-select ng-model="mCreateProduct.newProduct.typeProductDup" name="mcpTypeProductDup" id="mcpTypeProductDup" ng-change="mCreateProduct.validation()" required >
+                <ui-select-match placeholder="Tipo Producto" allow-clear="true">
+                  <span ng-bind="$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="type in mCreateProduct.productTypeList">
+                  <span ng-bind-html="type.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createProductForm.mcpTypeProductDup.$error" ng-show="mCreateProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcpStatus" id="mcpStatus" ng-model="mCreateProduct.newProduct.status" disabled ng-checked="mCreateProduct.status"/>
+                    <label for="mcpStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcpbarCode">Código de barras</label>
+              <input type="text" name="mcpbarCode" id="mcpbarCode" class="form-control" ng-model="mCreateProduct.newProduct.barCode" placeholder="Código de barras"/>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcpName">Nombre *</label>
+              <input type="text" name="mcpName" id="mcpName" class="form-control" ng-model="mCreateProduct.newProduct.name" placeholder="Nombre" required/>
+              <div class="error" ng-messages="createProductForm.mcpName.$error" ng-show="mCreateProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcpBrand">Marca *</label>
+              <ui-select ng-model="mCreateProduct.newProduct.brand" name="mcpBrand" id="mcpBrand" required >
+                <ui-select-match placeholder="Marca" allow-clear="true">
+                  <span ng-bind="$select.selected.desc"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateProduct.searchBrand($select)" refresh-delay="500" repeat="list in mCreateProduct.brandList">
+                  <span ng-bind-html="list.desc | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createProductForm.mcpBrand.$error" ng-show="mCreateProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6" ng-show="mCreateProduct.newProduct.typeProductDup.id === 1">
+              <label for="mcpColor">Color</label>
+              <input type="text" name="mcpColor" id="mcpColor" class="form-control" ng-model="mCreateProduct.newProduct.color" placeholder="Color" />
+            </div>
+            <div class="col-xs-6" ng-show="mCreateProduct.newProduct.typeProductDup.id === 2">
+              <label for="mcpFinish">Acabado</label>
+              <input type="text" name="mcpFinish" id="mcpFinish" class="form-control" ng-model="mCreateProduct.newProduct.finish" placeholder="Acabado" />
+            </div>
+            <div class="col-xs-6">
+              <label for="mcpCode">Código *</label>
+              <input type="text" name="mcpCode" id="mcpCode" class="form-control" ng-model="mCreateProduct.newProduct.code" placeholder="Código" required/>
+              <div class="error" ng-messages="createProductForm.mcpCode.$error" ng-show="mCreateProduct.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <!-- LLanta -->
+          <div class="row form-group" ng-show="mCreateProduct.newProduct.typeProductDup.id === 1">
+            <hr>
+            <div class="col-xs-6">
+              <label for="mcpLoadIndex">Índice de Carga</label>
+              <ui-select ng-model="mCreateProduct.newProduct.loadIndex" name="mcpLoadIndex" id="mcpLoadIndex"  >
+                <ui-select-match placeholder="Índice de Carga" allow-clear="true">
+                  <span ng-bind="$select.selected.loadIndex"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateProduct.searchLoadIndex($select)" refresh-delay="500" repeat="list in mCreateProduct.loadIndexList">
+                  <span ng-bind-html="list.loadIndex | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+            <div class="col-xs-6">
+              <label for="mcpSpeedRating">Índice de Velocidad</label>
+              <ui-select ng-model="mCreateProduct.newProduct.speedRating" name="mcpSpeedRating" id="mcpSpeedRating"  >
+                <ui-select-match placeholder="Índice de Velocidad" allow-clear="true">
+                  <span ng-bind="$select.selected.speedRating"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateProduct.searchSpeedRating($select)" refresh-delay="500" repeat="list in mCreateProduct.speedRatingList">
+                  <span ng-bind-html="list.speedRating | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="row form-group" ng-show="mCreateProduct.newProduct.typeProductDup.id === 1">
+            <div class="col-xs-4">
+              <label for="mcpWidth">Ancho</label>
+              <input type="text" name="mcpWidth" id="mcpWidth" class="form-control" ng-model="mCreateProduct.newProduct.width" placeholder="Ancho" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpSeries">Serie</label>
+              <input type="text" name="mcpSeries" id="mcpSeries" class="form-control" ng-model="mCreateProduct.newProduct.series" placeholder="Serie" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpSize">Tamaño</label>
+              <input type="text" name="mcpSize" id="mcpSize" class="form-control" ng-model="mCreateProduct.newProduct.size" placeholder="Tamaño" />
+            </div>
+          </div>
+          <!-- Rines -->
+          <div class="row form-group" ng-show="mCreateProduct.newProduct.typeProductDup.id === 2">
+            <hr>
+            <div class="col-xs-4">
+              <label for="mcpBasin">Barreno 1</label>
+              <input type="text" name="mcpBasin" id="mcpBasin" class="form-control" ng-model="mCreateProduct.newProduct.basin" placeholder="Barreno 1" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpBasin2">Barreno 2</label>
+              <input type="text" name="mcpBasin2" id="mcpBasin2" class="form-control" ng-model="mCreateProduct.newProduct.basin2" placeholder="Barreno 2" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpDiameter">Diámetro</label>
+              <input type="text" name="mcpDiameter" id="mcpDiameter" class="form-control" ng-model="mCreateProduct.newProduct.diameter" placeholder="Diámetro" />
+            </div>
+          </div>
+          <div class="row form-group" ng-show="mCreateProduct.newProduct.typeProductDup.id === 2">
+            <div class="col-xs-4">
+              <label for="mcpMeasure">Medida</label>
+              <input type="text" name="mcpMeasure" id="mcpMeasure" class="form-control" ng-model="mCreateProduct.newProduct.measure" placeholder="Medida" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpOffset">Offset</label>
+              <input type="text" name="mcpOffset" id="mcpOffset" class="form-control" ng-model="mCreateProduct.newProduct.offset" placeholder="Offset" />
+            </div>
+            <div class="col-xs-4">
+              <label for="mcpCenterHole">Hoyo Central</label>
+              <input type="text" name="mcpCenterHole" id="mcpCenterHole" class="form-control" ng-model="mCreateProduct.newProduct.centerHole" placeholder="Hoyo Central" />
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcpDescription">Descripción</label>
+              <textarea rows="3" id="mcpDescription" name="mcpDescription" ng-model="mCreateProduct.newProduct.description" maxlength="200" class="form-control" placeholder="Descripción">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateProduct.dismissModal(createProductForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateProduct.createProduct(createProductForm,true)" ladda="mCreateProduct.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateProduct.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

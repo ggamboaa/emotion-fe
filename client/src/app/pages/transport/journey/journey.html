@@ -1,0 +1,119 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="journey-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Ruta de Entrega</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="journey.createJourney()" ng-disabled="(journey.enabled ==false )?true:false">Nueva Ruta de Entrega</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="journey.searchJourney()" ng-model="journey.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in journey.allowedRanges"><a
+              class="{{journey.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+              ng-click="journey.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bloaded table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:journey.sort==='invoice'}">Factura
+                <a href="#" ng-hide="journey.direction === 'DESC' && journey.sort === 'invoice'"
+                class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('invoice','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="journey.sort !== 'invoice' || (journey.sort === 'invoice' && journey.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('invoice','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:journey.sort==='user'}">Usuario
+                <a href="#" ng-hide="journey.direction === 'DESC' && journey.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="journey.sort !== 'user' || (journey.sort === 'user' && journey.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:journey.sort==='customer'}">Cliente
+                <a href="#" ng-hide="journey.direction === 'DESC' && journey.sort === 'customer'"
+                class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('customer','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="journey.sort !== 'customer' || (journey.sort === 'customer' && journey.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('customer','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:journey.sort==='date'}">Fecha
+                <a href="#" ng-hide="journey.direction === 'DESC' && journey.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="journey.sort !== 'date' || (journey.sort === 'date' && journey.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="journey.loadjourney('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="journey.journeyList.length > 0">
+            <tr ng-repeat="item in journey.journeyList">
+              <td>{{ item.Document_Detail.numberInvoice  }}</td>
+              <td>{{ item.user }}</td>
+              <td>{{ item.customer.name +' '+ item.customer.firstName +' '+ item.customer.lastName }}</td>
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td class="text-center">
+                <button  ng-click="journey.editJourney(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-eye-open"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="journey.journeyList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(journey.rangeSelected * (journey.pageNum-1))+1}}-{{(journey.rangeSelected* (journey.pageNum-1))+journey.numberOfPageRecords}}
+          de {{journey.totalRecords}}</p>
+          <uib-pagination total-items="journey.totalRecords" items-per-page="journey.rangeSelected"
+          ng-change="journey.goToPage(journey.pageNum)" ng-model="journey.pageNum"
+          max-size="journey.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-journey journey="journey"></utn-modal-create-journey>
+<utn-modal-edit-journey selected-journey="journey.selectedJourney"></utn-modal-edit-journey>

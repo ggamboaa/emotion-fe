@@ -1,0 +1,152 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="reubication-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Re-Ubicaciones</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="row col-xs-12">
+        <div class="col-xs-8 text-left">
+          <form class="form form-sm active-cyan-2">
+              <div class="col-xs-12">
+                <div class="col-xs-4">
+                  <input class="form-control" type="text" placeholder="Buscar .." ng-change="reubication.searchReubication()" ng-model="reubication.query.filter">
+                </div>
+                <div class="col-xs-4">
+                  <ui-select ng-model="reubication.ubication" name="mesUbication" id="mesUbication" style="width:100%" ng-change="reubication.searchReubication()">
+                    <ui-select-match placeholder="Ubicación" allow-clear="true">
+                      <span ng-bind="$select.selected.id + ' - ' + $select.selected.ubicationName"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="reubication.searchUbication($select)" refresh-delay="500" repeat="ubic in reubication.ubicationList">
+                      <span ng-bind-html="ubic.id + ' - ' + ubic.ubicationName | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+                <div class="col-xs-1 m-top-10">
+                  <i class="fa fa-search" aria-hidden="true" ng-click="reubication.searchReubication()"></i>
+                </div>
+              </div>
+          </form>
+        </div>
+        <div class="col-xs-4 text-right clearfix">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" ng-repeat="range in reubication.allowedRanges"><a
+              class="{{reubication.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+              ng-click="reubication.setRecordsPerPage(range)">{{range}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:reubication.sort==='id'}">Código
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'id'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('id','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'id' || (reubication.sort === 'id' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('id','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:reubication.sort==='UbicationId'}">Ubicación
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'UbicationId'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('UbicationId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'UbicationId' || (reubication.sort === 'UbicationId' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('UbicationId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:reubication.sort==='ProductId'}">Código
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'ProductId'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('ProductId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'ProductId' || (reubication.sort === 'ProductId' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('ProductId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:reubication.sort==='ProductId'}">Producto
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'ProductId'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('ProductId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'ProductId' || (reubication.sort === 'ProductId' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('ProductId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-right" ng-class="{activeSort:reubication.sort==='quantity'}">Cantidad
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'quantity'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('quantity','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'quantity' || (reubication.sort === 'quantity' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('quantity','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <!-- <th class="text-center" ng-class="{activeSort:reubication.sort==='user'}">Usuario
+                <a href="#" ng-hide="reubication.direction === 'DESC' && reubication.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reubication.sort !== 'user' || (reubication.sort === 'user' && reubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reubication.loadReubication('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th> -->
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="reubication.reubicationList.length > 0">
+            <tr ng-repeat="item in reubication.reubicationList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.ubicationName }}</td>
+              <td>{{ item.productCode }}</td>
+              <td>{{ item.productName }}</td>
+              <td class="text-right">{{ item.quantity }}</td>
+              <!-- <td>{{ item.user }}</td> -->
+              <td class="text-center">
+                <button  ng-click="reubication.makeStock(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-list-alt"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="reubication.reubicationList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(reubication.rangeSelected * (reubication.pageNum-1))+1}}-{{(reubication.rangeSelected* (reubication.pageNum-1))+reubication.numberOfPageRecords}}
+          de {{reubication.totalRecords}}</p>
+          <uib-pagination total-items="reubication.totalRecords" items-per-page="reubication.rangeSelected"
+          ng-change="reubication.goToPage(reubication.pageNum)" ng-model="reubication.pageNum"
+          max-size="reubication.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-edit-store selected-item="reubication.selectedUbication"></utn-modal-edit-store>

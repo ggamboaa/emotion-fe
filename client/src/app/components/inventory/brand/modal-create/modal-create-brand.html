@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalCreateBrand" tabindex="-1" role="dialog" aria-labelledby="modalCreateBrand">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createBrandForm" name="createBrandForm" ng-submit="mCreateBrand.createBrand(createBrandForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateBrand.dismissModal(createBrandForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva Marca</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcbCode">Código *</label>
+              <input type="text" name="mcbCode" id="mcbCode" class="form-control" ng-model="mCreateBrand.newBrand.code" placeholder="Código" required />
+              <div class="error" ng-messages="createBrandForm.mcbCode.$error" ng-show="mCreateBrand.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcbStatus" id="mcbStatus" ng-model="mCreateBrand.newBrand.status" disabled ng-checked="mCreateBrand.status"/>
+                    <label for="mcbStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <label for="mcbDesc">Descripción *</label>
+            <input type="text" name="mcbDesc" id="mcbDesc" class="form-control" ng-model="mCreateBrand.newBrand.desc" placeholder="Descripción" maxlength="200" required/>
+            <div class="error" ng-messages="createBrandForm.mcbDesc.$error" ng-show="mCreateBrand.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateBrand.dismissModal(createBrandForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateBrand.createBrand(createBrandForm,true)" ladda="mCreateBrand.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateBrand.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

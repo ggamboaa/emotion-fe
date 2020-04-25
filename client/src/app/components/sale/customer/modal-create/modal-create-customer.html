@@ -1,0 +1,202 @@
+
+<div class="modal fade" id="modalCreateCustomer" tabindex="-1" role="dialog" aria-labelledby="modalCreateCustomer">
+  <div class="modal-dialog modal-lg " role="document">
+    <div class="modal-content">
+      <form id="createCustomerForm" name="createCustomerForm" ng-submit="mCreateCustomer.createCustomer(createCustomerForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateCustomer.dismissModal(createCustomerForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Cliente</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mcctypeCustomer">Tipo de Cliente *</label>
+              <ui-select ng-model="mCreateCustomer.newCustomer.typeCustomerDup" name="mcctypeCustomer" id="mcctypeCustomer" required >
+                <ui-select-match placeholder="Tipo de Cliente" allow-clear="true">
+                  <span ng-bind="$select.selected.id + ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="type in mCreateCustomer.typeCustomerList">
+                  <span ng-bind-html="type.id + ' - ' + type.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createCustomerForm.mcctypeCustomer.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccIdentification">Cédula *</label>
+              <input type="text" name="mccIdentification" id="mccIdentification" class="form-control" ng-model="mCreateCustomer.newCustomer.identification" required placeholder="Cédula"/>
+              <div class="error" ng-messages="createCustomerForm.mccIdentification.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mccStatus" id="mccStatus" ng-model="mCreateCustomer.newCustomer.status" disabled ng-checked="mCreateCustomer.status"/>
+                    <label for="mccStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr ng-show="mCreateCustomer.newCustomer.typeCustomerDup.id == 2">
+          <div class="row form-group" ng-show="mCreateCustomer.newCustomer.typeCustomerDup.id == 2">
+            <div class="col-xs-8">
+              <label for="mccCompany">Empresa *</label>
+              <input type="text" name="mccCompany" id="mccCompany" class="form-control" ng-model="mCreateCustomer.newCustomer.company" ng-required="mCreateCustomer.newCustomer.typeCustomerDup.id == 2" placeholder="Empresa" />
+              <div class="error" ng-messages="createCustomerForm.mccCompany.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccPhoneCompany1">Teléfono Empresa *</label>
+              <input type="text" name="mccPhoneCompany1" id="mccPhoneCompany1" class="form-control" ng-model="mCreateCustomer.newCustomer.phoneCompany1" ng-required="mCreateCustomer.newCustomer.typeCustomerDup.id == 2" placeholder="Teléfono Empresa"/>
+              <div class="error" ng-messages="createCustomerForm.mccPhoneCompany1.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group" ng-show="mCreateCustomer.newCustomer.typeCustomerDup.id == 2">
+            <div class="col-xs-12">
+              <label for="mccAddressCompany">Dirección Empresa *</label>
+              <textarea rows="3" id="mccAddressCompany" name="mccAddressCompany" ng-model="mCreateCustomer.newCustomer.addressCompany" ng-required="mCreateCustomer.newCustomer.typeCustomerDup.id == 2" maxlength="200" class="form-control" placeholder="Dirección Empresa">
+              </textarea>
+              <div class="error" ng-messages="createCustomerForm.mccAddressCompany.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <hr ng-show="mCreateCustomer.newCustomer.typeCustomerDup.id == 2">
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mccName">Nombre *</label>
+              <input type="text" name="mccName" id="mccName" class="form-control" ng-model="mCreateCustomer.newCustomer.name" required placeholder="Nombre"/>
+              <div class="error" ng-messages="createCustomerForm.mccName.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccFirstName">Primer Apellido *</label>
+              <input type="text" name="mccFirstName" id="mccFirstName" class="form-control" ng-model="mCreateCustomer.newCustomer.firstName" required placeholder="Primer Apellido"/>
+              <div class="error" ng-messages="createCustomerForm.mccFirstName.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccLastName">Segundo Apellido *</label>
+              <input type="text" name="mccLastName" id="mccLastName" class="form-control" ng-model="mCreateCustomer.newCustomer.lastName" required placeholder="Segundo Apellido"/>
+              <div class="error" ng-messages="createCustomerForm.mccLastName.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mccEmail">Email *</label>
+              <input type="text" name="mccEmail" id="mccEmail" class="form-control" required ng-model="mCreateCustomer.newCustomer.email" placeholder="Email" ng-pattern="mCreateCustomer.verifyEmail"/>
+              <div class="error" ng-show="mCreateCustomer.submitAttempt" ng-messages="createCustomerForm.mccEmail.$error">
+                <p ng-show="createCustomerForm.mccEmail.$dirty&&createCustomerForm.mccEmail.$error.pattern">Favor ingrese un correo válido.</p>
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccBirthdate">Fecha de Nacimiento</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mccBirthdate" name="mccBirthdate" ng-model="mCreateCustomer.birthdateUI" class="form-control" is-open="mCreateCustomer.birthdate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateCustomer.birthdate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mccPhone1">Teléfono 1 *</label>
+              <input type="text" name="mccPhone1" id="mccPhone1" class="form-control" ng-model="mCreateCustomer.newCustomer.phone1" required placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+              <div class="error" ng-messages="createCustomerForm.mccPhone1.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccPhone2">Teléfono 2</label>
+              <input type="text" name="mccPhone2" id="mccPhone2" class="form-control" ng-model="mCreateCustomer.newCustomer.phone2" placeholder="Teléfono 2" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_"/>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccSex">Sexo</label>
+              <ui-select ng-model="mCreateCustomer.newCustomer.sexDup" name="mccSex" id="mccSex" >
+                <ui-select-match placeholder="Sexo" allow-clear="true">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="sex in mCreateCustomer.sexList">
+                  <span ng-bind-html="sex.id + ' - ' + sex.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mccWarehouse">Sucursal *</label>
+              <ui-select ng-model="mCreateCustomer.newCustomer.warehouse" name="mccWarehouse" id="mccWarehouse" required >
+                <ui-select-match placeholder="Sucursal" allow-clear="true">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateCustomer.searchWarehouse($select)" refresh-delay="500" repeat="warehouse in mCreateCustomer.warehouseList">
+                  <span ng-bind-html="warehouse.code + ' - ' + warehouse.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createCustomerForm.mccWarehouse.$error" ng-show="mCreateCustomer.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <label for="mccOccupation">Puesto</label>
+              <input type="text" name="mccOccupation" id="mccOccupation" class="form-control" ng-model="mCreateCustomer.newCustomer.occupation" placeholder="Puesto"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mccAddress">Dirección</label>
+              <textarea rows="3" id="mccAddress" name="mccAddress" ng-model="mCreateCustomer.newCustomer.address" maxlength="200" class="form-control" placeholder="Dirección" >
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mccObservations">Observaciones</label>
+              <textarea rows="3" id="mccObservations" name="mccObservations" ng-model="mCreateCustomer.newCustomer.observations" maxlength="200" class="form-control" placeholder="Observaciones">
+              </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateCustomer.dismissModal(createCustomerForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateCustomer.createCustomer(createCustomerForm,true)" ladda="mCreateCustomer.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateCustomer.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

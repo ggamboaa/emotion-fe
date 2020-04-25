@@ -1,0 +1,419 @@
+<div class="modal fade" id="modalCreateAdminVehicle" tabindex="-1" role="dialog" aria-labelledby="modalCreateAdminVehicle">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <form id="createAdminVehicleForm" name="createAdminVehicleForm" ng-submit="mCreateAdminVehicle.createAdminVehicle(createAdminVehicleForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateAdminVehicle.dismissModal(createAdminVehicleForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva Gestión</h4>
+        </div>
+        <div class="modal-body col-xs-12">
+          <uib-tabset active="mCreateEmployee.active">
+            <uib-tab index="0" heading="Personal">
+              <!-- <form name="personalForm" id="personalForm" novalidate> -->
+                <h3>Personal</h3>
+                <div class="row col-xs-12 m-top-20">
+                  <div class="row form-group">
+                    <div class="col-xs-4">
+                      <label for="mcavNumber">Gestión N°</label>
+                      <input type="text" name="mcavNumber" id="mcavNumber" class="form-control" ng-model="mCreateAdminVehicle.nextNumber" placeholder="Gestión N°" disabled />
+                    </div>
+                    <div class="col-xs-4">
+                      <label for="mcavDateInit">Fecha Inicio de Semana</label>
+                      <p class="input-group no-margin input-date">
+                        <input type="text" id="mcavDateInit" name="mcavDateInit" ng-model="mCreateAdminVehicle.dateInitUI" class="form-control" is-open="mCreateAdminVehicle.dateInit.editDateShowed" placeholder="DD/MM/AAAA"
+                        date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" ng-change="mCreateAdminVehicle.setNextInitDate()">
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="mCreateAdminVehicle.dateInit.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="col-xs-4">
+                      <label for="mcavDateEnd">Fecha Final de Semana</label>
+                      <p class="input-group no-margin input-date">
+                        <input type="text" id="mcavDateEnd" name="mcavDateEnd" ng-model="mCreateAdminVehicle.dateEndUI" class="form-control" is-open="mCreateAdminVehicle.dateEnd.editDateShowed" placeholder="DD/MM/AAAA"
+                        date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" ng-change="mCreateAdminVehicle.setFinalDate()">
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="mCreateAdminVehicle.dateEnd.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <!-- HEADER ROW 2-->
+                  <div class="row form-group">
+                    <div class="col-xs-4">
+                      <label for="mcavVehicle">Unidad</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.vehicleDup" name="mcavVehicle" id="mcavVehicle" required>
+                        <ui-select-match placeholder="Unidad" allow-clear="true">
+                          <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh="mCreateAdminVehicle.searchVehicle($select)" refresh-delay="500" repeat="list in mCreateAdminVehicle.vehicleList">
+                          <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavVehicle.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-4">
+                      <label for="mcavEmployee">Conductor</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.employeeDup" name="mcavEmployee" id="mcavEmployee" required >
+                        <ui-select-match placeholder="Conductor" allow-clear="true">
+                          <span ng-bind="$select.selected.identification +  ' - ' + $select.selected.name + ' ' + $select.selected.firstName + ' ' + $select.selected.lastName"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh="mCreateAdminVehicle.searchEmployee($select)" refresh-delay="500" repeat="list in mCreateAdminVehicle.employeeList">
+                          <span ng-bind-html="list.identification + ' - ' + list.name + ' ' + list.firstName + ' ' + list.lastName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavEmployee.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-4">
+                      <label for="mcavWarehouse">Sucursal</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.warehouseDup" name="mcavWarehouse" id="mcavWarehouse" required>
+                        <ui-select-match placeholder="Sucursal" allow-clear="true">
+                          <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh="mCreateAdminVehicle.searchWarehouse($select)" refresh-delay="500" repeat="list in mCreateAdminVehicle.warehouseList">
+                          <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavWarehouse.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!-- </form> -->
+            </uib-tab>
+
+            <uib-tab index="1" heading="Revisión">
+              <!-- <form name="revisionForm" id="revisionForm" novalidate> -->
+                <h3>Revisiones</h3>
+                <div class="row col-xs-12 m-top-20">
+                  <div class="row form-group">
+                    <div class="col-xs-3">
+                      <label for="mcavBrakeLevel">Nivel de Liquido de Frenos</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.brakeLevelDup" name="mcavBrakeLevel" id="mcavBrakeLevel" required>
+                        <ui-select-match placeholder="Nivel de Liquido de Frenos" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavBrakeLevel.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavOilLevel">Nivel de Aceite</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.oilLevelDup" name="mcavOilLevel" id="mcavOilLevel" required>
+                        <ui-select-match placeholder="Nivel de Aceite" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavOilLevel.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavLigth">Luces</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.ligthDup" name="mcavLigth" id="mcavLigth" required>
+                        <ui-select-match placeholder="Luces" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavLigth.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavBrake">Frenos</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.brakeDup" name="mcavBrake" id="mcavBrake" required>
+                        <ui-select-match placeholder="Frenos" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavBrake.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-3">
+                      <label for="mcavCoolantLevel">Nivel de Refrigerante</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.coolantLevelDup" name="mcavCoolantLevel" id="mcavCoolantLevel" required>
+                        <ui-select-match placeholder="Nivel de Refrigerante " allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavCoolantLevel.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-xs-3">
+                      <label for="mcavTireCondition">Estado físico de las llantas</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.tireConditionDup" name="mcavTireCondition" id="mcavTireCondition" required>
+                        <ui-select-match placeholder="Estado físico de las llantas" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavTireCondition.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavOil">Aceite</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.oilDup" name="mcavOil" id="mcavOil" required>
+                        <ui-select-match placeholder="Aceite" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavOil.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavTirePressure">Pres. llantas</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.tirePressureDup" name="mcavTirePressure" id="mcavTirePressure" required>
+                        <ui-select-match placeholder="Pres. llantas" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavTirePressure.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-2">
+                      <label for="mcavWiper">Limp. parabrisas</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.wiperDup" name="mcavWiper" id="mcavWiper" required>
+                        <ui-select-match placeholder="Estado Civil" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavWiper.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                    <div class="col-xs-3">
+                      <label for="mcavCabinBody">Carrocería y Cabina</label>
+                      <ui-select ng-model="mCreateAdminVehicle.newAdminVehicle.cabinBodyDup" name="mcavCabinBody" id="mcavCabinBody" required>
+                        <ui-select-match placeholder="Carrocería y Cabina" allow-clear="true">
+                          <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                        </ui-select-match>
+                        <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.reviewList">
+                          <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                      </ui-select>
+                      <div class="error" ng-messages="createAdminVehicleForm.mcavCabinBody.$error" ng-show="mCreateAdminVehicle.submitAttempt">
+                        <p ng-message="required">Información Requerida</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row form-group">
+                    <div class="col-xs-12 " >
+                      <label for="mcavCommentary">Comentario</label>
+                      <textarea type="text" cols="40" rows="2" name="mcavCommentary" id="mcavCommentary" class="form-control" ng-model="mCreateAdminVehicle.newAdminVehicle.commentary" placeholder="Comentario"/>
+                    </div>
+                  </div>
+                </div>
+              <!-- </form> -->
+            </uib-tab>
+
+            <uib-tab index="2" heading="Kilometraje">
+              <!-- <form name="mileageForm" id="mileageForm" novalidate> -->
+                <h3>Kilometraje</h3>
+                <div class="row col-xs-12 m-top-20">
+                  <div class="row form-group">
+                    <div class="col-xs-12">
+                      <uib-tabset active="mCreateAdminVehicle.active">
+                        <uib-tab index="0" heading="Detalle de Kilometraje">
+                          <table class="table m-top-20">
+                            <thead>
+                              <tr>
+                                <th>Día</th>
+                                <th>Km. Inicial</th>
+                                <th>Hr. Salida</th>
+                                <th>Km. Final</th>
+                                <th>Hr. Regreso</th>
+                                <th class="w-15">% Combust. Salida</th>
+                                <th class="w-15">% Combust. Regreso</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="item in mCreateAdminVehicle.newAdminVehicle.mileageDetailList">
+                                <td class="text-center">
+                                  <input class="form-control" name="dtMileageDate" id="dtMileageDate" placeholder="Fecha" type="text" disabled ng-model="item.day" required>
+                                </td>
+                                <td class="text-center" ng-class="item.initMileage == '' || item.initMileage == undefined ?'has-error  ':'has-success '">
+                                  <input class="form-control text-right" name="dtMileageInit" id="dtMileageInit" placeholder="KM Inicial" type="text" ng-model="item.initMileage" ui-number-mask="2" required>
+                                </td>
+                                <td class="text-center" ng-class="item.initDateDup == '' || item.initDateDup == undefined ?'has-error  ':'has-success '">
+                                  <input class="form-control" placeholder="Hr. Inicial" type="time" ng-model="item.initDateDup" required>
+                                </td>
+                                <td class="text-center" ng-class="item.endMileage == '' || item.endMileage == undefined ?'has-error  ':'has-success '">
+                                  <input class="form-control text-right" placeholder="KM Final" type="text" ng-model="item.endMileage" ui-number-mask="2" required>
+                                </td>
+                                <td class="text-center" ng-class="item.endDateDup == '' || item.endDateDup == undefined ?'has-error  ':'has-success '">
+                                  <input class="form-control" placeholder="Hr. Regreso" type="time" ng-model="item.endDateDup" required>
+                                </td>
+                                <td class="text-center">
+                                  <ui-select ng-model="item.initFuelDup">
+                                    <ui-select-match placeholder="Comb. Salida" allow-clear="true">
+                                      <span ng-bind="$select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.fuelPorcent">
+                                      <span ng-bind-html="list.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                  </ui-select>
+                                </td>
+                                <td class="text-center">
+                                  <ui-select ng-model="item.endFuelDup">
+                                    <ui-select-match placeholder="Comb. Llegada" allow-clear="true">
+                                      <span ng-bind="$select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices refresh-delay="500" repeat="list in mCreateAdminVehicle.fuelPorcent">
+                                      <span ng-bind-html="list.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                  </ui-select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </uib-tab>
+                      </uib-tabset>
+                    </div>
+                  </div>
+                </div>
+              <!-- </form> -->
+            </uib-tab> 
+
+            <uib-tab index="3" heading="Combustible">
+              <!-- <form name="fuelForm" id="fuelForm" novalidate> -->
+                <h3>Combustible</h3>
+                <div class="row col-xs-12 m-top-20">
+                  <div class="row form-group">
+                    <div class="col-xs-12">
+                      <div class="col-xs-3">
+                        <label for="dtDate">Fecha</label>
+                        <p class="input-group no-margin input-date">
+                          <input type="text" id="dtDate" name="dtDate" ng-model="mCreateAdminVehicle.dateFuelUI" class="form-control" is-open="mCreateAdminVehicle.dateFuelUI.editDateShowed" placeholder="DD/MM/AAAA"
+                          date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" >
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="mCreateAdminVehicle.dateFuelUI.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-xs-2">
+                        <label for="dtLiter">Litros</label>
+                        <input type="text" name="dtLiter" id="dtLiter" class="form-control text-right"
+                        ng-model="mCreateAdminVehicle.fuelDetail.liter" maxlength="24" width="100%" placeholder="Litros" ui-number-mask="2"/>
+                        <div class="error" ng-show="mCreateAdminVehicle.addAttempt" >
+                          <p ng-show="!mCreateAdminVehicle.fuelDetail.liter">Información Requerida</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2">
+                        <label for="dtCost">Monto</label>
+                        <input type="text" name="dtCost" id="dtCost" class="form-control text-right"
+                        ng-model="mCreateAdminVehicle.fuelDetail.cost" maxlength="24" width="100%" placeholder="Monto" ui-money-mask/>
+                        <div class="error" ng-show="mCreateAdminVehicle.addAttempt">
+                          <p ng-show="!mCreateAdminVehicle.fuelDetail.cost">Información Requerida</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-2">
+                        <label for="dtMileage">Kilometraje</label>
+                        <input type="text" name="dtMileage" id="dtMileage" class="form-control text-right"
+                        ng-model="mCreateAdminVehicle.fuelDetail.mileage" maxlength="24" width="100%" placeholder="Kilometraje" ui-number-mask="2"/>
+
+                        <div class="error" ng-show="mCreateAdminVehicle.addAttempt">
+                          <p ng-show="!mCreateAdminVehicle.fuelDetail.mileage">Información Requerida</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-3 m-top-20">
+                        <button type="button" class="btn btn-primary" ng-click="mCreateAdminVehicle.addFuelDetail()">{{mCreateAdminVehicle.fuelDetailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                        <button type="button" class="btn btn-secondary" ng-click="mCreateAdminVehicle.cleanFormDetail()"
+                        ng-show="mCreateAdminVehicle.detailSelectedIndex != -1">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row form-group">
+                    <div class="col-xs-12 m-top-20">
+                      <uib-tabset active="mCreateAdminVehicle.active">
+                        <uib-tab index="0" heading="Detalle de Combustible">
+                          <table class="table m-top-20">
+                            <thead>
+                              <tr>
+                                <th>Día</th>
+                                <th>Litros</th>
+                                <th>Monto</th>
+                                <th>Kilometraje</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="item in mCreateAdminVehicle.newAdminVehicle.fuelDetailList">
+                                <td class="text-center">
+                                 <input class="form-control" type="text" disabled ng-model="item.date">
+                                </td>
+                                <td class="text-center">
+                                  <input class="form-control text-right" type="text" ng-model="item.liter" ui-number-mask="2">
+                                </td>
+                                <td class="text-center">
+                                  <input class="form-control text-right" type="text"  ng-model="item.cost" ui-money-mask>
+                                </td>
+                                <td class="text-center">
+                                  <input class="form-control text-right" type="text" ng-model="item.mileage" ui-number-mask="2">
+                                </td>
+                                <td class="actions text-center">
+                                  <button type="button" class="btn btn-clear" ng-click="mCreateAdminVehicle.deleteDetail($index)">
+                                    <i class="fa fa-trash alert-icon"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </uib-tab>
+                      </uib-tabset>
+                    </div>
+                  </div>
+                </div>
+              <!-- </form> -->
+            </uib-tab>   
+          </uib-tabset> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateAdminVehicle.dismissModal(createAdminVehicleForm)">Cancelar</button>
+          <!-- <button class="btn btn-primary" ng-click="mCreateAdminVehicle.createAdminVehicle(createAdminVehicleForm,true)" ladda="mCreateAdminVehicle.loading">Guardar y Nuevo</button> -->
+          <button type="submit" class="btn btn-primary" ladda="mCreateAdminVehicle.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="saleOrder-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Órdenes de Salida</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="saleOrder.createSaleOrder()" ng-disabled="(saleOrder.enabled ==false )?true:false">Nueva Orden de Salida</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar ." ng-change="saleOrder.searchSaleOrder()" ng-model="saleOrder.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in saleOrder.allowedRanges"><a
+                class="{{saleOrder.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="saleOrder.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:saleOrder.sort==='code'}">Número
+                <a href="#" ng-hide="saleOrder.direction === 'DESC' && saleOrder.sort === 'code'"
+                class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('code','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="saleOrder.sort !== 'code' || (saleOrder.sort === 'code' && saleOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('code','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:saleOrder.sort==='user'}">Usuario
+                <a href="#" ng-hide="saleOrder.direction === 'DESC' && saleOrder.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="saleOrder.sort !== 'user' || (saleOrder.sort === 'user' && saleOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:saleOrder.sort==='customer'}">Cliente
+                <a href="#" ng-hide="saleOrder.direction === 'DESC' && saleOrder.sort === 'customer'"
+                class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('customer','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="saleOrder.sort !== 'customer' || (saleOrder.sort === 'customer' && saleOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('customer','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:saleOrder.sort==='date'}">Fecha
+                <a href="#" ng-hide="saleOrder.direction === 'DESC' && saleOrder.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="saleOrder.sort !== 'date' || (saleOrder.sort === 'date' && saleOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="saleOrder.loadSaleOrder('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="saleOrder.saleOrderList.length > 0">
+            <tr ng-repeat="item in saleOrder.saleOrderList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.user }}</td>
+              <td>{{ item.customer.name +' '+ item.customer.firstName +' '+ item.customer.lastName }}</td>
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td class="text-center">
+                <select name="saleOrderActions{{$index}}" selectpicker="saleOrder.actions" class="actions-saleOrders" ng-options="action.id as action.name for action in saleOrder.actions" data-width="120px" ng-model="item.action" ng-change="saleOrder.performAction(item)">
+                  <option value="">Acciones</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="saleOrder.saleOrderList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(saleOrder.rangeSelected * (saleOrder.pageNum-1))+1}}-{{(saleOrder.rangeSelected* (saleOrder.pageNum-1))+saleOrder.numberOfPageRecords}}
+          de {{saleOrder.totalRecords}}</p>
+          <uib-pagination total-items="saleOrder.totalRecords" items-per-page="saleOrder.rangeSelected"
+          ng-change="saleOrder.goToPage(saleOrder.pageNum)" ng-model="saleOrder.pageNum"
+          max-size="saleOrder.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<utn-modal-create-sale-order></utn-modal-create-sale-order>
+<utn-modal-edit-sale-order selected-sale-order="saleOrder.selectedSaleOrder"></utn-modal-edit-sale-order>
+<utn-modal-select-warehouse></utn-modal-select-warehouse>

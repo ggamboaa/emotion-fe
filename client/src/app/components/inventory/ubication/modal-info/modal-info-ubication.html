@@ -1,0 +1,50 @@
+<div class="modal fade" id="modalInfoUbication" tabindex="-1" role="dialog" aria-labelledby="modalInfoUbication">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="infoUbicationForm" name="infoUbicationForm" ng-submit="mInfoUbication.infoUbication(infoUbicationForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mInfoUbication.dismissModal(infoUbicationForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Información de Ubicación</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-12"><h1 class="text-center">UBICACIÓN</h1></div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-2">
+              <div>
+               <h1 class="text-center">{{mInfoUbication.ubicationInfo.rack.rackName}}<span class="small"><br/>Rack</span></h1>
+              </div>
+            </div>
+            <div class="col-xs-1"><h1 class="text-center">-</h1></div>
+            <div class="col-xs-2">
+              <div>
+               <h1 class="text-center">{{mInfoUbication.ubicationInfo.position.positionName}}<span class="small"><br/>Posición</span></h1>
+              </div>
+            </div>
+            <div class="col-xs-1"><h1 class="text-center">-</h1></div>
+            <div class="col-xs-2">
+              <div>
+               <h1 class="text-center">{{mInfoUbication.ubicationInfo.level.levelName}}<span class="small"><br/>Nivel</span></h1>
+              </div>
+            </div>
+            <div class="col-xs-2"></div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12"><h1 class="text-center">{{mInfoUbication.ubicationInfo.warehouse.name}}<span class="small"><br/>Bodega</span></h1></div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6"><h1 class="text-center">{{mInfoUbication.ubicationInfo.id}}<span class="small"><br/>ID</span></h1></div>
+            <div class="col-xs-6"><h1 class="text-center">{{mInfoUbication.ubicationInfo.status}}<span class="small"><br/>Estado</span></h1></div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mInfoUbication.dismissModal(infoUbicationForm)">Cancelar</button>
+<!--           <button type="submit" class="btn btn-primary" ladda="mInfoUbication.loading">Actualizar</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

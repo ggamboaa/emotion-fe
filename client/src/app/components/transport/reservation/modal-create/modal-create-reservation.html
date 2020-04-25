@@ -1,0 +1,106 @@
+<div class="modal fade" id="modalCreateReservation" tabindex="-1" role="dialog" aria-labelledby="modalCreateReservation">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="createReservationForm" name="createReservationForm" ng-submit="mCreateReservation.createReservation(createReservationForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateReservation.dismissModal(createReservationForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva Reservación</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mcrUser">Usuario</label>
+              <input type="text" name="mcrUser" id="mcrUser" class="form-control" ng-model="mCreateReservation.newReservation.user" placeholder="Usuario" disabled required/>
+              <div class="error" ng-messages="createReservationForm.mcrUser.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcrDate" name="mcrDate" ng-model="mCreateReservation.dateUI" class="form-control" required is-open="mCreateReservation.mcrDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateReservation.mcrDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="createReservationForm.mcrDate.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrStartDate">Fecha Salida</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcrStartDate" name="mcrStartDate" ng-model="mCreateReservation.startDateUI" class="form-control"  required is-open="mCreateReservation.mcrStartDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateReservation.mcrStartDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="createReservationForm.mcrStartDate.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrEndDate">Fecha Entrega</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcrEndDate" name="mcrEndDate" ng-model="mCreateReservation.endDateUI" class="form-control"  required is-open="mCreateReservation.mcrEndDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateReservation.mcrEndDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="createReservationForm.mcrEndDate.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group m-top-20">
+            <div class="col-xs-6">
+              <label for="mcrVehicle">Vehículo</label>
+              <ui-select ng-model="mCreateReservation.newReservation.vehicle" name="mcrVehicle" id="mcrVehicle" style="width:100%" required>
+                <ui-select-match placeholder="Vehículo" allow-clear="true">
+                  <span ng-bind="$select.selected.licensePlate + ' - ' + $select.selected.brand"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateReservation.searchVehicle($select)" refresh-delay="500" repeat="veh in mCreateReservation.vehicleList">
+                  <span ng-bind-html="veh.licensePlate + ' - ' + veh.brand | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createReservationForm.mcrVehicle.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcrEmployee">Empleado</label>
+              <ui-select ng-model="mCreateReservation.newReservation.employee" name="mcrEmployee" id="mcrEmployee" style="width:100%" required>
+                <ui-select-match placeholder="Empleado" allow-clear="true">
+                  <span ng-bind="$select.selected.identification + ' - ' + $select.selected.name + ' ' + $select.selected.firstName + ' ' + $select.selected.lastName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateReservation.searchEmployee($select)" refresh-delay="500" repeat="emp in mCreateReservation.employeeList">
+                  <span ng-bind-html="emp.identification + ' - ' + emp.name + ' ' + emp.firstName + ' ' + emp.lastName| highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createReservationForm.mcrEmployee.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcrComment">Comentario</label>
+              <input type="text" name="mcrComment" id="mcrComment" class="form-control" ng-model="mCreateReservation.newReservation.comment" placeholder="Comentario" maxlength="200"/>
+              <div class="error" ng-messages="createReservationForm.mcrComment.$error" ng-show="mCreateReservation.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateReservation.dismissModal(createReservationForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateReservation.createReservation(createReservationForm,true)" ladda="mCreateReservation.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateReservation.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

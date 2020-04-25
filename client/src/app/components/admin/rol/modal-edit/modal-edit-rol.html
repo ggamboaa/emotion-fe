@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalEditRol" tabindex="-1" role="dialog" aria-labelledby="modalEditRol">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editRolForm" name="editRolForm" ng-submit="mEditRol.editRol(editRolForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditRol.dismissModal(editRolForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Rol</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="merCode">Código *</label>
+              <input type="text" name="merCode" id="merCode" class="form-control" ng-model="mEditRol.rolEdited.code" placeholder="Código" required/>
+              <div class="error" ng-messages="editRolForm.merCode.$error" ng-show="mEditRol.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="cmdStatus" id="cmdStatus" ng-model="mEditRol.rolEdited.status" ng-checked="mEditRol.status"/>
+                    <label for="cmdStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="merDesc">Descripción *</label>
+              <input type="text" name="merDesc" id="merDesc" class="form-control" ng-model="mEditRol.rolEdited.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="editRolForm.merDesc.$error" ng-show="mEditRol.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditRol.dismissModal(editRolForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditRol.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

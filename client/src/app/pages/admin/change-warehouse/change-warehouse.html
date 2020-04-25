@@ -1,0 +1,53 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay bs-loading-overlay-reference-id="auxiliaryChange-overlay">
+  <div class="list-head">
+    <form id="changeWarehouseForm" name="changeWarehouseForm" ng-submit="changeWarehouse.select(changeWarehouseForm)" novalidate>
+      <div class="col-xs-6 col-xs-offset-3">
+      <div class="white-box p-all-10 m-top-60">
+      <div class="row ">
+
+
+            <div class="modal-header">
+              <h4 class="modal-title text-center">Cambiar Sucursal</h4>
+            </div>
+
+
+      </div>
+      <div class="modal-body">
+        <div class="row m-top-20">
+          <div class="col-xs-12">
+            <div class="row form-group m-top-30">
+              <div class="col-xs-5"><label><u>Usuario</u></label></div>
+              <div class="col-xs-7"><label><strong>{{changeWarehouse.userConected.toUpperCase()}}</strong></label></div>
+            </div>
+            <div class="row form-group m-top-30">
+              <div class="col-xs-5"><label><u>Sucursal Actual</u></label></div>
+              <div class="col-xs-7"><label><strong>{{changeWarehouse.userInfo[0].warehouseSelected.name.toUpperCase()}}</strong></label></div>
+            </div>
+            <div class="row form-group m-top-30" ng-class="{'has-error':changeWarehouseForm.cwWarehouse.$invalid && changeWarehouse.submitAttempt}">
+              <div class="col-xs-5 m-top-10"><label for="cwWarehouse"><u>Sucursal Nueva</u></label></div>
+              <div class="col-xs-7">
+                <ui-select ng-model="changeWarehouse.warehouse" name="cwWarehouse" id="cwWarehouse" style="width:100%;" required>
+                  <ui-select-match placeholder="Sucursal Nueva" allow-clear="true">
+                    <span ng-bind="$select.selected.code + ' - ' + $select.selected.name"></span>
+                  </ui-select-match>
+                  <ui-select-choices refresh="changeWarehouse.searchWarehouse($select)" refresh-delay="500" repeat="wareH in changeWarehouse.warehouseList">
+                    <span ng-bind-html="wareH.code + ' - ' + wareH.name | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+                <div class="error" ng-messages="changeWarehouseForm.cwWarehouse.$error" ng-show="changeWarehouse.submitAttempt">
+                  <p ng-message="required">Información Requerida</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-offset-6">
+        <button type="submit" class="btn btn-primary" ladda="changeWarehouse.loading">Seleccionar</button>
+      </div>
+       </div>
+      </div>
+    </form>
+  </div>
+</div>

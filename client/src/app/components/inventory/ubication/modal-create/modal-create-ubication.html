@@ -1,0 +1,89 @@
+<div class="modal fade" id="modalCreateUbication" tabindex="-1" role="dialog" aria-labelledby="modalCreateUbication">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="createUbicationForm" name="createUbicationForm" ng-submit="mCreateUbication.createUbication(createUbicationForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateUbication.dismissModal(createUbicationForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nueva Ubicación</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+              <div class="col-xs-8">
+                <label for="mcuWarehouse">Bodega</label>
+                <ui-select ng-model="mCreateUbication.newUbication.warehouse" name="mcuWarehouse" id="mcuWarehouse" required >
+                  <ui-select-match placeholder="Bodega" allow-clear="true">
+                    <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                  </ui-select-match>
+                  <ui-select-choices refresh="mCreateUbication.searchWarehouse($select)" refresh-delay="500" repeat="list in mCreateUbication.warehouseList">
+                    <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+                <div class="error" ng-messages="createUbicationForm.mcuWarehouse.$error" ng-show="mCreateUbication.submitAttempt">
+                  <p ng-message="required">Información Requerida</p>
+                </div>
+              </div>
+              <div class="col-xs-4 m-top-20">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <div class="checkbox">
+                      <input type="checkbox" name="mcuStatus" id="mcuStatus" ng-model="mCreateUbication.newUbication.status" disabled ng-checked="mCreateUbication.status"/>
+                      <label for="mcuStatus">Activo</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mcuRack">Rack</label>
+              <ui-select ng-model="mCreateUbication.newUbication.rack" name="mcuRack" id="mcuRack" required >
+                <ui-select-match placeholder="Rack" allow-clear="true">
+                  <span ng-bind="$select.selected.rackName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateUbication.searchRack($select)" refresh-delay="500" repeat="list in mCreateUbication.rackList">
+                  <span ng-bind-html="list.rackName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createUbicationForm.mcuRack.$error" ng-show="mCreateUbication.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <label for="mcuPosition">Posición</label>
+              <ui-select ng-model="mCreateUbication.newUbication.position" name="mcuPosition" id="mcuPosition" required >
+                <ui-select-match placeholder="Posición" allow-clear="true">
+                  <span ng-bind="$select.selected.positionName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateUbication.searchPosition($select)" refresh-delay="500" repeat="list in mCreateUbication.positionList">
+                  <span ng-bind-html="list.positionName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createUbicationForm.mcuPosition.$error" ng-show="mCreateUbication.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <label for="mcuLevel">Nivel</label>
+              <ui-select ng-model="mCreateUbication.newUbication.level" name="mcuLevel" id="mcuLevel" required >
+                <ui-select-match placeholder="Nivel" allow-clear="true">
+                  <span ng-bind="$select.selected.levelName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateUbication.searchLevel($select)" refresh-delay="500" repeat="list in mCreateUbication.levelList">
+                  <span ng-bind-html="list.levelName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createUbicationForm.mcuLevel.$error" ng-show="mCreateUbication.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        <div class="modal-footer  m-top-20">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateUbication.dismissModal(createUbicationForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateUbication.createUbication(createUbicationForm,true)" ladda="mCreateUbication.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateUbication.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

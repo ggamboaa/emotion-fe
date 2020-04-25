@@ -1,0 +1,66 @@
+<div class="modal fade" id="modalEditWarehouse" tabindex="-1" role="dialog" aria-labelledby="modalEditWarehouse">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editWarehouseForm" name="editWarehouseForm" ng-submit="mEditWarehouse.editWarehouse(editWarehouseForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditWarehouse.dismissModal(editWarehouseForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Sucursal</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mewCode">Código *</label>
+              <input type="text" name="mewCode" id="mewCode" class="form-control" ng-model="mEditWarehouse.warehouseEdited.code" placeholder="Código" required />
+              <div class="error" ng-messages="editWarehouseForm.mewCode.$error" ng-show="mEditWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mewStatus" id="mewStatus" ng-model="mEditWarehouse.warehouseEdited.status"  ng-checked="mEditWarehouse.status"/>
+                    <label for="mewStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mewName">Nombre *</label>
+              <input type="text" name="mewName" id="mewName" class="form-control" ng-model="mEditWarehouse.warehouseEdited.name" placeholder="Nombre" required/>
+              <div class="error" ng-messages="editWarehouseForm.mewName.$error" ng-show="mEditWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mewPhone1">Teléfono 1 *</label>
+              <input type="text" name="mewPhone1" id="mewPhone1" class="form-control" ng-model="mEditWarehouse.warehouseEdited.phone1" placeholder="Teléfono 1" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" required/>
+              <div class="error" ng-messages="editWarehouseForm.mewPhone1.$error" ng-show="mEditWarehouse.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mewPhone2">Teléfono 2</label>
+              <input type="text" name="mewPhone2" id="mewPhone2" class="form-control" ng-model="mEditWarehouse.warehouseEdited.phone2" placeholder="Teléfono 2" ui-mask="+(506) 9999-9999"  ui-mask-placeholder ui-mask-placeholder-char="_" />
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mewAddress">Dirección</label>
+              <textarea rows="3" id="mewAddress" name="mewAddress" ng-model="mEditWarehouse.warehouseEdited.address" maxlength="200" class="form-control" placeholder="Dirección">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditWarehouse.dismissModal(editWarehouseForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditWarehouse.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

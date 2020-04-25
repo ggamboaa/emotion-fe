@@ -1,0 +1,45 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay bs-loading-overlay-reference-id="aboutUs-overlay">
+  <div class="list-head">
+    <form id="aboutUsForm" name="aboutUsForm" novalidate>
+      <div class="row m-top-10">
+        <div class="col-xs-6 col-xs-offset-3">
+          <div class="white-box p-all-5 m-top-10">
+            <div class="modal-header">
+              <h4 class="modal-title text-center">Bienvenido(a) : {{aboutUs.userConected}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row m-top-5">
+          <div class="col-xs-6 col-xs-offset-3">
+            <div class="row form-group m-top-20">
+              <div class="col-xs-2"><label style="color: green;"><u>Fundación</u></label></div>
+              <div class="col-xs-10 text-center"><p>{{aboutUs.fundation}}</p></div>
+            </div>
+            <div class="row form-group m-top-20">
+              <div class="col-xs-2"><label style="color: green;"><u>Misión:</u></label></div>
+              <div class="col-xs-10 text-justify"><p style="font-style: italic;">{{aboutUs.mision}}</p></div>
+            </div>
+            <div class="row form-group m-top-20">
+              <div class="col-xs-2"><label style="color: green;"><u>Visión:</u></label></div>
+              <div class="col-xs-10 text-justify"><p style="font-style: italic;">{{aboutUs.vision}}</p></div>
+            </div>
+            <div class="row form-group m-top-20">
+              <div class="col-xs-2"><label style="color: green;"><u>Bodegas:</u></label></div>
+              <div class="col-xs-10 text-justify"><p style="font-style: italic;">{{aboutUs.warehouses}}</p></div>
+            </div>
+            <div class="row form-group m-top-20">
+              <div class="col-xs-2"><label style="color: green;"><u>Ubicación:</u></label></div>
+              <div class="col-xs-10 text-justify"><p style="font-style: italic;">{{aboutUs.ubication}}</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-offset-6">
+        <button ng-click="aboutUs.showPhoto()" class="btn btn-primary" ladda="aboutUs.loading">Ver Foto</button>
+      </div>
+    </form>
+  </div>
+</div>
+<utn-modal-show-photo></utn-modal-show-photo>

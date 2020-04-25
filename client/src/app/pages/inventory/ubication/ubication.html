@@ -1,0 +1,148 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="ubication-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Ubicaciones</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="ubication.createUbication()">Nueva Ubicación</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="ubication.searchUbication()" ng-model="ubication.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in ubication.allowedRanges"><a
+                class="{{ubication.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="ubication.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='id'}">ID
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'id'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('id','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'id' || (ubication.sort === 'id' && ubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('id','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='rackId'}">Rack
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'rackId'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('rackId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'rackId' || (ubication.sort === 'rackId' && ubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('rackId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='positionId'}">Posición
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'positionId'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('positionId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'positionId' || (ubication.sort === 'positionId' && ubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('positionId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='levelId'}">Nivel
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'levelId'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('levelId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'levelId' || (ubication.sort === 'levelId' && ubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('levelId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='warehouseId'}">Bodega
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'warehouseId'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('warehouseId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'warehouseId' || (ubication.sort === 'warehouseId' && ubication.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('warehouseId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:ubication.sort==='status'}">Estado
+                <a href="#" ng-hide="ubication.direction === 'DESC' && ubication.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="ubication.sort !== 'status' || (ubication.sort === 'status' && ubication.direction === 'ASC')" href="#" class="sort-arrow pull-right"
+                ng-click="ubication.loadUbication('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center w-10"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="ubication.ubicationList.length > 0">
+            <tr ng-repeat="item in ubication.ubicationList">
+              <td>{{ item.id }}</td>
+              <td class="text-center">{{ item.rack.rackName}}</td>
+              <td class="text-center">{{ item.position.positionName }}</td>
+              <td class="text-center">{{ item.level.levelName }}</td>
+              <td>{{ item.warehouse.name }}</td>
+              <td class="text-center">
+                <div class="checkbox">
+                  <input type="checkbox" class="custom-control custom-checkbox" ng-model="item.status" ng-change="ubication.updateStatus(item)">
+                  <label for=""></label>
+                </div>
+              </td>
+              <td class="text-center w-10">
+                <button  ng-click="ubication.infoUbication(item)" class="btn btn-info"><span
+                  class="glyphicon glyphicon-eye-open"></span></button>
+                <button ng-click="ubication.deleteUbication(item)" class="btn btn-danger"><span
+                  class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="ubication.ubicationList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(ubication.rangeSelected * (ubication.pageNum-1))+1}}-{{(ubication.rangeSelected* (ubication.pageNum-1))+ubication.numberOfPageRecords}}
+          de {{ubication.totalRecords}}</p>
+          <uib-pagination total-items="ubication.totalRecords" items-per-page="ubication.rangeSelected"
+          ng-change="ubication.goToPage(ubication.pageNum)" ng-model="ubication.pageNum"
+          max-size="ubication.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-ubication></utn-modal-create-ubication>
+<utn-modal-info-ubication selected-ubication="ubication.selectedUbication"></utn-modal-info-ubication>

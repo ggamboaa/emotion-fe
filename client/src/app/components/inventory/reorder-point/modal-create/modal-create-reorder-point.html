@@ -1,0 +1,61 @@
+<div class="modal fade" id="modalCreateReorderPoint" tabindex="-1" role="dialog" aria-labelledby="modalCreateReorderPoint">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createReorderPointForm" name="createReorderPointForm" ng-submit="mCreateReorderPoint.createReorderPoint(createReorderPointForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateReorderPoint.dismissModal(createReorderPointForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Punto de Reorden</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcrpQuantity">Bodega</label>
+              <input type="text" name="mcrpWarehouse" id="mcrpWarehouse" class="form-control" ng-model="mCreateReorderPoint.warehouseDescription " placeholder="Sucursal" required ng-disabled="true"/>
+              <div class="error" ng-messages="createReorderPointForm.mcrpWarehouse.$error" ng-show="mCreateReorderPoint.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <label for="mcrpQuantity">Cantidad Mínima</label>
+              <input type="number" name="mcrpQuantity" id="mcrpQuantity" class="form-control text-right" ng-model="mCreateReorderPoint.newReorderPoint.quantity" placeholder="Cantidad Mínima" required/>
+              <div class="error" ng-messages="createReorderPointForm.mcrpQuantity.$error" ng-show="mCreateReorderPoint.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcrpStatus" id="mcrpStatus" ng-model="mCreateReorderPoint.newReorderPoint.status" disabled ng-checked="mCreateReorderPoint.status"/>
+                    <label for="mcrpStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcrpProduct">Producto</label>
+              <ui-select ng-model="mCreateReorderPoint.newReorderPoint.productDup" name="mcrpProduct" id="mcrpProduct" style="wimcrph:100%">
+                <ui-select-match placeholder="Producto" allow-clear="true">
+                  <span ng-bind="$select.selected.Product.code + ' - ' + $select.selected.Product.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateReorderPoint.searchProduct($select)" refresh-delay="500" repeat="prod in mCreateReorderPoint.productList">
+                  <span ng-bind-html="prod.Product.code + ' - ' + prod.Product.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createReorderPointForm.mcrpProduct.$error" ng-show="mCreateReorderPoint.submitAttempt">
+                <p ng-show="!mCreateReorderPoint.itemDetail.product">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateReorderPoint.dismissModal(createReorderPointForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateReorderPoint.createReorderPoint(createReorderPointForm,true)" ladda="mCreateReorderPoint.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateReorderPoint.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

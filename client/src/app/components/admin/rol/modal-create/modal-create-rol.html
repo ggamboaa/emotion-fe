@@ -1,0 +1,47 @@
+<div class="modal fade" id="modalCreateRol" tabindex="-1" role="dialog" aria-labelledby="modalCreateRol">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createRolForm" name="createRolForm" ng-submit="mCreateRol.createRol(createRolForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateRol.dismissModal(createRolForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Rol</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcrCode">Código *</label>
+              <input type="text" name="mcrCode" id="mcrCode" class="form-control" ng-model="mCreateRol.newRol.code" placeholder="Código" required/>
+              <div class="error" ng-messages="createRolForm.mcrCode.$error" ng-show="mCreateRol.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4 m-top-20">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="checkbox">
+                    <input type="checkbox" name="merStatus" id="merStatus" ng-model="mCreateRol.newRol.status" disabled ng-checked="mCreateRol.status"/>
+                    <label for="merStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcrDesc">Descripción *</label>
+              <input type="text" name="mcrDesc" id="mcrDesc" class="form-control" ng-model="mCreateRol.newRol.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="createRolForm.mcrDesc.$error" ng-show="mCreateRol.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateRol.dismissModal(createRolForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateRol.createRol(createRolForm,true)" ladda="mCreateRol.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateRol.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

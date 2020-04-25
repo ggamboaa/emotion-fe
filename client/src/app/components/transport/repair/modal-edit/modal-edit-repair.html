@@ -1,0 +1,154 @@
+<div class="modal fade" id="modalEditRepair" tabindex="-1" role="dialog" aria-labelledby="modalEditRepair">
+  <div class="modal-dialog modal-lg" role="Repair">
+    <div class="modal-content">
+      <form id="editRepairForm" name="editRepairForm" ng-submit="mEditRepair.editRepair(editRepairForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditRepair.dismissModal(editRepairForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Reparación</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mcrNumber">Número</label>
+              <input type="text" name="mcrNumber" id="mcrNumber" class="form-control text-center" ng-model="mEditRepair.nextNumberRepair" placeholder="Número" disabled/>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrUser">Usuario</label>
+              <input type="text" name="mcrUser" id="mcrUser" class="form-control" ng-model="mEditRepair.repairEdited.user" placeholder="Usuario" disabled required/>
+              <div class="error" ng-messages="editRepairForm.mcrUser.$error" ng-show="mEditRepair.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcrVehicleDup">Vehículo *</label>
+              <ui-select ng-model="mEditRepair.repairEdited.vehicleDup" name="mcrVehicleDup" id="mcrVehicleDup" style="width:100%" required ng-disabled="true">
+                <ui-select-match placeholder="Vehículo" allow-clear="true">
+                  <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mEditRepair.vehicleList">
+                  <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="editRepairForm.mcrVehicleDup.$error" ng-show="mEditRepair.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-3">
+              <label for="mcrDamageDate">Fecha Daño</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcrDamageDate" name="mcrDamageDate" ng-model="mEditRepair.damageDateUI" class="form-control" is-open="mEditRepair.mcrDamageDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditRepair.mcrDamageDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="editRepairForm.mcrDate.$error" ng-show="mEditRepair.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrRepairDate">Fecha Reparación</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mcrRepairDate" name="mcrRepairDate" ng-model="mEditRepair.repairDateUI" class="form-control" is-open="mEditRepair.mcrRepairDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mEditRepair.mcrRepairDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <div class="error" ng-messages="editRepairForm.mcrDate.$error" ng-show="mEditRepair.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <label for="mcrAmount">Monto Total</label>
+              <input type="text" name="mcrAmount" id="mcrAmount" class="form-control text-right"
+                maxlength="14" ui-hide-space ui-money-mask="2" currency-symbol="¢" ng-model="mEditRepair.repairEdited.amount" disabled/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3>Mejoras / Reparaciones</h3>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <div class="col-xs-5">
+                  <label for="dtRepair">Reparación</label>
+                  <ui-select ng-model="mEditRepair.itemDetail.repair" name="dtRepair" id="dtRepair" style="width:100%">
+                    <ui-select-match placeholder="Reparación" allow-clear="true">
+                      <span ng-bind="$select.selected.id + ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh-delay="500" repeat="rep in mEditRepair.repairTypeList">
+                      <span ng-bind-html="rep.id + ' - ' + rep.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mEditRepair.addAttempt">
+                    <p ng-show="!mEditRepair.itemDetail.repair">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <label for="dtAmount">Monto</label>
+                  <input type="text" name="dtAmount" id="dtAmount" class="form-control text-right"
+                  ng-model="mEditRepair.itemDetail.amount" maxlength="14" ui-hide-space ui-money-mask ng-model="mEditRepair.repairEdited.amount" width="100%"/>
+                  <div class="error" ng-show="mEditRepair.addAttempt">
+                    <p ng-show="!mEditRepair.itemDetail.amount">Información Requerida</p>
+                  </div>
+                </div>
+
+                <div class="col-xs-3 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mEditRepair.addDetail()">{{mEditRepair.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mEditRepair.cleanFormDetail()"
+                  ng-show="mEditRepair.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <div class="col-xs-12">
+                  <label for="dtObservations">Observaciones</label>
+                  <textarea type="text" rows="2" name="dtObservations" id="dtObservations" class="form-control" ng-model="mEditRepair.itemDetail.observations" placeholder="Observaciones" ></textarea>
+                </div>
+              </div>
+
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mEditRepair.active">
+                  <uib-tab index="0" heading="Detalle de Mejoras / Reparaciones">
+                    <table class="table table-hover m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Reparación</th>
+                          <th>Monto</th>
+                          <th>Observaciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditRepair.repairEdited.repairsDetail">
+                          <td class="w-25">{{ item.repair.id}} - {{item.repair.name }}</td>
+                          <td class="w-15 text-right">{{ item.amount | currency:"&cent;" }}</td>
+                          <td>{{ item.observations }}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear" ng-click="mEditRepair.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mEditRepair.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditRepair.dismissModal(editRepairForm)">Cancelar</button>
+          <!-- <button class="btn btn-primary" ng-click="mEditRepair.editRepair(editRepairForm,true)" ladda="mEditRepair.loading">Guardar y Nuevo</button> -->
+          <button type="submit" class="btn btn-primary" ladda="mEditRepair.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

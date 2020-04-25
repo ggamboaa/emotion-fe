@@ -1,0 +1,141 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="oil-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Cambios de Aceite</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="oil.createOil()">Nuevo Cambio de Aceite</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="oil.searchOil()" ng-model="oil.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in oil.allowedRanges"><a
+              class="{{oil.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+              ng-click="oil.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:oil.sort==='date'}">Fecha
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'date' || (oil.sort === 'date' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:oil.sort==='VehicleId'}">Vehículo
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'VehicleId'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('VehicleId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'VehicleId' || (oil.sort === 'VehicleId' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('VehicleId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:oil.sort==='mileageOld'}">Último Cambio
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'mileageOld'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('mileageOld','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'mileageOld' || (oil.sort === 'mileageOld' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('mileageOld','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:oil.sort==='cost'}">Costo
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'cost'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('cost','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'cost' || (oil.sort === 'cost' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('cost','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:oil.sort==='mileageNew'}">Próx. Cambio KM
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'mileageNew'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('mileageNew','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'mileageNew' || (oil.sort === 'mileageNew' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('mileageNew','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:oil.sort==='nowMileage'}">Km. Actual
+                <a href="#" ng-hide="oil.direction === 'DESC' && oil.sort === 'nowMileage'"
+                class="sort-arrow pull-right"
+                ng-click="oil.loadOil('nowMileage','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="oil.sort !== 'nowMileage' || (oil.sort === 'nowMileage' && oil.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="oil.loadOil('nowMileage','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="oil.oilList.length > 0">
+            <tr ng-repeat="item in oil.oilList">
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td>{{ item.Vehicle.licensePlate + ' '+ item.Vehicle.brand }}</td>
+              <td class="text-right">{{ item.mileageOld | number:2}}</td>
+              <td class="text-right">{{ item.cost | currency  }}</td>
+              <td class="text-right">{{ item.mileageNew | number:2}}</td>
+              <td class="text-right">{{ item.mileageOld | number:2}}</td>
+              <td class="text-center w-10">
+                <button  ng-click="oil.editOil(item)" class="btn btn-success"><span
+                  class="glyphicon glyphicon-edit"></span></button>
+                <button ng-click="oil.deleteOil(item)" class="btn btn-danger"><span
+                  class="glyphicon glyphicon-trash"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="oil.oilList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(oil.rangeSelected * (oil.pageNum-1))+1}}-{{(oil.rangeSelected* (oil.pageNum-1))+oil.numberOfPageRecords}}
+          de {{oil.totalRecords}}</p>
+          <uib-pagination total-items="oil.totalRecords" items-per-page="oil.rangeSelected"
+          ng-change="oil.goToPage(oil.pageNum)" ng-model="oil.pageNum"
+          max-size="oil.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-oil></utn-modal-create-oil>
+<utn-modal-edit-oil selected-oil="oil.selectedOil"></utn-modal-edit-oil>

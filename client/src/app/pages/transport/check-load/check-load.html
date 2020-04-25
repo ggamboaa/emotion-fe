@@ -1,0 +1,121 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="checkLoad-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Chequeo y Carga</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <!-- <button class="btn btn-secondary" ng-click="checkLoad.createCheckLoad()" ng-disabled="(checkLoad.enabled ==false )?true:false">Nueva Orden de Salida</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar ." ng-change="checkLoad.searchCheckLoad()" ng-model="checkLoad.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in checkLoad.allowedRanges"><a
+                class="{{checkLoad.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="checkLoad.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bloaded table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:checkLoad.sort==='invoice'}">Factura
+                <a href="#" ng-hide="checkLoad.direction === 'DESC' && checkLoad.sort === 'invoice'"
+                class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('invoice','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="checkLoad.sort !== 'invoice' || (checkLoad.sort === 'invoice' && checkLoad.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('invoice','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:checkLoad.sort==='user'}">Usuario
+                <a href="#" ng-hide="checkLoad.direction === 'DESC' && checkLoad.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="checkLoad.sort !== 'user' || (checkLoad.sort === 'user' && checkLoad.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:checkLoad.sort==='customer'}">Cliente
+                <a href="#" ng-hide="checkLoad.direction === 'DESC' && checkLoad.sort === 'customer'"
+                class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('customer','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="checkLoad.sort !== 'customer' || (checkLoad.sort === 'customer' && checkLoad.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('customer','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:checkLoad.sort==='date'}">Fecha
+                <a href="#" ng-hide="checkLoad.direction === 'DESC' && checkLoad.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="checkLoad.sort !== 'date' || (checkLoad.sort === 'date' && checkLoad.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="checkLoad.loadCheckLoad('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="checkLoad.checkLoadList.length > 0">
+            <tr ng-repeat="item in checkLoad.checkLoadList">
+              <td>{{ item.Document_Detail.numberInvoice }}</td>
+              <td>{{ item.user }}</td>
+              <td>{{ item.customer.name +' '+ item.customer.firstName +' '+ item.customer.lastName }}</td>
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td class="text-center">
+                <button  ng-click="checkLoad.editCheckLoad(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-ok-circle"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="checkLoad.checkLoadList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(checkLoad.rangeSelected * (checkLoad.pageNum-1))+1}}-{{(checkLoad.rangeSelected* (checkLoad.pageNum-1))+checkLoad.numberOfPageRecords}}
+          de {{checkLoad.totalRecords}}</p>
+          <uib-pagination total-items="checkLoad.totalRecords" items-per-page="checkLoad.rangeSelected"
+          ng-change="checkLoad.goToPage(checkLoad.pageNum)" ng-model="checkLoad.pageNum"
+          max-size="checkLoad.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<utn-modal-edit-check-load selected-check-load="checkLoad.selectedCheckLoad"></utn-modal-edit-check-load>
+<utn-modal-select-warehouse></utn-modal-select-warehouse>

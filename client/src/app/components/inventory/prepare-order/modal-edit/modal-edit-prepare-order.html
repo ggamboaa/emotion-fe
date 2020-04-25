@@ -1,0 +1,83 @@
+<div class="modal fade" id="modalEditPrepareOrder" tabindex="-1" role="dialog" aria-labelledby="modalEditPrepareOrder">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editPrepareOrderForm" name="editPrepareOrderForm" ng-submit="mEditPrepareOrder.editPrepareOrder(editPrepareOrderForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditPrepareOrder.dismissModal(editPrepareOrderForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Alistar Producto</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-12">
+                  <h2 class="text-center">{{mEditPrepareOrder.selectedPrepareOrder.Product.name}}</h2>
+                </div>
+                <div class="col-xs-12">
+                  <h3 class="text-center">Cantidad Solicitada: {{mEditPrepareOrder.selectedPrepareOrder.quantity * -1}}</h3>
+                </div>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <div class="col-xs-5">
+                  <label for="mepoNewUbication">Ubicación</label>
+                  <ui-select ng-model="mEditPrepareOrder.itemDetail.Ubication" name="mepoNewUbication" id="mepoNewUbication" style="width:100%" required ng-disabled="true">
+                    <ui-select-match placeholder="Ubicación" allow-clear="true">
+                      <span ng-bind="$select.selected.id + ' - ' + $select.selected.ubicationName"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mEditPrepareOrder.searchUbication($select)" refresh-delay="500" repeat="ubic in mEditPrepareOrder.ubicationList">
+                      <span ng-bind-html=" ubic.ubicationName | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-meposages="editPrepareOrderForm.mepoNewUbication.$error" ng-show="mEditPrepareOrder.submitAttempt">
+                    <p ng-meposage="required">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-5 col-xs-offset-2">
+                  <label for="medNewQuantity">Cantidad</label>
+                  <input type="number" name="medNewQuantity" id="medNewQuantity" class="form-control text-right"
+                  ng-model="mEditPrepareOrder.itemDetail.newQuantity" min="1" maxlength="24" ng-change="mEditPrepareOrder.verifyQuantity()" width="100%" placeholder="Cantidad" required ng-disabled="(mEditPrepareOrder.itemDetail.Ubication == undefined)?true:false"/>
+                  <div class="error" ng-meposages="editPrepareOrderForm.medNewQuantity.$error" ng-show="mEditPrepareOrder.submitAttempt">
+                    <p ng-meposage="required">Información Requerida</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mEditPrepareOrder.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th>Ubicación</th>
+                          <th class="text-right">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mEditPrepareOrder.prepareOrderEdited.productsDetailList">
+                          <td>{{item.Product.code}}</td>
+                          <td>{{item.Ubication.id + ' - ' + item.Ubication.ubicationName}}</td>
+                          <td class="text-right">{{item.quantity}}</td>
+                          <td class="actions text-center">
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mEditPrepareOrder.selectedItemDetail(item)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditPrepareOrder.dismissModal(editPrepareOrderForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditPrepareOrder.loading">Alistar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

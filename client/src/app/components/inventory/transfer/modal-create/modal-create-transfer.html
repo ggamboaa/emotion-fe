@@ -1,0 +1,145 @@
+<div class="modal fade" id="modalCreateTransfer" tabindex="-1" role="dialog" aria-labelledby="modalCreateTransfer">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form id="createTransferForm" name="createTransferForm" ng-submit="mCreateTransfer.createTransfer(createTransferForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateTransfer.dismissModal(createTransferForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Traslado</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <label for="mctDate">Fecha</label>
+              <p class="input-group no-margin input-date">
+                <input type="text" id="mctDate" name="mctDate" ng-model="mCreateTransfer.dateUI" class="form-control" is-open="mCreateTransfer.mctDate.editDateShowed" placeholder="DD/MM/AAAA"
+                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="mCreateTransfer.mctDate.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <div class="col-xs-4">
+              <label for="mctUser">Usuario</label>
+              <input type="text" name="mctUser" id="mctUser" class="form-control" ng-model="mCreateTransfer.newTransfer.user" placeholder="Usuario" disabled/>
+            </div>
+            <div class="col-xs-4">
+              <label for="mctTypeDocument">Documento</label>
+              <input class="form-control" type="text" name="" ng-value="mCreateTransfer.typeDocumentDup.id + ' - ' +mCreateTransfer.typeDocumentDup.name " disabled>
+            </div>
+          </div>
+        <div class="row form-group">
+          <div class="col-xs-6">
+            <label for="mctWarehouseOrigin">Bodega Origen</label>
+              <ui-select class="actions-transfers" ng-model="mCreateTransfer.newTransfer.warehouseOrigin" name="mctWarehouseOrigin" id="mctWarehouseOrigin" ng-change="mCreateTransfer.changeWarehouseOrigin($select.selected.id)" required ng-disabled="(mCreateTransfer.newTransfer.productsDetailList.length > 0)?true:false">
+                <ui-select-match placeholder="Bodega" allow-clear="true" >
+                  <span ng-bind="$select.selected.code+ ' - ' +$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateTransfer.searchWarehouse($select)" refresh-delay="500" repeat="list in mCreateTransfer.warehouseList">
+                  <span ng-bind-html="list.code + ' - ' +list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+            <div class="error" ng-messages="createTransferForm.mctWarehouseOrigin.$error" ng-show="mCreateTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label for="mctWarehouseDestination">Bodega Destino</label>
+            <ui-select class="actions-transfers" ng-model="mCreateTransfer.newTransfer.warehouseDestination" name="mctWarehouseDestination" id="mctWarehouseDestination" required>
+              <ui-select-match placeholder="Bodega" allow-clear="true" >
+                <span ng-bind="$select.selected.code+ ' - ' +$select.selected.name"></span>
+              </ui-select-match>
+              <ui-select-choices refresh="mCreateTransfer.searchWarehouse($select)" refresh-delay="500" repeat="list in mCreateTransfer.warehouseList">
+                <span ng-bind-html="list.code + ' - ' +list.name | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+            <div class="error" ng-messages="createTransferForm.mctWarehouseDestination.$error" ng-show="mCreateTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-xs-12">
+            <label for="mctComment">Comentario</label>
+            <input type="text" name="mctComment" id="mctComment" class="form-control" ng-model="mCreateTransfer.newTransfer.comment" placeholder="Comentario" maxlength="200" />
+            <div class="error" ng-messages="createTransferForm.mctComment.$error" ng-show="mCreateTransfer.submitAttempt">
+              <p ng-message="required">Información Requerida</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+                <h3>Formulario</h3>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-5">
+                  <label for="mctDocument">Producto</label>
+                  <ui-select ng-model="mCreateTransfer.itemDetail.product" name="mctDocument" id="mctDocument" style="width:100%" ng-change="mCreateTransfer.setMaxQuantity($select.selected)">
+                    <ui-select-match placeholder="Producto" allow-clear="true">
+                      <span ng-bind="$select.selected.Product.code + ' - ' + $select.selected.Product.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="mCreateTransfer.searchProduct($select)" refresh-delay="500" repeat="list in mCreateTransfer.productList">
+                      <span ng-bind-html="list.Product.code + ' - ' + list.Product.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-show="mCreateTransfer.addAttempt">
+                    <p ng-show="!mCreateTransfer.itemDetail.product">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label for="maxQuantity">Máximo</label>
+                  <input class="form-control text-right" type="text" name="" ng-model="mCreateTransfer.newTransfer.maxQuantity" disabled>
+                </div>
+                <div class="col-xs-2">
+                  <label for="dtQuantity">Cantidad</label>
+                  <input type="number" name="dtQuantity" id="dtQuantity" min="1" class="form-control text-right"
+                  ng-model="mCreateTransfer.itemDetail.quantity" maxlength="24" width="100%" placeholder="Cantidad"/>
+                  <div class="error" ng-show="mCreateTransfer.addAttempt">
+                    <p ng-show="!mCreateTransfer.itemDetail.quantity">Información Requerida</p>
+                  </div>
+                </div>
+                <div class="col-xs-3 m-top-20">
+                  <button type="button" class="btn btn-primary" ng-click="mCreateTransfer.addDetail()">{{mCreateTransfer.detailSelectedIndex === -1 ? 'Agregar' : 'Actualizar'}}</button>
+                  <button type="button" class="btn btn-secondary" ng-click="mCreateTransfer.cleanFormDetail()"
+                  ng-show="mCreateTransfer.detailSelectedIndex != -1">Cancelar</button>
+                </div>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <uib-tabset active="mCreateTransfer.active">
+                  <uib-tab index="0" heading="Detalle de Productos">
+                    <table class="table m-top-20">
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th class="text-right">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in mCreateTransfer.newTransfer.productsDetailList">
+                          <td>{{item.product.code}} - {{item.product.name}}</td>
+                          <td class="text-right">{{item.quantity}}</td>
+                          <td class="actions text-right">
+                            <button type="button" class="btn btn-clear" ng-click="mCreateTransfer.deleteDetail($index)">
+                              <i class="fa fa-trash alert-icon"></i>
+                            </button>
+                            <button type="button" class="btn btn-clear m-left-20" ng-click="mCreateTransfer.editDetail($index)">
+                              <i class="fa fa-pencil primary-icon"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateTransfer.dismissModal(createTransferForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateTransfer.createTransfer(createTransferForm,true)" ladda="mCreateTransfer.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateTransfer.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

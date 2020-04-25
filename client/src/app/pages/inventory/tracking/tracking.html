@@ -1,0 +1,121 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="tracking.overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Seguimiento de Pedidos: Tracking </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+         <!--  <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar.." ng-change="tracking.searchTracking()" ng-model="tracking.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div> -->
+          <div class="col-xs-6 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in tracking.allowedRanges"><a
+                class="{{tracking.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="tracking.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row col-xs-10 col-xs-offset-1">
+          <div class="col-xs-2">
+            <input type="checkbox" ng-value="true" ng-checked="tracking.all" id="type" name="all" ng-change="tracking.setAll()" ng-model="tracking.all"/>
+            <label for="all">Todos</label>
+          </div>
+          <div class="col-xs-2">
+            <input type="checkbox" id="type" name="saleOrder" ng-change="tracking.setSaleOrder()" ng-model="tracking.saleOrder"/>
+            <label for="saleOrder">Orden Salida</label>
+          </div>
+          <div class="col-xs-2">
+            <input type="checkbox" id="type" name="prepareOrder" ng-change="tracking.setPrepareOrder()" ng-model="tracking.prepareOrder" />
+            <label for="prepareOrder">Alisto</label>
+          </div>
+          <div class="col-xs-2">
+            <input type="checkbox" id="type" name="transfer" ng-change="tracking.setTransfer()" ng-model="tracking.transfer" />
+            <label for="transfer">Traslado</label>
+          </div>
+          <div class="col-xs-2">
+            <input type="checkbox" id="type" name="invoice" ng-change="tracking.setInvoice()" ng-model="tracking.invoice" />
+            <label for="invoice">Factura</label>
+          </div>
+          <div class="col-xs-2">
+            <input type="checkbox" id="type" name="road" ng-change="tracking.setRoad()" ng-model="tracking.road" />
+            <label for="road">Ruta</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:tracking.sort==='code'}">Código
+              </th>
+              <th class="text-center" ng-class="{activeSort:tracking.sort==='WarehouseId'}">Sucursal
+              </th>
+              <th class="text-center" ng-class="{activeSort:tracking.sort==='date'}">Fecha
+              </th>
+              <th class="text-center" ng-class="{activeSort:tracking.sort==='user'}">Usuario
+              </th>
+              <th class="text-center" ng-class="{activeSort:tracking.sort==='status'}">Se encuentra en
+                <a href="#" ng-hide="tracking.direction === 'DESC' && tracking.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="tracking.loadTracking('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="tracking.sort !== 'status' || (tracking.sort === 'status' && tracking.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="tracking.loadTracking('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+            </tr>
+          </thead>
+          <tbody ng-show="tracking.trackingList.length > 0">
+            <tr ng-repeat="item in tracking.trackingList">
+              <td class="text-center">{{ item.document.code }}</td>
+              <td>{{ item.warehouseName }}</td>
+              <td>{{ item.updatedAt | amDateFormat: dateFormat }}</td>
+              <td>{{ item.document.user }}</td>
+              <td class="text-center">
+                <span ng-if="item.status == 1">Orden Salida</span>
+                <span ng-if="item.status == 2">Alisto</span>
+                <span ng-if="item.status == 3">Traslado</span>
+                <span ng-if="item.status == 4">Factura</span>
+                <span ng-if="item.status == 5">Ruta</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="tracking.trackingList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(tracking.rangeSelected * (tracking.pageNum-1))+1}}-{{(tracking.rangeSelected* (tracking.pageNum-1))+tracking.numberOfPageRecords}}
+          de {{tracking.totalRecords}}</p>
+          <uib-pagination total-items="tracking.totalRecords" items-per-page="tracking.rangeSelected"
+          ng-change="tracking.goToPage(tracking.pageNum)" ng-model="tracking.pageNum"
+          max-size="tracking.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

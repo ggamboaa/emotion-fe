@@ -1,0 +1,47 @@
+<div class="modal fade" id="modalCreateJobPosition" tabindex="-1" role="dialog" aria-labelledby="modalCreateJobPosition">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createJobPositionForm" name="createJobPositionForm" ng-submit="mCreateJobPosition.createJobPosition(createJobPositionForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateJobPosition.dismissModal(createJobPositionForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Puesto</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcjpCode">Código *</label>
+              <input type="text" name="mcjpCode" id="mcjpCode" class="form-control" ng-model="mCreateJobPosition.newJobPosition.code" placeholder="Código" required />
+              <div class="error" ng-messages="createJobPositionForm.mcjpCode.$error" ng-show="mCreateJobPosition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcjpStatus" id="mcjpStatus" ng-model="mCreateJobPosition.newJobPosition.status" disabled ng-checked="mCreateJobPosition.status"/>
+                    <label for="mcjpStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcjpDesc">Descripción *</label>
+              <input type="text" name="mcjpDesc" id="mcjpDesc" class="form-control" ng-model="mCreateJobPosition.newJobPosition.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="createJobPositionForm.mcjpDesc.$error" ng-show="mCreateJobPosition.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateJobPosition.dismissModal(createJobPositionForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateJobPosition.createJobPosition(createJobPositionForm,true)" ladda="mCreateJobPosition.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateJobPosition.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

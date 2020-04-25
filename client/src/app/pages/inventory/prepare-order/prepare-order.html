@@ -1,0 +1,231 @@
+
+<!-- Tabla de almacenamientos Pendientes -->
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="prepareOrder-overlay" ng-show="(prepareOrder.DocumentPrepareOrder == 0)?true:false">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Alistos Pendientes</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <!-- <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="prepareOrder.searchPrepareOrder()" ng-model="prepareOrder.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form> -->
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in prepareOrder.allowedRanges"><a
+                class="{{prepareOrder.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="prepareOrder.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:prepareOrder.sort==='code'}">Código
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'code'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('code','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'code' || (prepareOrder.sort === 'code' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('code','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:prepareOrder.sort==='user'}">Usuario
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'user' || (prepareOrder.sort === 'user' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:prepareOrder.sort==='Type_Document'}">Tipo Documento
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'Type_Document'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('Type_Document','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'Type_Document' || (prepareOrder.sort === 'Type_Document' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('Type_Document','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:prepareOrder.sort==='date'}">Fecha
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'date' || (prepareOrder.sort === 'date' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="prepareOrder.prepareOrderList.length > 0">
+            <tr ng-repeat="item in prepareOrder.prepareOrderList">
+              <td>{{ item.code }}</td>
+              <td>{{ item.user }}</td>
+              <td>{{ item.Type_Document.name }}</td>
+              <td>{{ item.date | amDateFormat: dateFormat }}</td>
+              <td class="text-center">
+                <button  ng-click="prepareOrder.changeTable(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-folder-open"></span></button>
+                <button  ng-click="prepareOrder.cancelOrder(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-ban-circle"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="prepareOrder.prepareOrderList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(prepareOrder.rangeSelected * (prepareOrder.pageNum-1))+1}}-{{(prepareOrder.rangeSelected* (prepareOrder.pageNum-1))+prepareOrder.numberOfPageRecords}}
+          de {{prepareOrder.totalRecords}}</p>
+          <uib-pagination total-items="prepareOrder.totalRecords" items-per-page="prepareOrder.rangeSelected"
+          ng-change="prepareOrder.goToPage(prepareOrder.pageNum)" ng-model="prepareOrder.pageNum"
+          max-size="prepareOrder.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabla de Productos Pendientes por almacenar -->
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="prepareOrder-overlay" ng-show="(prepareOrder.DocumentPrepareOrder == 0)?false:true">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Productos Pendientes / {{prepareOrder.documentSelected.Type_Document.name}}: {{prepareOrder.documentSelected.code}}</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="prepareOrder.changeTable(0)">Regresar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+         <!--    <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="prepareOrder.searchPrepareOrder()" ng-model="prepareOrder.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form> -->
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in prepareOrder.allowedRanges"><a
+                class="{{prepareOrder.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="prepareOrder.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:prepareOrder.sort==='id'}">Producto
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'id'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('id','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'id' || (prepareOrder.sort === 'id' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('id','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <!-- <th class="text-center" ng-class="{activeSort:prepareOrder.sort==='user'}">Ubicación
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'user' || (prepareOrder.sort === 'user' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th> -->
+              <th class="text-right" ng-class="{activeSort:prepareOrder.sort==='date'}">Cantidad
+                <a href="#" ng-hide="prepareOrder.direction === 'DESC' && prepareOrder.sort === 'date'"
+                class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('date','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="prepareOrder.sort !== 'date' || (prepareOrder.sort === 'date' && prepareOrder.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="prepareOrder.loadPrepareOrder('date','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="prepareOrder.ubicationProductList.length > 0">
+            <tr ng-repeat="item in prepareOrder.ubicationProductList">
+            <tr ng-repeat="item in prepareOrder.ubicationProductList">
+              <td>{{ item.Product.code + ' - '+ item.Product.name }}</td>
+              <!-- <td>{{ item.Ubication.ubicationName }}</td> -->
+              <td class="text-right">{{ item.quantity * -1 }}</td>
+              <td class="text-center w-10">
+                <button  ng-click="prepareOrder.makeStock(item)" class="btn layer-group"><span
+                class="glyphicon glyphicon-list-alt"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="prepareOrder.prepareOrderList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(prepareOrder.rangeSelected * (prepareOrder.pageNum-1))+1}}-{{(prepareOrder.rangeSelected* (prepareOrder.pageNum-1))+prepareOrder.numberOfPageRecords}}
+          de {{prepareOrder.totalRecords}}</p>
+          <uib-pagination total-items="prepareOrder.totalRecords" items-per-page="prepareOrder.rangeSelected"
+          ng-change="prepareOrder.goToPage(prepareOrder.pageNum)" ng-model="prepareOrder.pageNum"
+          max-size="prepareOrder.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-edit-prepare-order selected-prepare-order="prepareOrder.selectedPrepareOrder"></utn-modal-edit-prepare-order>
+<utn-modal-cancel-prepare-order selected-prepare-order="prepareOrder.selectedPrepareOrder"></utn-modal-cancel-prepare-order>

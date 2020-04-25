@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalImportProduct" tabindex="-1" role="dialog" aria-labelledby="modalImportProduct">
+  <div class="modal-dialog modal-md " role="document">
+    <div class="modal-content">
+      <form id="importProductForm" name="importProductForm" ng-submit="mImportProduct.importProduct(importProductForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mImportProduct.dismissModal(importProductForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Cargar Excel</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row form-group">
+          <!--   <div class="col-xs-12">
+              <label for="mcpDescription">Ruta</label>
+              <textarea rows="3" id="mcpDescription" name="mcpDescription" ng-model="mImportProduct.newProduct.description" maxlength="200" class="form-control" placeholder="Descripción">
+              </textarea>
+            </div> -->
+            <div class="col-xs-6">
+              <label for="image">Foto: </label>
+              <button type="file" ngf-select="mImportProduct.uploadFiles($file)" ngf-model-options="mImportProduct.newProduct.modelOptionsObj" ng-model="mImportProduct.newProduct.oneFile" class="btn btn-primary"
+                      accept=".xlsx" ngf-max-height="1000" ngf-max-size="1MB">
+                Seleccionar archivo</button>
+              <p class="small text-muted">Solo archivos de imágen, peso máximo 1MB</p>
+
+              <div ng-show="mImportProduct.photo" class="relative-pos">
+                <img  ngf-thumbnail="mImportProduct.photo" class="photo-preview" />
+                <button type="button" ng-click="mImportProduct.photo = null" class="btn btn-clear close-preview"><i class="fa fa-times"></i></button>
+              </div>
+              <span>{{mImportProduct.photo.name}}</span>
+
+              <div class="error" ng-if="mImportProduct.invalidPhoto">
+                <p>Imágen inválida</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mImportProduct.dismissModal(importProductForm)">Cancelar</button>
+    <!--       <button class="btn btn-primary" ng-click="mImportProduct.importProduct(importProductForm,true)" ladda="mImportProduct.loading">Guardar y Nuevo</button> -->
+          <button type="submit" class="btn btn-primary" ladda="mImportProduct.loading">Cargar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

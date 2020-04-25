@@ -1,0 +1,121 @@
+<div class="modal fade" id="modalCreateVehicle" tabindex="-1" role="dialog" aria-labelledby="modalCreateVehicle">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createVehicleForm" name="createVehicleForm" ng-submit="mCreateVehicle.createVehicle(createVehicleForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateVehicle.dismissModal(createVehicleForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Vehículo</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcvBrand">Marca *</label>
+              <input type="text" name="mcvBrand" id="mcvBrand" class="form-control" ng-model="mCreateVehicle.newVehicle.brand" placeholder="Marca" required/>
+              <div class="error" ng-messages="createVehicleForm.mcvBrand.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcvStatus" id="mcvStatus" ng-model="mCreateVehicle.newVehicle.status" disabled ng-checked="mCreateVehicle.status"/>
+                    <label for="mcvStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcvFuelType">Combustible *</label>
+              <ui-select ng-model="mCreateVehicle.newVehicle.fuelTypeDup" name="mcvFuelType" id="mcvFuelType" required>
+                <ui-select-match  allow-clear="true" placeholder="Combustible">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mCreateVehicle.fuelTypeList">
+                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createVehicleForm.mcvFuelType.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcvTransmissionType">Transmisión *</label>
+              <ui-select ng-model="mCreateVehicle.newVehicle.transmissionTypeDup" name="mcvTransmissionType" id="mcvFuelType" required>
+                <ui-select-match  allow-clear="true" placeholder="Transmisión">
+                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mCreateVehicle.transmissionList">
+                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createVehicleForm.mcvTransmissionType.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcvModel">Modelo *</label>
+              <ui-select ng-model="mCreateVehicle.newVehicle.model" name="mcvModel" id="mcvModel" required>
+                <ui-select-match  allow-clear="true" placeholder="Modelo">
+                  <span ng-bind="$select.selected.year"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mCreateVehicle.modelList">
+                  <span ng-bind-html="list.year | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createVehicleForm.mcvModel.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+            <label for="mcvEngine">Cilindraje *</label>
+              <input type="number" name="mcvEngine" id="mcvEngine" class="form-control" ng-model="mCreateVehicle.newVehicle.engine" placeholder="Cilindraje" required/>
+              <div class="error" ng-messages="createVehicleForm.mcvEngine.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-6">
+              <label for="mcvVehiCletype">Tipo Vehículo *</label>
+              <ui-select ng-model="mCreateVehicle.newVehicle.vehicleTypeDup" name="mcvVehiCletype" id="mcvVehiCletype" required>
+                <ui-select-match  allow-clear="true" placeholder="Tipo Vehículo">
+                  <span ng-bind="$select.selected.code +  ' - ' + $select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices refresh-delay="500" repeat="list in mCreateVehicle.vehicleTypeList">
+                  <span ng-bind-html="list.code + ' - ' + list.name | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createVehicleForm.mcvVehiCletype.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <label for="mcvLicenseplate">Placa *</label>
+              <input type="number" name="mcvLicenseplate" id="mcvLicenseplate" class="form-control" ng-model="mCreateVehicle.newVehicle.licensePlate" placeholder="Placa" required/>
+              <div class="error" ng-messages="createVehicleForm.mcvLicenseplate.$error" ng-show="mCreateVehicle.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcvComment">Comentario</label>
+              <textarea rows="3" id="mcvComment" name="mcvComment" ng-model="mCreateVehicle.newVehicle.comment" maxlength="200" class="form-control" placeholder="Comentario">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateVehicle.dismissModal(createVehicleForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateVehicle.createVehicle(createVehicleForm,true)" ladda="mCreateVehicle.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateVehicle.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

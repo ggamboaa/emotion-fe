@@ -1,0 +1,44 @@
+<div class="modal fade" id="modalCancelPrepareOrder" tabindex="-1" role="dialog" aria-labelledby="modalCancelPrepareOrder">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="cancelPrepareOrderForm" name="cancelPrepareOrderForm" ng-submit="mCancelPrepareOrder.cancelPrepareOrder(cancelPrepareOrderForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCancelPrepareOrder.dismissModal(cancelPrepareOrderForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Aprobar Alisto Incompleto</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="col-xs-12">
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-12">
+                  <h2 class="text-center">{{mCancelPrepareOrder.selectedPrepareOrder.Type_Document.name}}</h2>
+                </div>
+                <div class="col-xs-12">
+                  <h2 class="text-center">Código: {{mCancelPrepareOrder.selectedPrepareOrder.code}}</h2>
+                </div>
+              </div>
+              <div class="col-xs-12 m-top-20">
+                <div class="col-xs-5 text-right">
+                  <label for="mcprCode">Código:</label>
+                </div>
+                <div class="col-xs-5">
+                  <input type="password" name="mcprPassword" id="mcprPassword" class="form-control"
+                  ng-model="mCancelPrepareOrder.prepareOrderCanceled.password" min="1" maxlength="24" width="100%" placeholder="Código" required/>
+                  <div class="error" ng-meposages="cancelPrepareOrderForm.mcprPassword.$error" ng-show="mCancelPrepareOrder.submitAttempt">
+                    <p ng-meposage="required">Información Requerida</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCancelPrepareOrder.dismissModal(cancelPrepareOrderForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mCancelPrepareOrder.loading">Aprobar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

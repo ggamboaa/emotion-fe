@@ -1,0 +1,47 @@
+<div class="modal fade" id="modalCreateDepartment" tabindex="-1" role="dialog" aria-labelledby="modalCreateDepartment">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="createDepartmentForm" name="createDepartmentForm" ng-submit="mCreateDepartment.createDepartment(createDepartmentForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateDepartment.dismissModal(createDepartmentForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Departamento</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="mcdCode">Código *</label>
+              <input type="text" name="mcdCode" id="mcdCode" class="form-control" ng-model="mCreateDepartment.newDepartment.code" placeholder="Código" required />
+              <div class="error" ng-messages="createDepartmentForm.mcdCode.$error" ng-show="mCreateDepartment.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="cmdStatus" id="cmdStatus" ng-model="mCreateDepartment.newDepartment.status" disabled ng-checked="mCreateDepartment.status"/>
+                    <label for="cmdStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="mcdDesc">Descripción *</label>
+              <input type="text" name="mcdDesc" id="mcdDesc" class="form-control" ng-model="mCreateDepartment.newDepartment.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="createDepartmentForm.mcdDesc.$error" ng-show="mCreateDepartment.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateDepartment.dismissModal(createDepartmentForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateDepartment.createDepartment(createDepartmentForm,true)" ladda="mCreateDepartment.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateDepartment.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

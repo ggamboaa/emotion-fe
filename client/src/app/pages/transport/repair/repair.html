@@ -1,0 +1,108 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="repair-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-6">
+              <h1>Reparaciones</h1>
+            </div>
+            <div class="col-xs-6 text-right">
+              <button class="btn btn-secondary" ng-click="repair.createRepair()">Nueva Reparación</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-top-20">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="repair.searchOil()" ng-model="repair.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in repair.allowedRanges"><a
+              class="{{repair.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+              ng-click="repair.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center th-sm" ng-class="{activeSort:repair.sort==='damageDate'}">Fecha del Daño
+                <a href="#" ng-hide="repair.direction === 'DESC' && repair.sort === 'damageDate'"
+                class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('damageDate','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="repair.sort !== 'damageDate' || (repair.sort === 'damageDate' && repair.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('damageDate','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:repair.sort==='amount'}">Fecha de Reparación
+                <a href="#" ng-hide="repair.direction === 'DESC' && repair.sort === 'amount'"
+                class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('amount','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="repair.sort !== 'amount' || (repair.sort === 'amount' && repair.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('amount','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:repair.sort==='user'}">Usuario
+                <a href="#" ng-hide="repair.direction === 'DESC' && repair.sort === 'user'"
+                class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('user','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="repair.sort !== 'user' || (repair.sort === 'user' && repair.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="repair.loadRepair('user','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="repair.repairList.length > 0">
+            <tr ng-repeat="item in repair.repairList">
+              <td>{{ item.damageDate | amDateFormat: dateFormat }}</td>
+              <td>{{ item.repairDate | amDateFormat: dateFormat }}</td>
+              <td>{{ item.user }}</td>
+              <td class="text-center w-10">
+                <button  ng-click="repair.editRepair(item)" class="btn btn-success"><span
+                  class="glyphicon glyphicon-edit"></span></button>
+                <button ng-click="repair.deleteRepair(item)" class="btn btn-danger"><span
+                  class="glyphicon glyphicon-trash"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="repair.repairList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(repair.rangeSelected * (repair.pageNum-1))+1}}-{{(repair.rangeSelected* (repair.pageNum-1))+repair.numberOfPageRecords}}
+          de {{repair.totalRecords}}</p>
+          <uib-pagination total-items="repair.totalRecords" items-per-page="repair.rangeSelected"
+          ng-change="repair.goToPage(repair.pageNum)" ng-model="repair.pageNum"
+          max-size="repair.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-repair></utn-modal-create-repair>
+<utn-modal-edit-repair selected-repair="repair.selectedRepair"></utn-modal-edit-repair>

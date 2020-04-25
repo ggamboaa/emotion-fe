@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalEditDepartment" tabindex="-1" role="dialog" aria-labelledby="modalEditDepartment">
+  <div class="modal-dialog modal-xxs" role="document">
+    <div class="modal-content">
+      <form id="editDepartmentForm" name="editDepartmentForm" ng-submit="mEditDepartment.editDepartment(editDepartmentForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mEditDepartment.dismissModal(editDepartmentForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Editar Departamento</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-xs-8">
+              <label for="medCode">Código *</label>
+              <input type="text" name="medCode" id="medCode" class="form-control" ng-model="mEditDepartment.departmentEdited.code" placeholder="Código" required/>
+              <div class="error" ng-messages="editDepartmentForm.medCode.$error" ng-show="mEditDepartment.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="cmdStatus" id="cmdStatus" ng-model="mEditDepartment.departmentEdited.status"/>
+                    <label for="cmdStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-xs-12">
+              <label for="medDesc">Descripción *</label>
+              <input type="text" name="medDesc" id="medDesc" class="form-control" ng-model="mEditDepartment.departmentEdited.desc" placeholder="Descripción" maxlength="200" required/>
+              <div class="error" ng-messages="editDepartmentForm.medDesc.$error" ng-show="mEditDepartment.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mEditDepartment.dismissModal(editDepartmentForm)">Cancelar</button>
+          <button type="submit" class="btn btn-primary" ladda="mEditDepartment.loading">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

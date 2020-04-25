@@ -1,0 +1,41 @@
+<div class="modal fade" id="modalSelectWarehouse" tabindex="-1" role="dialog" aria-labelledby="modalSelectWarehouse">
+  <div class="modal-dialog modal-xxs" role="mswWarehouse">
+    <div class="modal-content">
+      <form id="selectWarehouseForm" name="selectWarehouseForm" ng-submit="mSelectWarehouse.select(selectWarehouseForm)" novalidate>
+        <div class="modal-header">
+          <h4 class="modal-title">Seleccionar Sucursal</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="row form-group">
+                <div class="col-xs-4"><label>Usuario</label></div>
+                <div class="col-xs-8"><label><strong>{{mSelectWarehouse.user}}</strong></label></div>
+              </div>
+              <div class="row form-group" ng-class="{'has-error':selectWarehouseForm.mswWarehouse.$invalid && mSelectWarehousesubmitAttempt}">
+                <div class="col-xs-4"><label for="mswWarehouse">Surcursal</label></div>
+                <div class="col-xs-8">
+                  <ui-select ng-model="mSelectWarehouse.warehouse" name="mswWarehouse" id="mswWarehouse" style="width:100%" required>
+                    <ui-select-match placeholder="Surcursal"  allow-clear="true">
+                      <span ng-bind="$select.selected.code + ' - ' + $select.selected.name"></span>
+                    </ui-select-match>
+                    <ui-select-choices refresh-delay="500" repeat="wareH in mSelectWarehouse.warehouseList">
+                      <span ng-bind-html="wareH.code + ' - ' + wareH.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="error" ng-messages="selectWarehouseForm.mswWarehouse.$error" ng-show="mSelectWarehouse.submitAttempt">
+                    <p ng-message="required">Información Requerido</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" ladda="mSelectWarehouse.loading">Seleccionar</button>
+          <button type="button" class="btn btn-secondary" ng-click="mSelectWarehouse.dismissModal(selectWarehouseForm)">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

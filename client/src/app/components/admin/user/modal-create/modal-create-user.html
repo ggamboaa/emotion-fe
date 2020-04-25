@@ -1,0 +1,109 @@
+<div class="modal fade" id="modalCreateUser" tabindex="-1" role="dialog" aria-labelledby="modalCreateUser">
+  <div class="modal-dialog modal-lg" role="document"> 
+    <div class="modal-content">
+      <form id="createUserForm" name="createUserForm" ng-submit="mCreateUser.create(createUserForm)" novalidate>
+        <div class="modal-header">
+          <button type="button" class="close" ng-click="mCreateUser.dismissModal(createUserForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Nuevo Usuario</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+           <div class="col-xs-6">
+              <label for="mceEmployee">Empleado *</label>
+              <ui-select ng-model="mCreateUser.newUser.employee" name="mceEmployee" id="mceEmployee" ng-change="mCreateUser.setUser()" required >
+                <ui-select-match placeholder="Empleado" allow-clear="true">
+                  <span ng-bind="$select.selected.identification +  ' - ' + $select.selected.name + ' ' + $select.selected.firstName + ' ' + $select.selected.lastName"></span>
+                </ui-select-match>
+                <ui-select-choices refresh="mCreateUser.searchEmployee($select)" refresh-delay="500" repeat="emp in mCreateUser.employeeList">
+                  <span ng-bind-html="emp.identification + ' - ' + emp.name + ' ' + emp.firstName + ' ' + emp.lastName | highlight: $select.search"></span>
+                </ui-select-choices>
+              </ui-select>
+              <div class="error" ng-messages="createUserForm.mceEmployee.$error" ng-show="mCreateUser.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-2 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcuStatus" id="mcuStatus" ng-model="mCreateUser.newUser.status" disabled ng-checked="mCreateUser.status"/>
+                    <label for="mcuStatus">Activo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3 m-top-20">
+              <div class="row">
+                <div class="col-xs-9">
+                  <div class="checkbox">
+                    <input type="checkbox" name="mcuShowPassword" id="mcuShowPassword" ng-model="mCreateUser.chkShowPass" ng-change="mCreateUser.showPassword()"/>
+                    <label for="mcuShowPassword"><i class="fa fa-eye"></i> Contraseña</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+             <div class="col-xs-6">
+              <label for="mcuUser">Usuario *</label>
+              <input type="text" name="mcuUser" id="mcuUser" class="form-control" ng-model="mCreateUser.newUser.user" placeholder="Usuario" maxlength="20" required />
+              <div class="error" ng-messages="createUserForm.mcuUser.$error" ng-show="mCreateUser.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+              </div>
+            </div>
+            <div class="col-xs-4" ng-show="mCreateUser.showPass">
+              <label for="mcuPassword1">Contraseña *</label>
+              <input type="text" name="mcuPassword1" id="mcuPassword1" class="form-control" ng-model="mCreateUser.newUser.password" required ng-minlength="8" ng-maxlength="20" placeholder="Contraseña" />
+              <small id="passwordHelpInline" class="text-muted">Debe contener entre 8-20 caracteres.</small>
+              <div class="error" ng-messages="createUserForm.mcuPassword1.$error" ng-show="mCreateUser.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+                <p ng-message="minlength">Contraseña debe superar los 8 caracteres</p>
+                <p ng-message="maxlength">Contraseña no debe exceder los 20 caracteres</p>
+              </div>
+            </div>
+            <div class="col-xs-4" ng-show="!mCreateUser.showPass">
+              <label for="mcuPassword2">Contraseña *</label>
+              <input type="password" name="mcuPassword2" id="mcuPassword2" class="form-control" ng-model="mCreateUser.newUser.password" required ng-minlength="8" ng-maxlength="20" placeholder="Contraseña" />
+              <small id="passwordHelpInline" class="text-muted">Debe contener entre 8-20 caracteres.</small>
+              <div class="error" ng-messages="createUserForm.mcuPassword2.$error" ng-show="mCreateUser.submitAttempt">
+                <p ng-message="required">Información Requerida</p>
+                <p ng-message="minlength">Contraseña debe superar los 8 caracteres</p>
+                <p ng-message="maxlength">Contraseña no debe exceder los 20 caracteres</p>
+              </div>
+            </div>
+          </div>
+          <div class="row m-top-20">
+            <div class="col-xs-12">
+              <uib-tabset active="mCreateUser.active">
+                <uib-tab index="0" heading="Agregar Roles">
+                  <table class="table">
+                    <thead ng-repeat="role in mCreateUser.roleUserList">
+                      <tr>
+                        <th>
+                          <div class="checkbox checkbox-inline">
+                            <input type="checkbox" class="form-check-input" checklist-value="role.id"
+                              id="item{{$index}}" name="items" ng-click="mCreateUser.checkItem(role)">
+                            <label class="form-check-label" for="item{{$index}}">{{role.code}} - {{role.desc}}</label>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </uib-tab>
+              </uib-tabset>
+              <div class="error" ng-show="mCreateUser.submitAttempt" aria-hidden="false">
+                <p ng-show="mCreateUser.roleUserList.length < 1" aria-hidden="false" class="">Debe agregar al menos un role</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" ng-click="mCreateUser.dismissModal(createUserForm)">Cancelar</button>
+          <button class="btn btn-primary" ng-click="mCreateUser.create(createUserForm,true)" ladda="mCreateUser.loading">Guardar y Nuevo</button>
+          <button type="submit" class="btn btn-primary" ladda="mCreateUser.loading">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

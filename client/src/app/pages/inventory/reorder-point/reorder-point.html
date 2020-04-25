@@ -1,0 +1,217 @@
+<div class="container-fluid relative-pos special-list special-list-h4" bs-loading-overlay
+bs-loading-overlay-reference-id="reorderPoint-overlay">
+  <div class="list-head">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="white-box p-all-10 m-top-10">
+          <div class="row">
+            <div class="col-xs-4">
+              <h1>Puntos de Reorden</h1>
+            </div>
+            <div class="col-xs-4" ng-show="reorderPoint.userConected === true">
+              <div class="col-xs-2 m-top-5" ng-show="false">
+                <label for="mcpTypeProductDup">Mostrar</label>
+              </div>
+              <div class="col-xs-10" ng-show="false">  
+                <ui-select ng-model="reorderPoint.typeView" name="mcpTypeProductDup" id="mcpTypeProductDup" ng-change="reorderPoint.validation()" required >
+                  <ui-select-match placeholder="Mostrar" allow-clear="true">
+                    <span ng-bind="$select.selected.name"></span>
+                  </ui-select-match>
+                  <ui-select-choices refresh-delay="500" repeat="type in reorderPoint.viewList">
+                    <span ng-bind-html="type.name | highlight: $select.search"></span>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+            <div class="col-xs-4 text-right" ng-show="reorderPoint.typeView.id === 2">
+              <button class="btn btn-secondary" ng-click="reorderPoint.createReorderPoint()" ng-disabled="(reorderPoint.enabled ==false )?true:false">Crear Punto de Reorden</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Consulta -->
+    <div class="row m-top-20" ng-show="reorderPoint.typeView.id === 1">
+      
+        <div class="row col-xs-12">
+          <div class="col-xs-3">
+            <label for="dtProduct">Producto</label>
+            <ui-select ng-model="mCreateReceipt.itemDetail.product" name="dtProduct" id="dtProduct" style="width:100%">
+              <ui-select-match placeholder="Producto" allow-clear="true">
+                <span ng-bind="$select.selected.code + ' - ' + $select.selected.description"></span>
+              </ui-select-match>
+              <ui-select-choices refresh="mCreateReceipt.searchProduct($select)" refresh-delay="500" repeat="prod in mCreateReceipt.productList">
+                <span ng-bind-html="prod.code + ' - ' + prod.description | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+          <div class="col-xs-3">
+            <label for="dtProduct">Ubicación</label>
+            <ui-select ng-model="mCreateReceipt.itemDetail.product" name="dtProduct" id="dtProduct" style="width:100%">
+              <ui-select-match placeholder="Ubicación" allow-clear="true">
+                <span ng-bind="$select.selected.code + ' - ' + $select.selected.description"></span>
+              </ui-select-match>
+              <ui-select-choices refresh="mCreateReceipt.searchProduct($select)" refresh-delay="500" repeat="prod in mCreateReceipt.productList">
+                <span ng-bind-html="prod.code + ' - ' + prod.description | highlight: $select.search"></span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+          <div class="col-xs-1">
+            <label for="mcvEngine">Mín.</label>
+            <input type="number" name="mcvEngine" id="mcvEngine" class="form-control" ng-model="mCreateVehicle.newVehicle.engine" placeholder="Min" required/>
+          </div>
+          <div class="col-xs-1">
+            <label for="mcvEngine">Máx.</label>
+            <input type="number" name="mcvEngine" id="mcvEngine" class="form-control" ng-model="mCreateVehicle.newVehicle.engine" placeholder="Max" required/>
+          </div>
+          
+          <div class="col-xs-3 col-xs-offset-1 text-right clearfix m-top-20">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in reorderPoint.allowedRanges"><a
+                class="{{reorderPoint.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="reorderPoint.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+
+    </div>
+
+    <!-- Punto Reorden -->
+    <div class="row m-top-20" ng-show="reorderPoint.typeView.id === 2">
+      <div class="col-xs-12 pagination-container">
+        <div class="row">
+          <div class="col-xs-3 text-left">
+            <form class="form-inline form-sm active-cyan-2">
+              <input class="form-control" type="text" placeholder="Buscar .." ng-change="reorderPoint.searchReorderPoint()" ng-model="reorderPoint.query.filter">
+              <i class="fa fa-search" aria-hidden="true" ></i>
+            </form>
+          </div>
+          
+          <div class="col-xs-3 col-xs-offset-6 text-right clearfix">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" ng-repeat="range in reorderPoint.allowedRanges"><a
+                class="{{reorderPoint.rangeSelected == range ? 'page-link pagina active' : 'page-link pagina'}}"
+                ng-click="reorderPoint.setRecordsPerPage(range)">{{range}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-top-10">
+      <div class="col-xs-12 table-wrapper-scroll-y my-custom-scrollbar fixed-column-table">
+        <table class="table table-bordered table-hover table-sm" cellspacing="0">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center"><!-- <em class="fa fa-exclamation-triangle "></em> --> Estado Stock</th>
+              <th ng-show="reorderPoint.typeView.id === 1" class="text-center th-sm" ng-class="{activeSort:reorderPoint.sort==='ubication'}">Ubicación
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'ubication'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('ubication','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'ubication' || (reorderPoint.sort === 'ubication' && reorderPoint.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('ubication','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center th-sm" ng-class="{activeSort:reorderPoint.sort==='productId'}">Producto
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'productId'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('productId','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'productId' || (reorderPoint.sort === 'productId' && reorderPoint.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('productId','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th class="text-center" ng-class="{activeSort:reorderPoint.sort==='stock'}">Existencia
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'stock'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('stock','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'stock' || (reorderPoint.sort === 'stock' && reorderPoint.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('stock','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th ng-show="reorderPoint.typeView.id === 2" class="text-center" ng-class="{activeSort:reorderPoint.sort==='quantity'}">Cantidad Mínima
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'quantity'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('quantity','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'quantity' || (reorderPoint.sort === 'quantity' && reorderPoint.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('quantity','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <th ng-show="reorderPoint.typeView.id === 2" class="text-center" ng-class="{activeSort:reorderPoint.sort==='balance'}">Saldo
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'balance'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('balance','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'balance' || (reorderPoint.sort === 'balance' && reorderPoint.direction === 'ASC')"
+                href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('balance','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th>
+              <!-- <th ng-show="reorderPoint.typeView.id === 2" class="text-center" ng-class="{activeSort:reorderPoint.sort==='status'}">Estado
+                <a href="#" ng-hide="reorderPoint.direction === 'DESC' && reorderPoint.sort === 'status'"
+                class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('status','DESC'); $event.preventDefault();"><i
+                class="fa fa-angle-down"></i></a>
+                <a ng-hide="reorderPoint.sort !== 'status' || (reorderPoint.sort === 'status' && reorderPoint.direction === 'ASC')" href="#" class="sort-arrow pull-right"
+                ng-click="reorderPoint.loadReorderPoint('status','ASC'); $event.preventDefault();"><i
+                class="fa fa-angle-up"></i></a>
+              </th> -->
+              <th class="text-center"><em class="fa fa-cog"></em></th>
+            </tr>
+          </thead>
+          <tbody ng-show="reorderPoint.reorderPointList.length > 0">
+            <tr ng-repeat="item in reorderPoint.reorderPointList">
+              <td class="text-center w-10">
+                <span ng-if="item.maximum >= item.Product.Reorder_Points[0].quantity"><button class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button></span>
+                <span ng-if="item.maximum < item.Product.Reorder_Points[0].quantity"><button class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></span>
+              </td>
+              <td ng-show="reorderPoint.typeView.id === 1">{{ item.ubication }}</td>
+              <td>{{ item.Product.name }}</td>
+              <td class="text-right">{{ item.maximum }}</td>
+              <td class="text-right" ng-show="reorderPoint.typeView.id === 2">{{ item.Product.Reorder_Points[0].quantity }}</td>
+              <td class="text-right" ng-show="reorderPoint.typeView.id === 2">{{ item.maximum - item.Product.Reorder_Points[0].quantity }}</td>
+              <!-- <td ng-show="reorderPoint.typeView.id === 2" class="text-center" >
+                <div class="checkbox">
+                  <input type="checkbox" class="custom-control custom-checkbox" ng-model="item.status" ng-change="reorderPoint.updateStatus(item)">
+                  <label for=""></label>
+                </div>
+              </td> -->
+              <td class="text-center w-10">
+                <button  ng-click="reorderPoint.editReorderPoint(item)" class="btn btn-success"><span
+                class="glyphicon glyphicon-edit"></span></button>
+                <button ng-click="reorderPoint.deleteReorderPoint(item)" class="btn btn-danger"><span
+                class="glyphicon glyphicon-trash"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p ng-show="reorderPoint.reorderPointList.length < 1">No se encontraron datos.</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-xs-3 text-left">
+          <p class="pull-left p-top-5">Mostrando
+            {{(reorderPoint.rangeSelected * (reorderPoint.pageNum-1))+1}}-{{(reorderPoint.rangeSelected* (reorderPoint.pageNum-1))+reorderPoint.numberOfPageRecords}}
+          de {{reorderPoint.totalRecords}}</p>
+          <uib-pagination total-items="reorderPoint.totalRecords" items-per-page="reorderPoint.rangeSelected"
+          ng-change="reorderPoint.goToPage(reorderPoint.pageNum)" ng-model="reorderPoint.pageNum"
+          max-size="reorderPoint.maxPaginationItems" class="pagination-sm" boundary-links-numbers="true"
+          previous-text="<" next-text=">"></uib-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<utn-modal-create-reorder-point></utn-modal-create-reorder-point>
+<utn-modal-edit-reorder-point selected-reorder-point="reorderPoint.selectedReorderPoint"></utn-modal-edit-reorder-point>
+<utn-modal-select-warehouse></utn-modal-select-warehouse>
