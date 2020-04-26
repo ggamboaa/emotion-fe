@@ -1,37 +1,93 @@
-<div class="modal fade" id="modalEditOil" tabindex="-1" role="dialog" aria-labelledby="modalEditOil">
+<div
+  class="modal fade"
+  id="modalEditOil"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalEditOil"
+>
   <div class="modal-dialog modal-xxs" role="document">
     <div class="modal-content">
-      <form id="editOilForm" name="editOilForm" ng-submit="mEditOil.editOil(editOilForm)" novalidate>
+      <form
+        id="editOilForm"
+        name="editOilForm"
+        ng-submit="mEditOil.editOil(editOilForm)"
+        novalidate
+      >
         <div class="modal-header">
-          <button type="button" class="close" ng-click="mEditOil.dismissModal(editOilForm)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button
+            type="button"
+            class="close"
+            ng-click="mEditOil.dismissModal(editOilForm)"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
           <h4 class="modal-title">Editar Cambio de Aceite</h4>
         </div>
         <div class="modal-body">
           <div class="row form-group">
             <div class="col-xs-6">
               <label for="meoVehicle">Vehículo *</label>
-              <ui-select ng-model="mEditOil.oilEdited.vehicleDup" name="meoVehicle" id="meoVehicle" required>
+              <ui-select
+                ng-model="mEditOil.oilEdited.vehicleDup"
+                name="meoVehicle"
+                id="meoVehicle"
+                required
+              >
                 <ui-select-match placeholder="Vehículo" allow-clear="true">
-                  <span ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"></span>
+                  <span
+                    ng-bind="$select.selected.brand +  ' - ' + $select.selected.licensePlate"
+                  ></span>
                 </ui-select-match>
-                <ui-select-choices refresh="mEditOil.searchVehicle($select)" refresh-delay="500" repeat="list in mEditOil.vehicleList">
-                  <span ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"></span>
+                <ui-select-choices
+                  refresh="mEditOil.searchVehicle($select)"
+                  refresh-delay="500"
+                  repeat="list in mEditOil.vehicleList"
+                >
+                  <span
+                    ng-bind-html="list.brand + ' - ' + list.licensePlate | highlight: $select.search"
+                  ></span>
                 </ui-select-choices>
               </ui-select>
-              <div class="error" ng-messages="editOilForm.meoVehicle.$error" ng-show="mEditOil.submitAttempt">
+              <div
+                class="error"
+                ng-messages="editOilForm.meoVehicle.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
             <div class="col-xs-6">
               <label for="meoDate">Fecha</label>
               <p class="input-group no-margin input-date">
-                <input type="text" id="meoDate" name="meoDate" ng-model="mEditOil.dateUI" class="form-control" is-open="mEditOil.dateInit.editDateShowed" placeholder="DD/MM/AAAA"
-                date-format="yyyy-MM-dd" uib-datepicker-popup="{{'dd/MM/yyyy'}}" alt-input-formats="['MM/DD/YYYY']" ng-change="mEditOil.setNextInitDate()" >
+                <input
+                  type="text"
+                  id="meoDate"
+                  name="meoDate"
+                  ng-model="mEditOil.dateUI"
+                  class="form-control"
+                  is-open="mEditOil.dateInit.editDateShowed"
+                  placeholder="DD/MM/AAAA"
+                  date-format="yyyy-MM-dd"
+                  uib-datepicker-popup="{{'dd/MM/yyyy'}}"
+                  alt-input-formats="['MM/DD/YYYY']"
+                  ng-change="mEditOil.setNextInitDate()"
+                />
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="mEditOil.dateInit.editDateShowed = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="mEditOil.dateInit.editDateShowed = true"
+                  >
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
                 </span>
               </p>
-              <div class="error" ng-messages="editOilForm.meoDate.$error" ng-show="mEditOil.submitAttempt">
+              <div
+                class="error"
+                ng-messages="editOilForm.meoDate.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
@@ -40,22 +96,54 @@
           <div class="row form-group">
             <div class="col-xs-6">
               <label for="meotypeOil">Tipo de Aceite *</label>
-              <ui-select ng-model="mEditOil.oilEdited.typeOilDup" name="meotypeOil" id="meotypeOil" required>
-                <ui-select-match placeholder="Tipo de Aceite" allow-clear="true">
-                  <span ng-bind="$select.selected.id +  ' - ' + $select.selected.name"></span>
+              <ui-select
+                ng-model="mEditOil.oilEdited.typeOilDup"
+                name="meotypeOil"
+                id="meotypeOil"
+                required
+              >
+                <ui-select-match
+                  placeholder="Tipo de Aceite"
+                  allow-clear="true"
+                >
+                  <span
+                    ng-bind="$select.selected.id +  ' - ' + $select.selected.name"
+                  ></span>
                 </ui-select-match>
-                <ui-select-choices refresh-delay="500" repeat="list in mEditOil.oilList">
-                  <span ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"></span>
-                </ui-select-choices>>
+                <ui-select-choices
+                  refresh-delay="500"
+                  repeat="list in mEditOil.oilList"
+                >
+                  <span
+                    ng-bind-html="list.id + ' - ' + list.name | highlight: $select.search"
+                  ></span> </ui-select-choices
+                >>
               </ui-select>
-              <div class="error" ng-messages="editOilForm.meotypeOil.$error" ng-show="mEditOil.submitAttempt">
+              <div
+                class="error"
+                ng-messages="editOilForm.meotypeOil.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
             <div class="col-xs-6">
               <label for="meoCost">Costo *</label>
-              <input type="text" name="meoCost" id="meoCost" class="form-control text-right" ng-model="mEditOil.oilEdited.cost" placeholder="Costo" required ui-money-mask/>
-              <div class="error" ng-messages="editOilForm.meoCost.$error" ng-show="mEditOil.submitAttempt">
+              <input
+                type="text"
+                name="meoCost"
+                id="meoCost"
+                class="form-control text-right"
+                ng-model="mEditOil.oilEdited.cost"
+                placeholder="Costo"
+                required
+                ui-money-mask
+              />
+              <div
+                class="error"
+                ng-messages="editOilForm.meoCost.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
@@ -64,15 +152,41 @@
           <div class="row form-group">
             <div class="col-xs-6">
               <label for="meoMileageOld">Km. Actual *</label>
-              <input type="text" name="meoMileageOld" id="meoMileageOld" class="form-control text-right" ng-model="mEditOil.oilEdited.mileageOld" placeholder="Km. Actual" required ui-number-mask="2"/>
-              <div class="error" ng-messages="editOilForm.meoMileageOld.$error" ng-show="mEditOil.submitAttempt">
+              <input
+                type="text"
+                name="meoMileageOld"
+                id="meoMileageOld"
+                class="form-control text-right"
+                ng-model="mEditOil.oilEdited.mileageOld"
+                placeholder="Km. Actual"
+                required
+                ui-number-mask="2"
+              />
+              <div
+                class="error"
+                ng-messages="editOilForm.meoMileageOld.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
             <div class="col-xs-6">
               <label for="meoMileageNew">Km. Máximo *</label>
-              <input type="text" name="meoMileageNew" id="meoMileageNew" class="form-control text-right" ng-model="mEditOil.oilEdited.mileageNew" placeholder="Km. Máximo" required ui-number-mask="2"/>
-              <div class="error" ng-messages="editOilForm.meoMileageNew.$error" ng-show="mEditOil.submitAttempt">
+              <input
+                type="text"
+                name="meoMileageNew"
+                id="meoMileageNew"
+                class="form-control text-right"
+                ng-model="mEditOil.oilEdited.mileageNew"
+                placeholder="Km. Máximo"
+                required
+                ui-number-mask="2"
+              />
+              <div
+                class="error"
+                ng-messages="editOilForm.meoMileageNew.$error"
+                ng-show="mEditOil.submitAttempt"
+              >
                 <p ng-message="required">Información Requerida</p>
               </div>
             </div>
@@ -81,16 +195,36 @@
           <div class="row form-group">
             <div class="col-xs-12">
               <label for="meoComment">Comentario</label>
-              <textarea rows="3" id="meoComment" name="meoComment" ng-model="mEditOil.oilEdited.commentary" maxlength="200" class="form-control" placeholder="Comentario">
+              <textarea
+                rows="3"
+                id="meoComment"
+                name="meoComment"
+                ng-model="mEditOil.oilEdited.commentary"
+                maxlength="200"
+                class="form-control"
+                placeholder="Comentario"
+              >
               </textarea>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" ng-click="mEditOil.dismissModal(editOilForm)">Cancelar</button>
-          <button type="submit" class="btn btn-primary" ladda="mEditOil.loading">Actualizar</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            ng-click="mEditOil.dismissModal(editOilForm)"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            ladda="mEditOil.loading"
+          >
+            Actualizar
+          </button>
         </div>
       </form>
     </div>
   </div>
-</div
+</div>
