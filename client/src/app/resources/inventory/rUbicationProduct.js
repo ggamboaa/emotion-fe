@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rUbicationProduct', function ($resource) {
-      return $resource('api/ubicationProduct', {
+      return $resource('https://emotion-be.herokuapp.com/ubicationProduct', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/ubicationProduct/:id',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,42 +18,42 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/ubicationProduct',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct',
             params: {
               id: '@id'
             }
           },
           'getAllByProductIds': {
             method: 'POST',
-            url: 'api/ubicationProduct/getAllByProductIds'
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/getAllByProductIds'
             //isArray: true
           },
           'findByDocOrUbicId': {
             method: 'POST',
-            url: 'api/ubicationProduct/findByDocOrUbicId',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/findByDocOrUbicId',
             isArray: true
           },
           'doCount': {
             method: 'POST',
-            url: 'api/ubicationProduct/doCount'
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/doCount'
           },
           'update': {
             method: 'PUT',
-            url: 'api/ubicationProduct/:id',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/ubicationProduct/:id',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/:id',
             params: {
               id: '@id'
             }
           },
           'changeStatus': {
             method: 'PUT',
-            url: 'api/ubicationProduct/changeStatus/:id',
+            url: 'https://emotion-be.herokuapp.com/ubicationProduct/changeStatus/:id',
             params: {
               id: '@id'
             }

@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rRack', function ($resource) {
-      return $resource('api/rack', {
+      return $resource('https://emotion-be.herokuapp.com/rack', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/rack/:id',
+            url: 'https://emotion-be.herokuapp.com/rack/:id',
             //isArray: true,
             params: {
               id: '@id'

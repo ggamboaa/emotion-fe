@@ -3,13 +3,13 @@
   angular
     .module('utn')
     .factory('rTypeDocument', function ($resource) {
-      return $resource('api/typeDocument', {
+      return $resource('https://emotion-be.herokuapp.com/typeDocument', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/typeDocument/:id',
+            url: 'https://emotion-be.herokuapp.com/typeDocument/:id',
             //isArray: true,
             params: {
               id: '@id'

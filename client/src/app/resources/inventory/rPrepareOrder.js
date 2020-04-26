@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rPrepareOrder', function ($resource) {
-      return $resource('api/prepareOrder', {
+      return $resource('https://emotion-be.herokuapp.com/prepareOrder', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/prepareOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,42 +18,42 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/prepareOrder',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder',
             params: {
               id: '@id'
             }
           },
           'update': {
             method: 'PUT',
-            url: 'api/prepareOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/prepareOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/:id',
             params: {
               id: '@id'
             }
           },
           'getInventoryProducts': {
             method: 'GET',
-            url: 'api/prepareOrder/getInventoryProducts/:id',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/getInventoryProducts/:id',
             params: {
               id: '@id'
             }
           },
           'cancelPrepareOrder': {
             method: 'PUT',
-            url: 'api/prepareOrder/cancelPrepareOrder',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/cancelPrepareOrder',
             params: {
               id: '@id'
             }
           },
           'getProducts': {
             method: 'GET',
-            url: 'api/prepareOrder/getProducts',
+            url: 'https://emotion-be.herokuapp.com/prepareOrder/getProducts',
             params: {
               id: '@id'
             }

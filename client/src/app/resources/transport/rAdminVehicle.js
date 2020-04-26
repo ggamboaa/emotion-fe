@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rAdminVehicle', function ($resource) {
-      return $resource('api/adminVehicle', {
+      return $resource('https://emotion-be.herokuapp.com/adminVehicle', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/adminVehicle/:id',
+            url: 'https://emotion-be.herokuapp.com/adminVehicle/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,28 +18,28 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/adminVehicle',
+            url: 'https://emotion-be.herokuapp.com/adminVehicle',
             params: {
               id: '@id'
             }
           },
           'update': {
             method: 'PUT',
-            url: 'api/adminVehicle/:id',
+            url: 'https://emotion-be.herokuapp.com/adminVehicle/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/adminVehicle/:id',
+            url: 'https://emotion-be.herokuapp.com/adminVehicle/:id',
             params: {
               id: '@id'
             }
           },
           'changeStatus': {
             method: 'PUT',
-            url: 'api/adminVehicle/changeStatus/:id',
+            url: 'https://emotion-be.herokuapp.com/adminVehicle/changeStatus/:id',
             params: {
               id: '@id'
             }

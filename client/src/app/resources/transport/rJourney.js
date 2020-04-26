@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rJourney', function ($resource) {
-      return $resource('api/journey', {
+      return $resource('https://emotion-be.herokuapp.com/journey', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/journey/:id',
+            url: 'https://emotion-be.herokuapp.com/journey/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,14 +18,14 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/journey',
+            url: 'https://emotion-be.herokuapp.com/journey',
             params: {
               id: '@id'
             }
           }
           // 'update': {
           //   method: 'PUT',
-          //   url: 'api/journey/:id',
+          //   url: 'https://emotion-be.herokuapp.com/journey/:id',
           //   params: {
           //     id: '@id'
           //   }
@@ -33,14 +33,14 @@
           // // ,
           // 'delete': {
           //   method: 'DELETE',
-          //   url: 'api/adminVehicle/:id',
+          //   url: 'https://emotion-be.herokuapp.com/adminVehicle/:id',
           //   params: {
           //     id: '@id'
           //   }
           // },
           // 'changeStatus': {
           //   method: 'PUT',
-          //   url: 'api/adminVehicle/changeStatus/:id',
+          //   url: 'https://emotion-be.herokuapp.com/adminVehicle/changeStatus/:id',
           //   params: {
           //     id: '@id'
           //   }

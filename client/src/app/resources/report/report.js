@@ -4,21 +4,21 @@
 	angular
 	.module('utn')
 	.factory('rReport', function ($resource) {
-		return $resource('api/report', {
+		return $resource('https://emotion-be.herokuapp.com/report', {
 			id: '@id'
 		},
 		{
 			'getCustomerReport': {
 				method: 'GET',
-				url: 'api/report/getCustomerReport'
+				url: 'https://emotion-be.herokuapp.com/report/getCustomerReport'
 			},
 			'getEmployeeReport': {
 				method: 'GET',
-				url: 'api/report/getEmployeeReport'
+				url: 'https://emotion-be.herokuapp.com/report/getEmployeeReport'
 			},
 			'getUPLReport': {
 				method: 'POST',
-				url: 'api/report/getUPLReport'
+				url: 'https://emotion-be.herokuapp.com/report/getUPLReport'
 			}
 		});
 	});

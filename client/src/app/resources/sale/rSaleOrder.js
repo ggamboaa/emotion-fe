@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rSaleOrder', function ($resource) {
-      return $resource('api/saleOrder', {
+      return $resource('https://emotion-be.herokuapp.com/saleOrder', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/saleOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,49 +18,49 @@
           },
           'update': {
             method: 'PUT',
-            url: 'api/saleOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/:id',
             params: {
               id: '@id'
             }
           },
           'save': {
             method: 'POST',
-            url: 'api/saleOrder',
+            url: 'https://emotion-be.herokuapp.com/saleOrder',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/saleOrder/:id',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/:id',
             params: {
               id: '@id'
             }
           },
           'getProducts': {
             method: 'GET',
-            url: 'api/saleOrder/getProducts',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/getProducts',
             params: {
               id: '@id'
             }
           },
           'close': {
             method: 'POST',
-            url: 'api/saleOrder/close',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/close',
             params: {
               id: '@id'
             }
           },
           'getSaleOrder': {
             method: 'GET',
-            url: 'api/saleOrder/getSaleOrder',
+            url: 'https://emotion-be.herokuapp.com/saleOrder/getSaleOrder',
             params: {
               id: '@id'
             }
           },
           'registerInvoice': {
             method: 'PUT',
-            url: 'api/registerInvoice/:id',
+            url: 'https://emotion-be.herokuapp.com/registerInvoice/:id',
             params: {
               id: '@id'
             }

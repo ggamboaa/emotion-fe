@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rReservation', function ($resource) {
-      return $resource('api/reservation', {
+      return $resource('https://emotion-be.herokuapp.com/reservation', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/reservation/:id',
+            url: 'https://emotion-be.herokuapp.com/reservation/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,28 +18,28 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/reservation',
+            url: 'https://emotion-be.herokuapp.com/reservation',
             params: {
               id: '@id'
             }
           },
           'update': {
             method: 'PUT',
-            url: 'api/reservation/:id',
+            url: 'https://emotion-be.herokuapp.com/reservation/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/reservation/:id',
+            url: 'https://emotion-be.herokuapp.com/reservation/:id',
             params: {
               id: '@id'
             }
           },
           'changeStatus': {
             method: 'PUT',
-            url: 'api/reservation/changeStatus/:id',
+            url: 'https://emotion-be.herokuapp.com/reservation/changeStatus/:id',
             params: {
               id: '@id'
             }

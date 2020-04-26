@@ -4,13 +4,13 @@
   angular
     .module('utn')
     .factory('rBrand', function ($resource) {
-      return $resource('api/brand', {
+      return $resource('https://emotion-be.herokuapp.com/brand', {
         id: '@id'
       },
         {
           'query': {
             method: 'GET',
-            url: 'api/brand/:id',
+            url: 'https://emotion-be.herokuapp.com/brand/:id',
             //isArray: true,
             params: {
               id: '@id'
@@ -18,28 +18,28 @@
           },
           'save': {
             method: 'POST',
-            url: 'api/brand',
+            url: 'https://emotion-be.herokuapp.com/brand',
             params: {
               id: '@id'
             }
           },
           'update': {
             method: 'PUT',
-            url: 'api/brand/:id',
+            url: 'https://emotion-be.herokuapp.com/brand/:id',
             params: {
               id: '@id'
             }
           },
           'delete': {
             method: 'DELETE',
-            url: 'api/brand/:id',
+            url: 'https://emotion-be.herokuapp.com/brand/:id',
             params: {
               id: '@id'
             }
           },
           'changeStatus': {
             method: 'PUT',
-            url: 'api/brand/changeStatus/:id',
+            url: 'https://emotion-be.herokuapp.com/brand/changeStatus/:id',
             params: {
               id: '@id'
             }
