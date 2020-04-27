@@ -1,0 +1,22 @@
+[
+	{
+		"code": "01",
+		"desc": "Gerencia",
+		"status":true
+	},
+	{
+		"code": "02",
+		"desc": "Ventas",
+		"status":true
+	},
+	{
+		"code": "03",
+		"desc": "Logística",
+		"status":true
+	},
+	{
+		"code": "04",
+		"desc": "Inventario",
+		"status":true
+	}
+]

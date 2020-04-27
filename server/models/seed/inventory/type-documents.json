@@ -1,0 +1,39 @@
+[
+	{
+		"name":"Alisto",
+		"status":true
+	},
+	{
+		"name":"Almacenamiento",
+		"status":true
+	},
+	{
+		"name":"Conteo",
+		"status":true
+	},
+	{
+		"name":"Devoluciones",
+		"status":true
+	},
+	{
+		"name":"Orden de Venta",
+		"status":true
+	},
+	{
+		"name":"Recibo",
+		"status":true
+	},
+	{
+		"name":"Requisiciones",
+		"status":true
+	},
+	{
+		"name":"Reubicación",
+		"status":true
+	},
+	{
+		"name":"Traslado",
+		"status":true
+	}
+
+]

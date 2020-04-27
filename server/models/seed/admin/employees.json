@@ -1,0 +1,17 @@
+[{  
+   "name":"Gilbert",
+   "firstName":"Gamboa",
+   "lastName":"Alvarado",
+   "identification":"206940176   ",
+   "phone1":"(506) 8312-6162",
+   "phone2":"(506) 2402-1223",
+   "email":"ggamboa@gmail.com",
+   "birthdate":"11/25/1991",
+   "sex":true,
+   "maritalStatus": 1,
+   "status":true,
+   "address":"Heredia",
+   "observations":"Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
+   "departmentId":1,
+   "jobPositionId":1
+}]

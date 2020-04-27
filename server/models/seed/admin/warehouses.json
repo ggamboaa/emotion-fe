@@ -1,0 +1,82 @@
+[
+	{
+		"code": "03",
+		"name": "Cartago",
+		"phone1": "25918711",
+		"phone2": "",
+		"address": "200 metros esde de Paseo Metrópoli",
+		"status": "0"
+	},
+	{
+		"code": "06",
+		"name": "Guápiles",
+		"phone1": "27110303",
+		"phone2": "27110304",
+		"address": "125 metros al norte de la Bomba JSM",
+		"status": "0"
+	},
+	{
+		"code": "04",
+		"name": "Heredia",
+		"phone1": "40315831",
+		"phone2": "",
+		"address": "Frente al Pequeño Mundo, Plaza 2000",
+		"status": "0"
+	},
+	{
+		"code": "05",
+		"name": "Liberia",
+		"phone1": "26650191",
+		"phone2": "",
+		"address": "Contiguo a Servicentro Liberiano",
+		"status": "0"
+	},
+	{
+		"code": "01",
+		"name": "Avenida 10",
+		"phone1": "22480090",
+		"phone2": "",
+		"address": "Frente a la Municipalidad",
+		"status": "0"
+	},
+	{
+		"code": "02",
+		"name": "Agua Zarcas",
+		"phone1": "24740228",
+		"phone2": "",
+		"address": "400 metros al oeste del colegio Público",
+		"status": "0"
+	},
+	{
+		"code": "09",
+		"name": "Mayoreo",
+		"phone1": "",
+		"phone2": "",
+		"address": "150 metros Norte de la Fuente de Hispanidad",
+		"status": "1"
+	},
+	{
+		"code": "M02",
+		"name": "Gigante",
+		"phone1": "",
+		"phone2": "",
+		"address": "",
+		"status": "0"
+	},
+	{
+		"code": "M03",
+		"name": "Curridabat",
+		"phone1": "",
+		"phone2": "",
+		"address": "",
+		"status": "0"
+	},
+	{
+		"code": "M04",
+		"name": "Exibición San Pedro",
+		"phone1": "22535959",
+		"phone2": "",
+		"address": "150 metros Norte de la Fuente de Hispanidad",
+		"status": "1"
+	}
+]
