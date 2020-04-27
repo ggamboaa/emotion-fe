@@ -1,46 +1,43 @@
-'use strict';
+"use strict";
 
-var path = require('path');
-var conf = require('./gulp/conf');
+var path = require("path");
+var conf = require("./gulp/conf");
 
-var _ = require('lodash');
-var wiredep = require('wiredep');
+var _ = require("lodash");
+var wiredep = require("wiredep");
 
-var pathSrcHtml = [
-  path.join(conf.paths.src, '/**/*.html')
-];
+var pathSrcHtml = [path.join(conf.paths.src, "/**/*.html")];
 
 function listFiles() {
   var wiredepOptions = _.extend({}, conf.wiredep, {
     dependencies: true,
-    devDependencies: true
+    devDependencies: true,
   });
 
-  var patterns = wiredep(wiredepOptions).js
-    .concat([
-      path.join(conf.paths.src, '/app/**/*.module.js'),
-      path.join(conf.paths.src, '/app/**/*.js'),
-      path.join(conf.paths.src, '/**/*.spec.js'),
-      path.join(conf.paths.src, '/**/*.mock.js'),
+  var patterns = wiredep(wiredepOptions)
+    .js.concat([
+      path.join(conf.paths.src, "/app/**/*.module.js"),
+      path.join(conf.paths.src, "/app/**/*.js"),
+      path.join(conf.paths.src, "/**/*.spec.js"),
+      path.join(conf.paths.src, "/**/*.mock.js"),
     ])
     .concat(pathSrcHtml);
 
-  var files = patterns.map(function(pattern) {
+  var files = patterns.map(function (pattern) {
     return {
-      pattern: pattern
+      pattern: pattern,
     };
   });
   files.push({
-    pattern: path.join(conf.paths.src, '/assets/**/*'),
+    pattern: path.join(conf.paths.src, "/assets/**/*"),
     included: false,
     served: true,
-    watched: false
+    watched: false,
   });
   return files;
 }
 
-module.exports = function(config) {
-
+module.exports = function (config) {
   var configuration = {
     files: listFiles(),
 
@@ -49,39 +46,39 @@ module.exports = function(config) {
     autoWatch: false,
 
     ngHtml2JsPreprocessor: {
-      stripPrefix: conf.paths.src + '/',
-      moduleName: 'siatFe'
+      stripPrefix: conf.paths.src + "/",
+      moduleName: "siatFe",
     },
 
-    logLevel: 'WARN',
+    logLevel: "WARN",
 
-    frameworks: ['phantomjs-shim', 'jasmine', 'angular-filesort'],
+    frameworks: ["phantomjs-shim", "jasmine", "angular-filesort"],
 
     angularFilesort: {
-      whitelist: [path.join(conf.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
+      whitelist: [path.join(conf.paths.src, "/**/!(*.html|*.spec|*.mock).js")],
     },
 
-    browsers : ['PhantomJS'],
+    browsers: ["Chrome", "PhantomJS"],
 
-    plugins : [
-      'karma-phantomjs-launcher',
-      'karma-angular-filesort',
-      'karma-phantomjs-shim',
-      'karma-coverage',
-      'karma-jasmine',
-      'karma-ng-html2js-preprocessor'
+    plugins: [
+      "karma-phantomjs-launcher",
+      "karma-angular-filesort",
+      "karma-phantomjs-shim",
+      "karma-coverage",
+      "karma-jasmine",
+      "karma-ng-html2js-preprocessor",
     ],
 
     coverageReporter: {
-      type : 'html',
-      dir : 'coverage/'
+      type: "html",
+      dir: "coverage/",
     },
 
-    reporters: ['progress'],
+    reporters: ["progress"],
 
     proxies: {
-      '/assets/': path.join('/base/', conf.paths.src, '/assets/')
-    }
+      "/assets/": path.join("/base/", conf.paths.src, "/assets/"),
+    },
   };
 
   // This is the default preprocessors configuration for a usage with Karma cli
@@ -89,22 +86,22 @@ module.exports = function(config) {
   // It was not possible to do it there because karma doesn't let us now if we are
   // running a single test or not
   configuration.preprocessors = {};
-  pathSrcHtml.forEach(function(path) {
-    configuration.preprocessors[path] = ['ng-html2js'];
+  pathSrcHtml.forEach(function (path) {
+    configuration.preprocessors[path] = ["ng-html2js"];
   });
 
   // This block is needed to execute Chrome on Travis
   // If you ever plan to use Chrome and Travis, you can keep it
   // If not, you can safely remove it
   // https://github.com/karma-runner/karma/issues/1144#issuecomment-53633076
-  if(configuration.browsers[0] === 'Chrome' && process.env.TRAVIS) {
+  if (configuration.browsers[0] === "Chrome" && process.env.TRAVIS) {
     configuration.customLaunchers = {
-      'chrome-travis-ci': {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
+      "chrome-travis-ci": {
+        base: "Chrome",
+        flags: ["--no-sandbox"],
+      },
     };
-    configuration.browsers = ['chrome-travis-ci'];
+    configuration.browsers = ["chrome-travis-ci"];
   }
 
   config.set(configuration);
