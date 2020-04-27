@@ -22,8 +22,6 @@
     "ui-select": "~0.19.8"
   },
   "scripts": {
-    "postinstall": "ng build",
-    "heroku-postbuild": "ng build --prod",
     "test": "gulp test",
     "start": "node server.js"
   },
