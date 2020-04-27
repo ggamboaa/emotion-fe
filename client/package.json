@@ -22,14 +22,6 @@
     "ui-select": "~0.19.8"
   },
   "scripts": {
-    "update-deps": "npm update",
-    "copy-libs": "cpx \"node_modules/{angular,angular-*,bootstrap/dist,jquery/dist}/**/*\" app/lib -C",
-    "prestart": "npm install",
-    "pretest": "npm install",
-    "test": "karma start karma.conf.js",
-    "test-single-run": "npm test -- --single-run",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js",
     "start": "node server.js"
