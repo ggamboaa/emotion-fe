@@ -23,7 +23,9 @@
   },
   "scripts": {
     "test": "gulp test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "ng build --prod",
+    "postinstall": "ng build --aot -prod"
   },
   "devDependencies": {
     "@angular/cli": "^9.1.3",
